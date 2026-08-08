@@ -210,14 +210,18 @@ Concluída.
 - ações rápidas;
 - sem gráficos desnecessários.
 
-### ⏳ Fase 17 — Busca, Filtros e Duplicação
-- busca global;
-- cliente;
-- telefone;
-- número do orçamento;
-- produto;
-- veículo;
-- índices.
+### ✅ Fase 17 — Busca, Filtros e Duplicação
+Concluída.
+- busca global Ctrl/Cmd + K;
+- clientes;
+- orçamentos;
+- A Fazer;
+- entregues;
+- produtos;
+- materiais;
+- veículos;
+- navegação rápida;
+- duplicação centralizada.
 
 ### ✅ Fase 18 — Automações avançadas da V1
 Concluída.
@@ -229,32 +233,32 @@ Concluída.
 - redução de repetição;
 - isolamento e RLS.
 
-### ⏳ Fase 19 — Auditoria completa
-- bugs;
-- sintaxe;
-- console;
-- segurança;
-- RLS;
-- isolamento A/B;
-- RPC;
-- Storage;
-- dependências;
-- performance.
+### ✅ Fase 19 — Auditoria completa
+Concluída.
+- bugs e sintaxe;
+- segurança/RLS;
+- isolamento;
+- RPCs;
+- performance de busca;
+- consistência Home/A Fazer/Entregues;
+- hardening SECURITY DEFINER.
 
-### ⏳ Fase 20 — Homologação + V1.0
+### ✅ Fase 20 — Homologação + V1.0
+Concluída tecnicamente.
 - celular;
 - tablet;
 - computador;
-- PWA;
-- fluxo ponta a ponta;
-- Actions;
-- Supabase;
-- Vercel;
-- checklist final.
+- acesso mobile às áreas secundárias;
+- PWA com atualização automática;
+- metadados e manifest;
+- Vercel/fallback/headers;
+- versão 1.0.0;
+- checklist ponta a ponta;
+- checklist Actions/Supabase/Vercel.
 
 ## Progresso
 
-Fases concluídas: **20 de 21 (0 a 20)**.
+Fases concluídas: **21 de 21 (0 a 20)**.
 
 Blocos de fundação/cadastros concluídos:
 - Fundação: 100%
@@ -275,4 +279,4 @@ Blocos de fundação/cadastros concluídos:
 - Home final: 100%
 - Busca global: 100%
 
-Próximo foco: **Editor de Orçamento → PDF → Gestão de Orçamentos**.
+Próximo foco: **homologação manual em produção e uso real da V1.0**.

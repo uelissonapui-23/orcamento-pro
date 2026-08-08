@@ -1,0 +1,28 @@
+ORÇAMENTO APP — FASE 20 — HOMOLOGAÇÃO + V1.0
+
+EXTRAIA DIRETAMENTE NA RAIZ.
+
+NÃO HÁ MIGRATION NOVA NESTA FASE.
+A migration mais recente continua:
+supabase/migrations/20260808001500_audit_hardening.sql
+
+DEPOIS:
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR:
+git add .
+git commit -m "V1.0.0 - homologacao final"
+git push origin main
+
+DEPOIS:
+1. GitHub Actions verde.
+2. Supabase atualizado.
+3. Vercel Production verde.
+4. Execute docs/CHECKLIST-HOMOLOGACAO-V1.md.
+5. Teste PWA instalada no celular.
+
+VERSÃO: 1.0.0
+ROADMAP: 21/21 fases concluídas tecnicamente.

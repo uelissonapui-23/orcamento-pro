@@ -1,0 +1,29 @@
+# Checklist rápido — Orçamento App V1.0
+
+- [ ] npm run lint
+- [ ] npm run typecheck
+- [ ] npm run test
+- [ ] npm run build
+- [ ] GitHub Actions verde
+- [ ] migrations até 20260808001500 aplicadas
+- [ ] login/cadastro/reset
+- [ ] cliente
+- [ ] produto/material
+- [ ] veículo/wizard
+- [ ] orçamento
+- [ ] PDF
+- [ ] aprovação
+- [ ] A Fazer
+- [ ] entrega
+- [ ] Entregues
+- [ ] Home
+- [ ] busca global
+- [ ] automações
+- [ ] mobile menu Mais
+- [ ] tablet
+- [ ] desktop
+- [ ] instalar PWA
+- [ ] reload em rota interna
+- [ ] atualização automática PWA
+- [ ] Vercel Production verde
+- [ ] sem erro crítico no console

@@ -245,3 +245,8 @@ Próxima fase: Automações avançadas da V1.
 Automações seguras, lembretes, recentes, modelos/favoritos e mensagens reutilizáveis.
 
 Próxima fase: Auditoria completa.
+
+
+## V1.0.0
+
+As 21 fases do plano mestre foram concluídas tecnicamente. A homologação manual de produção deve seguir `docs/CHECKLIST-HOMOLOGACAO-V1.md`.
