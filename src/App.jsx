@@ -9,6 +9,7 @@ import SignUp from "./pages/auth/SignUp";
 import Home from "./pages/Home";
 import Placeholder from "./pages/Placeholder";
 import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 
 export default function App() {
   return (
@@ -30,7 +31,7 @@ export default function App() {
         <Route path="/a-fazer" element={<Placeholder title="A Fazer" />} />
         <Route path="/entregues" element={<Placeholder title="Entregues" />} />
         <Route path="/cadastros" element={<Placeholder title="Cadastros" />} />
-        <Route path="/configuracoes" element={<Placeholder title="Configurações" />} />
+        <Route path="/configuracoes" element={<Settings />} />
         <Route path="/perfil" element={<Profile />} />
       </Route>
 

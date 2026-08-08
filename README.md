@@ -89,3 +89,17 @@ A fundação agora inclui autenticação e workspace reais:
 Antes de testar, adicione `orcamento_app` aos schemas expostos na Data API do Supabase.
 
 Próxima fase: Empresa + configurações do PDF.
+
+
+## Fase 3 concluída
+
+Configurações da empresa e fonte definitiva dos dados do PDF:
+- dados comerciais;
+- endereço;
+- logo privada;
+- identidade;
+- validade/prazo;
+- condições/mensagens/termos;
+- automação de defaults para novos orçamentos.
+
+Próxima fase: Clientes.

@@ -1,0 +1,25 @@
+FASE 3 — EMPRESA + CONFIGURAÇÕES DO PDF
+
+CONCLUÍDO:
+- tabela business_settings;
+- defaults automáticos para novos workspaces;
+- backfill de workspaces existentes;
+- RLS;
+- dados da empresa;
+- endereço;
+- logo privada no Supabase Storage;
+- cor principal;
+- validade padrão;
+- prazo padrão;
+- condição de pagamento;
+- mensagem padrão;
+- observações padrão;
+- termos;
+- prévia simples da identidade do PDF;
+- serviço central de configurações;
+- buildQuoteDefaults para os futuros orçamentos;
+- testes das regras de defaults;
+- responsividade mobile/tablet/desktop.
+
+PRÓXIMA FASE:
+FASE 4 — CLIENTES.

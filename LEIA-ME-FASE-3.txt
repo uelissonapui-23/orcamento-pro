@@ -1,0 +1,60 @@
+ORÇAMENTO PRO — FASE 3
+EMPRESA + CONFIGURAÇÕES DO PDF
+
+Este ZIP é um PATCH.
+Extraia diretamente na raiz do projeto atual e aceite substituir.
+
+O QUE ENTRA
+- Configurações > Empresa e orçamento;
+- dados da empresa;
+- endereço;
+- logo;
+- cor;
+- padrões para novos orçamentos;
+- prévia de identidade;
+- business_settings no Supabase;
+- Storage privado para logo;
+- RLS;
+- automação buildQuoteDefaults();
+- testes.
+
+APÓS EXTRAIR
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR
+git add .
+git commit -m "Fase 3 - empresa e configuracoes do PDF"
+git push origin main
+
+AGUARDE
+1. Validar aplicação -> verde
+2. Atualizar Supabase em produção -> verde
+3. Vercel -> Ready (quando estiver conectado)
+
+IMPORTANTE
+A migration:
+supabase/migrations/20260808000300_business_pdf_settings.sql
+
+cria o bucket privado:
+orcamento-app-assets
+
+Não torne esse bucket público.
+
+TESTE FUNCIONAL
+1. Entre no app.
+2. Configurações.
+3. Preencha nome da empresa.
+4. Altere cor.
+5. Salve.
+6. Atualize a página e confirme persistência.
+7. Envie logo PNG/JPG/WebP menor que 2 MB.
+8. Atualize e confirme preview da logo.
+9. Remova/troque a logo.
+10. Salve validade/prazo/pagamento/mensagem/termos.
+11. Teste no celular para garantir que o botão salvar e formulários não saiam da tela.
+
+PRÓXIMA
+FASE 4 — CLIENTES.

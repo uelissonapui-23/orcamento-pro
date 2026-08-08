@@ -1,0 +1,20 @@
+-- FASE 3 — checklist de segurança e integridade
+--
+-- Usuário A:
+-- 1. lê business_settings do próprio workspace;
+-- 2. se owner/admin, atualiza seus dados;
+-- 3. faz upload apenas em:
+--    <workspace_id>/logos/...
+--
+-- Usuário B:
+-- 4. NÃO lê business_settings de A;
+-- 5. NÃO altera business_settings de A;
+-- 6. NÃO lê logo privada de A via Storage;
+-- 7. NÃO envia arquivo para pasta do workspace de A.
+--
+-- Integridade:
+-- 8. validade fora de 1..365 deve falhar;
+-- 9. prazo de entrega fora de 0..365 deve falhar;
+-- 10. cor fora de #RRGGBB deve falhar;
+-- 11. bucket deve permanecer privado.
+select 'phase3 business settings checklist loaded' as status;
