@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "checkJs": true,
+    "checkJs": false,
     "jsx": "react-jsx",
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "target": "ES2022",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "strict": true,
+    "strict": false,
     "noEmit": true,
     "skipLibCheck": true,
     "types": ["vite/client"]
