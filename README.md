@@ -189,3 +189,10 @@ Próxima fase: Wizard de Envelopamento.
 Editor de orçamento funcional com cliente, produtos, cálculos, wizard, snapshots, totais e persistência atômica.
 
 Próxima fase: PDF definitivo.
+
+
+## Fase 11 concluída
+
+PDF A4 definitivo com prévia, download, impressão, compartilhamento e snapshot histórico da empresa.
+
+Próxima fase: Gestão de Orçamentos.

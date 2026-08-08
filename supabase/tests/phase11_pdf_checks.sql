@@ -1,0 +1,19 @@
+-- FASE 11 — PDF definitivo
+--
+-- HISTÓRICO
+-- 1. business_snapshot_json é salvo no primeiro save.
+-- 2. updates posteriores não substituem snapshot de empresa já existente.
+-- 3. client_snapshot_json permanece independente do cliente atual.
+-- 4. calculation_snapshot_json permanece independente de produtos atuais.
+-- 5. logo antigo permanece no Storage para documentos históricos.
+--
+-- ISOLAMENTO
+-- 6. PDF usa getQuote, portanto respeita RLS do workspace.
+-- 7. logo usa bucket privado e signed URL.
+--
+-- DOCUMENTO
+-- 8. preview contém empresa, cliente, número, datas, itens e totais.
+-- 9. desconto/adicional aparecem somente quando > 0.
+-- 10. termos/mensagens/pagamento são snapshots do orçamento.
+-- 11. gerador suporta múltiplas páginas.
+select 'phase11 pdf checklist loaded' as status;

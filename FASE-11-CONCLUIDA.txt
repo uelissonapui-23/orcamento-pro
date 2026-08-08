@@ -1,0 +1,26 @@
+FASE 11 — PDF DEFINITIVO
+
+CONCLUÍDO:
+- prévia A4;
+- logo;
+- empresa;
+- cliente;
+- número;
+- datas;
+- itens;
+- medidas;
+- totais;
+- desconto/adicional;
+- pagamento;
+- mensagens;
+- termos;
+- múltiplas páginas;
+- download PDF;
+- compartilhar;
+- imprimir;
+- snapshot histórico da empresa;
+- preservação de logos históricos;
+- responsividade.
+
+PRÓXIMA:
+FASE 12 — GESTÃO DE ORÇAMENTOS.

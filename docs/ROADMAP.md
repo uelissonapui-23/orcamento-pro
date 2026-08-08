@@ -136,7 +136,8 @@ Concluída.
 - numeração;
 - RPC atômica.
 
-### ⏳ Fase 11 — PDF Definitivo
+### ✅ Fase 11 — PDF Definitivo
+Concluída.
 - A4;
 - logo;
 - empresa;
@@ -146,8 +147,12 @@ Concluída.
 - valores;
 - totais;
 - termos;
-- quebra de página;
-- visualizar/baixar/compartilhar.
+- múltiplas páginas;
+- prévia;
+- download direto;
+- imprimir;
+- compartilhar;
+- snapshot histórico da empresa.
 
 ### ⏳ Fase 12 — Gestão de Orçamentos
 - lista;
@@ -235,7 +240,7 @@ Concluída.
 
 ## Progresso
 
-Fases concluídas: **11 de 21 (0 a 20)**.
+Fases concluídas: **12 de 21 (0 a 20)**.
 
 Blocos de fundação/cadastros concluídos:
 - Fundação: 100%
@@ -248,5 +253,6 @@ Blocos de fundação/cadastros concluídos:
 - Veículos e peças: 100%
 - Wizard de envelopamento: 100%
 - Editor de orçamento: 100%
+- PDF definitivo: 100%
 
 Próximo foco: **Editor de Orçamento → PDF → Gestão de Orçamentos**.

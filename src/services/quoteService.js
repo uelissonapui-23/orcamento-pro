@@ -52,6 +52,7 @@ export async function saveQuote(workspaceId, quote) {
         status: quote.status,
         client_id: quote.client_id,
         client_snapshot_json: quote.client_snapshot_json,
+        business_snapshot_json: quote.business_snapshot_json || {},
         issue_date: quote.issue_date,
         valid_until: quote.valid_until,
         expected_delivery_date: quote.expected_delivery_date || null,

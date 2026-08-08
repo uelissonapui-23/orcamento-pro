@@ -102,9 +102,9 @@ export async function uploadBusinessLogo(workspaceId, file, previousPath = "") {
     throw updateError;
   }
 
-  if (previousPath && previousPath !== path) {
-    await client.storage.from(BUCKET).remove([previousPath]);
-  }
+  // Não apagamos a logo anterior: orçamentos já emitidos podem guardar
+  // o caminho antigo no snapshot histórico do PDF.
+  void previousPath;
 
   return data.logo_path;
 }
@@ -120,11 +120,7 @@ export async function removeBusinessLogo(workspaceId, previousPath) {
 
   if (updateError) throw updateError;
 
-  if (previousPath) {
-    const { error: removeError } = await client.storage
-      .from(BUCKET)
-      .remove([previousPath]);
-
-    if (removeError) throw removeError;
-  }
+  // Mantemos o arquivo no Storage para preservar PDFs históricos que
+  // referenciam esse logo_path. Apenas o vínculo atual é removido.
+  void previousPath;
 }

@@ -7,6 +7,7 @@ import QuoteTotals from "../components/quotes/QuoteTotals";
 import QuickClientDialog from "../components/clients/QuickClientDialog";
 import { useAuth } from "../contexts/AuthContext";
 import { buildQuoteDefaults } from "../lib/quoteDefaults";
+import { buildBusinessSnapshot } from "../lib/quotePdf";
 import {
   buildQuoteClientSnapshot,
   createEmptyQuote,
@@ -53,7 +54,10 @@ export default function QuoteEditor() {
       if (quoteId) {
         setQuote(await getQuote(workspace.id, quoteId));
       } else {
-        setQuote(createEmptyQuote(buildQuoteDefaults(settings)));
+        setQuote({
+          ...createEmptyQuote(buildQuoteDefaults(settings)),
+          business_snapshot_json: buildBusinessSnapshot(settings),
+        });
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Não foi possível preparar o orçamento.");
@@ -150,6 +154,7 @@ export default function QuoteEditor() {
         </div>
 
         <div className="quote-editor-actions">
+          {quote.id ? <Link className="secondary-button" to={`/orcamentos/${quote.id}/pdf`}>Ver PDF</Link> : null}
           <button className="secondary-button" type="button" disabled={busy} onClick={() => persist("draft")}>
             <Save size={17} /> Salvar rascunho
           </button>

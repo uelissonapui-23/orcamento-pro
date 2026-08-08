@@ -1,0 +1,56 @@
+ORÇAMENTO PRO — FASE 11
+PDF DEFINITIVO
+
+PATCH PARA EXTRAIR DIRETAMENTE NA RAIZ.
+
+MIGRATION
+supabase/migrations/20260808000900_quote_pdf_snapshot.sql
+
+ENTREGUE
+- prévia A4 profissional;
+- logo/empresa/cliente;
+- número e datas;
+- itens e medidas;
+- subtotal/desconto/adicional/total;
+- condições/mensagem/observações/termos;
+- múltiplas páginas;
+- download PDF direto;
+- impressão;
+- compartilhamento quando suportado;
+- snapshot histórico da empresa;
+- preservação de logos antigos.
+
+APÓS EXTRAIR
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR
+git add .
+git commit -m "Fase 11 - PDF definitivo"
+git push origin main
+
+AGUARDE
+✅ Validar aplicação
+✅ Atualizar Supabase em produção
+✅ Deploy Vercel
+
+TESTE
+1. Crie ou abra um orçamento salvo.
+2. Clique Ver PDF.
+3. Confira logo e dados da empresa.
+4. Confira cliente.
+5. Confira itens e valores.
+6. Baixe PDF.
+7. Abra o arquivo baixado.
+8. Teste orçamento com muitos itens para forçar 2+ páginas.
+9. Teste Imprimir.
+10. Teste Compartilhar no celular.
+11. Altere os dados da empresa.
+12. Reabra PDF de orçamento antigo: snapshot deve permanecer.
+13. Crie novo orçamento: deve usar dados novos.
+14. Teste desktop/tablet/celular.
+
+PRÓXIMA
+FASE 12 — GESTÃO DE ORÇAMENTOS.

@@ -1,4 +1,4 @@
-import { FileText, Pencil, Plus } from "lucide-react";
+import { Download, FileText, Pencil, Plus } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
@@ -41,15 +41,18 @@ export default function Quotes() {
       ) : quotes.length ? (
         <div className="quotes-list">
           {quotes.map((quote) => (
-            <Link className="quote-list-card" to={`/orcamentos/${quote.id}`} key={quote.id}>
+            <article className="quote-list-card" key={quote.id}>
               <div className="quote-list-icon"><FileText size={20} /></div>
-              <div className="quote-list-main">
+              <Link className="quote-list-main" to={`/orcamentos/${quote.id}`}>
                 <div><strong>{quoteNumberLabel(quote.quote_number)} · {quote.client_snapshot_json?.name || "Cliente"}</strong><span className={`quote-status ${quote.status}`}>{quoteStatusLabel(quote.status)}</span></div>
                 <span>Emitido em {quote.issue_date ? new Date(`${quote.issue_date}T12:00:00`).toLocaleDateString("pt-BR") : "—"} · válido até {quote.valid_until ? new Date(`${quote.valid_until}T12:00:00`).toLocaleDateString("pt-BR") : "—"}</span>
-              </div>
+              </Link>
               <div className="quote-list-total"><small>Total</small><strong>{formatBRL(quote.total)}</strong></div>
-              <Pencil size={17} />
-            </Link>
+              <div className="quote-list-actions">
+                <Link to={`/orcamentos/${quote.id}/pdf`} title="PDF"><Download size={17} /></Link>
+                <Link to={`/orcamentos/${quote.id}`} title="Editar"><Pencil size={17} /></Link>
+              </div>
+            </article>
           ))}
         </div>
       ) : (
