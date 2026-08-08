@@ -1,0 +1,56 @@
+ORÇAMENTO PRO — FASE 8
+VEÍCULOS E PEÇAS
+
+PATCH PARA EXTRAIR DIRETAMENTE NA RAIZ.
+
+MIGRATION
+supabase/migrations/20260808000700_vehicles_parts.sql
+
+ENTREGUE
+- tipos de veículo;
+- modelos;
+- marca/modelo/anos;
+- peças;
+- área;
+- dificuldade;
+- desperdício;
+- tempo;
+- ordenar peças;
+- duplicar modelo;
+- copiar peças;
+- imagem privada;
+- ativo/inativo;
+- RLS/RPCs.
+
+APÓS EXTRAIR
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR
+git add .
+git commit -m "Fase 8 - veiculos e pecas"
+git push origin main
+
+AGUARDE
+✅ Validar aplicação
+✅ Atualizar Supabase em produção
+
+TESTE
+1. Cadastros > Envelopamento.
+2. Conferir tipos padrão.
+3. Criar tipo personalizado.
+4. Criar um veículo.
+5. Adicionar várias peças.
+6. Conferir área total e tempo.
+7. Editar e reordenar peças.
+8. Duplicar modelo.
+9. Criar segundo modelo e usar Copiar peças.
+10. Enviar/trocar/remover imagem.
+11. Desativar/reativar.
+12. Testar busca/filtro.
+13. Conferir celular/tablet.
+
+PRÓXIMA
+FASE 9 — WIZARD DE ENVELOPAMENTO.

@@ -166,3 +166,19 @@ Materiais:
 - material padrão integrado aos produtos.
 
 Próxima fase: Veículos e Peças.
+
+
+## Fase 8 concluída
+
+Veículos e Peças:
+- tipos;
+- modelos;
+- anos;
+- peças;
+- área/dificuldade/desperdício/tempo;
+- duplicação;
+- cópia de peças;
+- imagens privadas;
+- RLS/RPCs.
+
+Próxima fase: Wizard de Envelopamento.

@@ -5,7 +5,7 @@ const tabs = [
   ["/cadastros/clientes", "Clientes", Users, false],
   ["/cadastros/produtos", "Produtos e Serviços", Boxes, false],
   ["/cadastros/materiais", "Materiais", PackageSearch, false],
-  ["/cadastros/envelopamento", "Envelopamento", CarFront, true],
+  ["/cadastros/envelopamento", "Envelopamento", CarFront, false],
 ];
 
 export default function RegistrationsLayout() {

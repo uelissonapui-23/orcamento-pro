@@ -1,0 +1,26 @@
+FASE 8 — VEÍCULOS E PEÇAS
+
+CONCLUÍDO:
+- vehicle_types;
+- vehicle_models;
+- vehicle_parts;
+- tipos padrão;
+- marca/modelo/ano;
+- peças;
+- área;
+- dificuldade;
+- desperdício;
+- tempo;
+- ordem;
+- duplicação de modelo com peças;
+- cópia de peças entre modelos;
+- imagem privada;
+- ativo/inativo;
+- RLS;
+- RPCs seguras;
+- responsividade;
+- testes de domínio;
+- roadmap atualizado.
+
+PRÓXIMA:
+FASE 9 — WIZARD DE ENVELOPAMENTO.

@@ -1,0 +1,28 @@
+-- FASE 8 — Veículos e Peças
+--
+-- ISOLAMENTO
+-- 1. A não lê tipos/modelos/peças de B.
+-- 2. A não edita modelo de B.
+-- 3. save_vehicle_model_with_parts rejeita tipo de outro workspace.
+-- 4. duplicate_vehicle_model rejeita modelo de outro workspace.
+-- 5. copy_vehicle_parts rejeita origem/destino entre workspaces.
+--
+-- INTEGRIDADE
+-- 6. ano final >= ano inicial.
+-- 7. área > 0.
+-- 8. dificuldade > 0 e <= 10.
+-- 9. desperdício 0..500.
+-- 10. tempo >= 0.
+--
+-- ATOMICIDADE
+-- 11. modelo + peças são salvos por RPC única.
+-- 12. editar substitui conjunto de peças na mesma transação.
+--
+-- DUPLICAÇÃO/CÓPIA
+-- 13. duplicar modelo copia peças.
+-- 14. copiar peças substitui peças do destino.
+--
+-- STORAGE
+-- 15. imagem usa bucket privado existente `orcamento-app-assets`.
+-- 16. path começa pelo workspace_id, logo RLS existente protege acesso.
+select 'phase8 vehicles parts checklist loaded' as status;

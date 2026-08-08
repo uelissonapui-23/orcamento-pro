@@ -96,7 +96,8 @@ Concluída.
 - ativo/inativo;
 - integração com produtos e preparação do wizard.
 
-### ⏳ Fase 8 — Veículos e Peças
+### ✅ Fase 8 — Veículos e Peças
+Concluída.
 - tipos de veículo;
 - modelos;
 - marca/ano;
@@ -107,7 +108,7 @@ Concluída.
 - tempo;
 - duplicar modelo;
 - copiar peças;
-- imagens.
+- imagens privadas.
 
 ### ⏳ Fase 9 — Wizard de Envelopamento
 - tipo;
@@ -230,7 +231,7 @@ Concluída.
 
 ## Progresso
 
-Fases concluídas: **8 de 21 (0 a 20)**.
+Fases concluídas: **9 de 21 (0 a 20)**.
 
 Blocos de fundação/cadastros concluídos:
 - Fundação: 100%
@@ -240,5 +241,6 @@ Blocos de fundação/cadastros concluídos:
 - Produtos: 100%
 - Motor de preços: 100%
 - Materiais: 100%
+- Veículos e peças: 100%
 
 Próximo foco: **Veículos/Peças → Wizard → Editor de Orçamento → PDF**.

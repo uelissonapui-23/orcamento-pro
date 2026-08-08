@@ -13,6 +13,7 @@ import Settings from "./pages/Settings";
 import Clients from "./pages/Clients";
 import Products from "./pages/Products";
 import Materials from "./pages/Materials";
+import Vehicles from "./pages/Vehicles";
 import RegistrationsLayout from "./components/registrations/RegistrationsLayout";
 
 export default function App() {
@@ -39,6 +40,7 @@ export default function App() {
           <Route path="clientes" element={<Clients />} />
           <Route path="produtos" element={<Products />} />
           <Route path="materiais" element={<Materials />} />
+          <Route path="envelopamento" element={<Vehicles />} />
         </Route>
         <Route path="/configuracoes" element={<Settings />} />
         <Route path="/perfil" element={<Profile />} />
