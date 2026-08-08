@@ -1,0 +1,13 @@
+ORÇAMENTO APP — REFINAMENTO VISUAL V1
+
+- logo provisória azul aplicada no app;
+- favicon e PWA atualizados;
+- azul como cor principal;
+- amarelo/laranja removido da interface;
+- vermelho reservado para erro/atraso/perigo;
+- sidebar escura para criar contraste;
+- fundo geral azul/cinza suave;
+- cards com bordas e sombras discretas;
+- botões, foco e navegação em azul;
+- login/cadastro com identidade azul;
+- responsividade preservada.

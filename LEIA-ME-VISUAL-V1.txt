@@ -1,0 +1,27 @@
+ORÇAMENTO APP — REFINAMENTO VISUAL AZUL
+
+EXTRAIA DIRETAMENTE NA RAIZ DO PROJETO E SUBSTITUA OS ARQUIVOS.
+
+ALTERADO:
+- logo provisória azul;
+- favicon;
+- ícones PWA;
+- sidebar escura com azul;
+- fundo azul/cinza suave;
+- cards e painéis com melhor contraste;
+- botões e foco em azul;
+- amarelo/laranja removido;
+- vermelho mantido apenas para erro/atraso/perigo;
+- login e cadastro refinados;
+- navegação mobile preservada.
+
+DEPOIS:
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR:
+git add .
+git commit -m "Refina identidade visual azul da V1"
+git push origin main

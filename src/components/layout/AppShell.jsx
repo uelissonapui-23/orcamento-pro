@@ -54,7 +54,7 @@ export default function AppShell() {
     <div className="app-shell">
       <aside className="sidebar">
         <div className="brand">
-          <div className="brand-mark">O</div>
+          <img className="app-logo" src="/app-logo.svg" alt="" />
           <div className="brand-copy">
             <strong>Orçamento App</strong>
             <small title={workspace?.name}>{workspace?.name || "Seu negócio"}</small>
@@ -80,7 +80,7 @@ export default function AppShell() {
       <div className="app-main">
         <header className="topbar">
           <div className="mobile-brand">
-            <div className="brand-mark small">O</div>
+            <img className="app-logo small" src="/app-logo.svg" alt="" />
             <div className="mobile-brand-copy">
               <strong>Orçamento App</strong>
               <small>{workspace?.name}</small>

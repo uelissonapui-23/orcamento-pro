@@ -5,7 +5,7 @@ export default function AuthLayout({ title, description, children, footer }) {
     <main className="auth-page">
       <section className="auth-panel">
         <Link to="/" className="auth-brand" aria-label="Orçamento App">
-          <span className="brand-mark">O</span>
+          <img className="app-logo" src="/app-logo.svg" alt="" />
           <span>
             <strong>Orçamento App</strong>
             <small>simples, rápido e organizado</small>
