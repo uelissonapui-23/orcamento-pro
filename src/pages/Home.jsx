@@ -12,7 +12,7 @@ export default function Home() {
     <section>
       <div className="page-heading">
         <div><p className="eyebrow">VISÃO GERAL</p><h1>Bom dia</h1><p>Orçamentos e serviços importantes em um só lugar.</p></div>
-        <Link className="primary-button" to="/orcamentos"><Plus size={19} /> Novo orçamento</Link>
+        <Link className="primary-button" to="/orcamentos/novo"><Plus size={19} /> Novo orçamento</Link>
       </div>
 
       <div className="metric-grid">

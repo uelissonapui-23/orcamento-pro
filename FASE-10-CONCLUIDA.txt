@@ -1,0 +1,27 @@
+FASE 10 — EDITOR DE ORÇAMENTO
+
+CONCLUÍDO:
+- quotes;
+- quote_items;
+- numeração por workspace;
+- lista funcional;
+- novo orçamento;
+- edição;
+- cliente rápido;
+- defaults automáticos;
+- produtos;
+- motor de preços;
+- wizard;
+- itens;
+- ordenação;
+- remoção;
+- desconto;
+- adicional;
+- total;
+- snapshots;
+- RPC atômica;
+- RLS;
+- validação backend.
+
+PRÓXIMA:
+FASE 11 — PDF DEFINITIVO.

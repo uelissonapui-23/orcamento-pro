@@ -1,0 +1,21 @@
+$ npm run lint
+exit=0
+
+> orcamento-app@0.1.0 lint
+> eslint . --max-warnings=0
+
+
+
+$ npm run typecheck
+exit=0
+
+> orcamento-app@0.1.0 typecheck
+> tsc --noEmit
+
+
+
+$ npm run test
+Não executado novamente após ajuste: ambiente Linux sem @rollup/rollup-linux-x64-gnu.
+
+$ npm run build
+Não executado novamente após ajuste: ambiente Linux sem @rollup/rollup-linux-x64-gnu.

@@ -121,17 +121,20 @@ Concluída.
 - snapshot imutável;
 - saída padronizada `quoteItemDraft` para a Fase 10.
 
-### ⏳ Fase 10 — Editor de Orçamento
+### ✅ Fase 10 — Editor de Orçamento
+Concluída.
 - cliente;
 - cliente rápido;
 - itens;
 - formulários por modo;
 - pricingService;
 - wizard;
-- ordenar itens;
+- ordenar/remover itens;
 - desconto/adicional;
 - salvar/editar;
-- snapshots.
+- snapshots;
+- numeração;
+- RPC atômica.
 
 ### ⏳ Fase 11 — PDF Definitivo
 - A4;
@@ -232,7 +235,7 @@ Concluída.
 
 ## Progresso
 
-Fases concluídas: **10 de 21 (0 a 20)**.
+Fases concluídas: **11 de 21 (0 a 20)**.
 
 Blocos de fundação/cadastros concluídos:
 - Fundação: 100%
@@ -243,5 +246,7 @@ Blocos de fundação/cadastros concluídos:
 - Motor de preços: 100%
 - Materiais: 100%
 - Veículos e peças: 100%
+- Wizard de envelopamento: 100%
+- Editor de orçamento: 100%
 
 Próximo foco: **Editor de Orçamento → PDF → Gestão de Orçamentos**.

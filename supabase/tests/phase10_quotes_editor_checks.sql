@@ -1,0 +1,28 @@
+-- FASE 10 — Editor de Orçamento
+--
+-- ISOLAMENTO
+-- 1. Usuário A não lê quotes/items de B.
+-- 2. RPC rejeita client_id de outro workspace.
+-- 3. RPC rejeita product_id de outro workspace.
+--
+-- ATOMICIDADE
+-- 4. quote + quote_items são salvos numa única transação/RPC.
+-- 5. atualização substitui itens somente se quote pertence ao workspace.
+-- 6. número do orçamento é único por workspace e protegido por advisory lock.
+--
+-- HISTÓRICO
+-- 7. client_snapshot_json é persistido.
+-- 8. calculation_snapshot_json de cada item é persistido.
+-- 9. textos de pagamento/mensagem/notas/termos são snapshots.
+--
+-- INTEGRIDADE
+-- 10. orçamento exige pelo menos um item.
+-- 11. validade >= emissão.
+-- 12. itens têm quantidade > 0 e valores não negativos.
+-- 13. desconto percentual <= 100.
+-- 14. total é recalculado no banco e não confiado ao frontend.
+--
+-- ESTADO
+-- 15. editor salva draft ou awaiting_response.
+-- 16. approved/cancelled ficam bloqueados para edição pela RPC desta fase.
+select 'phase10 quote editor checklist loaded' as status;

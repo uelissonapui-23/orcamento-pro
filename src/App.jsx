@@ -14,6 +14,8 @@ import Clients from "./pages/Clients";
 import Products from "./pages/Products";
 import Materials from "./pages/Materials";
 import Vehicles from "./pages/Vehicles";
+import Quotes from "./pages/Quotes";
+import QuoteEditor from "./pages/QuoteEditor";
 import RegistrationsLayout from "./components/registrations/RegistrationsLayout";
 
 export default function App() {
@@ -32,7 +34,9 @@ export default function App() {
         }
       >
         <Route index element={<Home />} />
-        <Route path="/orcamentos" element={<Placeholder title="Orçamentos" />} />
+        <Route path="/orcamentos" element={<Quotes />} />
+        <Route path="/orcamentos/novo" element={<QuoteEditor />} />
+        <Route path="/orcamentos/:quoteId" element={<QuoteEditor />} />
         <Route path="/a-fazer" element={<Placeholder title="A Fazer" />} />
         <Route path="/entregues" element={<Placeholder title="Entregues" />} />
         <Route path="/cadastros" element={<RegistrationsLayout />}>

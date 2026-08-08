@@ -1,0 +1,58 @@
+ORÇAMENTO PRO — FASE 10
+EDITOR DE ORÇAMENTO
+
+PATCH PARA EXTRAIR DIRETAMENTE NA RAIZ.
+
+MIGRATION
+supabase/migrations/20260808000800_quotes_editor.sql
+
+ENTREGUE
+- lista de orçamentos;
+- novo orçamento;
+- editar orçamento;
+- numeração automática;
+- cliente + cliente rápido;
+- produtos e todos os modos de cálculo;
+- wizard de envelopamento;
+- itens, ordenação e remoção;
+- desconto/adicional;
+- totais;
+- snapshots;
+- RPC atômica;
+- RLS.
+
+APÓS EXTRAIR
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR
+git add .
+git commit -m "Fase 10 - editor de orcamento"
+git push origin main
+
+AGUARDE
+✅ Validar aplicação
+✅ Atualizar Supabase em produção
+✅ Deploy Vercel
+
+TESTE FUNCIONAL
+1. Início > Novo orçamento.
+2. Escolher cliente.
+3. Criar cliente rápido.
+4. Adicionar item m².
+5. Adicionar item metro linear.
+6. Adicionar unidade/faixa/fixo/manual.
+7. Adicionar envelopamento pelo wizard.
+8. Reordenar/remover item.
+9. Aplicar desconto fixo e percentual.
+10. Aplicar adicional.
+11. Salvar rascunho.
+12. Voltar em Orçamentos e reabrir.
+13. Salvar e finalizar.
+14. Ctrl+F5 e confirmar persistência.
+15. Conferir celular/tablet/computador.
+
+PRÓXIMA
+FASE 11 — PDF DEFINITIVO.

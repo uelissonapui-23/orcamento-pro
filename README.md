@@ -182,3 +182,10 @@ Veículos e Peças:
 - RLS/RPCs.
 
 Próxima fase: Wizard de Envelopamento.
+
+
+## Fase 10 concluída
+
+Editor de orçamento funcional com cliente, produtos, cálculos, wizard, snapshots, totais e persistência atômica.
+
+Próxima fase: PDF definitivo.
