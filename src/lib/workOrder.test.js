@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { normalizeWorkOrder, workOrderStatusLabel, workOrderTitle } from "./workOrder";
+import { normalizeWorkOrder, workOrderStatusLabel, workOrderTitle, workOrderUrgency } from "./workOrder";
 
 describe("work order domain", () => {
   it("normalizes snapshots", () => {
@@ -17,5 +17,10 @@ describe("work order domain", () => {
 
   it("labels status", () => {
     expect(workOrderStatusLabel("pending")).toBe("A fazer");
+  });
+  it("detects overdue and soon orders", () => {
+    const today = new Date(2026, 7, 8, 12, 0, 0);
+    expect(workOrderUrgency({ due_date: "2026-08-07", status: "pending" }, today).level).toBe("overdue");
+    expect(workOrderUrgency({ due_date: "2026-08-09", status: "pending" }, today).level).toBe("soon");
   });
 });

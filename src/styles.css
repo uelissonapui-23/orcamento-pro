@@ -1049,3 +1049,57 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .work-order-icon { width: 38px; height: 38px; }
   .work-order-title strong { white-space: normal; }
 }
+
+
+/* Fase 14 — A Fazer operacional */
+.phase14-note { display: flex; align-items: center; gap: 10px; margin-bottom: 13px; padding: 11px 13px; border: 1px solid #bfdbfe; border-radius: 11px; background: #eff6ff; color: #1d4ed8; }
+.phase14-note strong, .phase14-note span { display: block; }
+.phase14-note strong { font-size: 11px; }
+.phase14-note span { margin-top: 2px; color: #4b5563; font-size: 9px; }
+.work-orders-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.work-order-filter { display: flex; gap: 3px; padding: 3px; border: 1px solid #e5e7eb; border-radius: 11px; background: #fff; overflow-x: auto; }
+.work-order-filter button { min-height: 35px; padding: 0 10px; border: 0; border-radius: 8px; background: transparent; color: #6b7280; font: inherit; font-size: 10px; font-weight: 750; white-space: nowrap; cursor: pointer; }
+.work-order-filter button.active { background: #f3f4f6; color: #111827; }
+.work-order-legend { display: flex; align-items: center; gap: 7px; color: #6b7280; font-size: 9px; white-space: nowrap; }
+.work-order-legend .dot { width: 8px; height: 8px; border-radius: 999px; display: inline-block; }
+.work-order-legend .dot.overdue { background: #ef4444; }
+.work-order-legend .dot.soon { background: #f59e0b; }
+.work-orders-list.busy { pointer-events: none; opacity: .72; }
+.work-order-card.operational { position: relative; grid-template-columns: auto minmax(0,1fr) minmax(120px,150px) minmax(90px,120px) minmax(210px,auto); padding-left: 18px; }
+.work-order-card.operational::before { content: ""; position: absolute; left: 0; top: 10px; bottom: 10px; width: 4px; border-radius: 0 4px 4px 0; background: #d1d5db; }
+.work-order-card.operational.urgency-overdue::before { background: #ef4444; }
+.work-order-card.operational.urgency-today::before,
+.work-order-card.operational.urgency-soon::before { background: #f59e0b; }
+.work-order-card.operational.urgency-overdue { background: #fffafa; }
+.work-order-card.operational.urgency-today,
+.work-order-card.operational.urgency-soon { background: #fffdf7; }
+.urgency-badge { display: inline-flex; align-items: center; min-height: 21px; padding: 0 7px; border-radius: 999px; font-size: 8px; font-weight: 850; }
+.urgency-badge.overdue { background: #fef2f2; color: #b91c1c; }
+.urgency-badge.today,
+.urgency-badge.soon { background: #fffbeb; color: #b45309; }
+.work-order-due.editable { border: 0; background: transparent; padding: 5px 7px; border-radius: 8px; text-align: left; cursor: pointer; }
+.work-order-due.editable:hover { background: #f8fafc; }
+.work-order-actions { display: flex; align-items: center; justify-content: flex-end; gap: 5px; flex-wrap: wrap; }
+.work-order-actions .action { min-height: 34px; display: inline-flex; align-items: center; gap: 5px; padding: 0 10px; border: 0; border-radius: 9px; font: inherit; font-size: 9px; font-weight: 800; cursor: pointer; }
+.work-order-actions .primary-soft { background: #eff6ff; color: #1d4ed8; }
+.work-order-actions .success-soft { background: #ecfdf5; color: #047857; }
+.work-order-actions .success { background: #047857; color: #fff; }
+
+@media (max-width: 1100px) {
+  .work-order-card.operational { grid-template-columns: auto minmax(0,1fr) minmax(120px,150px) auto; }
+  .work-order-total { grid-column: 3; }
+  .work-order-actions { grid-column: 2 / -1; justify-content: flex-start; }
+}
+@media (max-width: 760px) {
+  .work-orders-toolbar { flex-direction: column; align-items: stretch; }
+  .work-order-filter { width: 100%; }
+  .work-order-legend { justify-content: flex-end; }
+  .work-order-card.operational { grid-template-columns: auto minmax(0,1fr); }
+  .work-order-due, .work-order-total, .work-order-actions { grid-column: 2; }
+  .work-order-total { text-align: left; }
+  .work-order-actions { justify-content: flex-start; }
+}
+@media (max-width: 520px) {
+  .work-order-actions .action { flex: 1; justify-content: center; }
+  .work-order-actions .quote-icon-button { flex: none; }
+}

@@ -1,0 +1,24 @@
+-- FASE 14 — A Fazer operacional
+--
+-- FLUXO
+-- 1. pending -> in_progress somente via start_work_order.
+-- 2. in_progress -> ready somente via mark_work_order_ready.
+-- 3. ready -> delivered somente via deliver_work_order.
+-- 4. delivered não volta para aberto nesta fase.
+--
+-- PRAZO
+-- 5. due_date pode ser alterado apenas enquanto aberto.
+-- 6. serviço entregue não permite alterar prazo.
+--
+-- ISOLAMENTO
+-- 7. todas RPCs exigem auth + membership.
+-- 8. nenhuma RPC aceita work_order de outro workspace.
+--
+-- HISTÓRICO
+-- 9. started_at, ready_at, delivered_at são preservados.
+-- 10. delivery_notes é persistido.
+--
+-- UI
+-- 11. listagem ordena due_date asc.
+-- 12. atrasados e próximos do vencimento recebem destaque visual.
+select 'phase14 operational work orders checklist loaded' as status;

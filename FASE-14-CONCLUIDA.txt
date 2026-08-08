@@ -1,0 +1,21 @@
+FASE 14 — A FAZER OPERACIONAL
+
+CONCLUÍDO:
+- ordem por prazo;
+- alerta atrasado;
+- alerta próximo;
+- filtros;
+- iniciar produção;
+- marcar pronto;
+- entregar;
+- alterar prazo;
+- WhatsApp;
+- PDF;
+- acesso ao orçamento;
+- timestamps operacionais;
+- notas de entrega;
+- RPCs seguras;
+- responsividade.
+
+PRÓXIMA:
+FASE 15 — ENTREGUES.

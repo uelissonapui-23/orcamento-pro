@@ -1,57 +1,149 @@
-import { CalendarClock, CheckCircle2, FileText, PackageCheck } from "lucide-react";
+import { CheckCircle2, PackageCheck } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import WorkOrderCard from "../components/workorders/WorkOrderCard";
 import { useAuth } from "../contexts/AuthContext";
-import { formatBRL } from "../lib/money";
-import { workOrderStatusLabel, workOrderTitle } from "../lib/workOrder";
-import { listWorkOrders } from "../services/workOrderService";
-
-function dateLabel(value) {
-  if (!value) return "Sem prazo definido";
-  return new Date(`${value}T12:00:00`).toLocaleDateString("pt-BR");
-}
+import {
+  deliverWorkOrder,
+  listWorkOrders,
+  markWorkOrderReady,
+  startWorkOrder,
+  updateWorkOrderDueDate,
+} from "../services/workOrderService";
 
 export default function WorkOrders() {
   const { workspace } = useAuth();
   const [orders, setOrders] = useState([]);
+  const [filter, setFilter] = useState("open");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [busyId, setBusyId] = useState("");
+  const [message, setMessage] = useState({ type: "", text: "" });
 
   const load = useCallback(async () => {
     if (!workspace?.id) return;
     setLoading(true);
-    setError("");
+    setMessage({ type: "", text: "" });
 
     try {
-      setOrders(await listWorkOrders(workspace.id, { status: "open" }));
+      setOrders(await listWorkOrders(workspace.id, { status: filter, limit: 200 }));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Não foi possível carregar A Fazer.");
+      setMessage({
+        type: "error",
+        text: err instanceof Error ? err.message : "Não foi possível carregar A Fazer.",
+      });
     } finally {
       setLoading(false);
     }
-  }, [workspace?.id]);
+  }, [workspace?.id, filter]);
 
   useEffect(() => { load(); }, [load]);
 
+  const run = async (order, action, successMessage) => {
+    setBusyId(order.id);
+    setMessage({ type: "", text: "" });
+
+    try {
+      await action();
+      setMessage({ type: "success", text: successMessage });
+      await load();
+    } catch (err) {
+      setMessage({
+        type: "error",
+        text: err instanceof Error ? err.message : "Não foi possível atualizar o serviço.",
+      });
+    } finally {
+      setBusyId("");
+    }
+  };
+
+  const start = (order) => {
+    if (!window.confirm("Iniciar a produção deste serviço?")) return;
+    run(order, () => startWorkOrder(workspace.id, order.id), "Serviço marcado como Em produção.");
+  };
+
+  const ready = (order) => {
+    if (!window.confirm("Marcar este serviço como pronto?")) return;
+    run(order, () => markWorkOrderReady(workspace.id, order.id), "Serviço marcado como Pronto.");
+  };
+
+  const deliver = (order) => {
+    const notes = window.prompt("Observação da entrega (opcional):", "");
+    if (notes === null) return;
+    if (!window.confirm("Confirmar que este serviço foi entregue?")) return;
+
+    run(
+      order,
+      () => deliverWorkOrder(workspace.id, order.id, notes),
+      "Serviço entregue. Ele saiu de A Fazer e foi para Entregues."
+    );
+  };
+
+  const changeDueDate = (order) => {
+    const value = window.prompt(
+      "Nova data de entrega (AAAA-MM-DD). Deixe vazio para remover o prazo:",
+      order.due_date || ""
+    );
+    if (value === null) return;
+
+    const clean = value.trim();
+    if (clean && !/^\d{4}-\d{2}-\d{2}$/.test(clean)) {
+      setMessage({ type: "error", text: "Use o formato AAAA-MM-DD." });
+      return;
+    }
+
+    run(
+      order,
+      () => updateWorkOrderDueDate(workspace.id, order.id, clean || null),
+      "Prazo atualizado."
+    );
+  };
+
   return (
     <section>
-      <div className="page-heading">
+      <div className="page-heading work-orders-heading">
         <div>
           <p className="eyebrow">PRODUÇÃO</p>
           <h1>A Fazer</h1>
-          <p>Serviços aprovados que ainda precisam ser produzidos ou entregues.</p>
+          <p>Priorize o que vence primeiro e acompanhe cada etapa até a entrega.</p>
         </div>
       </div>
 
-      <div className="phase13-note">
+      <div className="work-orders-toolbar">
+        <div className="work-order-filter">
+          {[
+            ["open", "Em aberto"],
+            ["pending", "A fazer"],
+            ["in_progress", "Em produção"],
+            ["ready", "Prontos"],
+            ["all", "Todos"],
+          ].map(([value, label]) => (
+            <button
+              key={value}
+              type="button"
+              className={filter === value ? "active" : ""}
+              onClick={() => setFilter(value)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        <div className="work-order-legend">
+          <span className="dot overdue" /> Atrasado
+          <span className="dot soon" /> Próximo
+        </div>
+      </div>
+
+      <div className="phase14-note">
         <CheckCircle2 size={18} />
         <div>
-          <strong>Aprovação automática ativa</strong>
-          <span>A operação diária completa desta tela será concluída na Fase 14.</span>
+          <strong>Ordem automática por prazo</strong>
+          <span>Os serviços com data mais próxima aparecem primeiro.</span>
         </div>
       </div>
 
-      {error ? <div className="form-alert error">{error}</div> : null}
+      {message.text ? (
+        <div className={`form-alert ${message.type}`}>{message.text}</div>
+      ) : null}
 
       {loading ? (
         <div className="work-orders-empty">
@@ -59,50 +151,23 @@ export default function WorkOrders() {
           <strong>Carregando serviços...</strong>
         </div>
       ) : orders.length ? (
-        <div className="work-orders-list">
+        <div className={`work-orders-list ${busyId ? "busy" : ""}`}>
           {orders.map((order) => (
-            <article className="work-order-card" key={order.id}>
-              <div className="work-order-icon">
-                <PackageCheck size={20} />
-              </div>
-
-              <div className="work-order-main">
-                <div className="work-order-title">
-                  <strong>{workOrderTitle(order)}</strong>
-                  <span className={`work-order-status ${order.status}`}>
-                    {workOrderStatusLabel(order.status)}
-                  </span>
-                </div>
-                <span>
-                  {order.items_snapshot_json.length} item(ns)
-                  {order.approved_at
-                    ? ` · aprovado em ${new Date(order.approved_at).toLocaleDateString("pt-BR")}`
-                    : ""}
-                </span>
-              </div>
-
-              <div className="work-order-due">
-                <small><CalendarClock size={13} /> Prazo</small>
-                <strong>{dateLabel(order.due_date)}</strong>
-              </div>
-
-              <div className="work-order-total">
-                <small>Valor</small>
-                <strong>{formatBRL(order.total)}</strong>
-              </div>
-
-              <Link className="quote-icon-button" to={`/orcamentos/${order.quote_id}/pdf`} title="Ver orçamento">
-                <FileText size={16} />
-              </Link>
-            </article>
+            <WorkOrderCard
+              key={order.id}
+              order={order}
+              onStart={start}
+              onReady={ready}
+              onDeliver={deliver}
+              onChangeDueDate={changeDueDate}
+            />
           ))}
         </div>
       ) : (
         <div className="work-orders-empty">
           <div className="work-orders-empty-icon"><PackageCheck size={30} /></div>
-          <strong>Nenhum serviço em A Fazer</strong>
-          <p>Quando um orçamento em “Aguardando resposta” for aprovado, ele aparecerá aqui automaticamente.</p>
-          <Link className="secondary-button" to="/orcamentos">Ir para Orçamentos</Link>
+          <strong>Nenhum serviço neste filtro</strong>
+          <p>Quando houver serviços aprovados, eles serão organizados automaticamente por prazo.</p>
         </div>
       )}
     </section>

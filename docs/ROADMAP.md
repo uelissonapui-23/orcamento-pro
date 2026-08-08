@@ -177,11 +177,14 @@ Concluída.
 - prazo herdado do orçamento;
 - listagem básica em A Fazer.
 
-### ⏳ Fase 14 — A Fazer
+### ✅ Fase 14 — A Fazer
+Concluída.
 - lista operacional;
 - ordenação por entrega;
 - atrasados;
 - alertas visuais;
+- iniciar produção;
+- marcar pronto;
 - WhatsApp;
 - PDF;
 - alterar prazo;
@@ -244,7 +247,7 @@ Concluída.
 
 ## Progresso
 
-Fases concluídas: **14 de 21 (0 a 20)**.
+Fases concluídas: **15 de 21 (0 a 20)**.
 
 Blocos de fundação/cadastros concluídos:
 - Fundação: 100%
@@ -260,5 +263,6 @@ Blocos de fundação/cadastros concluídos:
 - PDF definitivo: 100%
 - Gestão de orçamentos: 100%
 - Aprovação → A Fazer: 100%
+- A Fazer operacional: 100%
 
 Próximo foco: **Editor de Orçamento → PDF → Gestão de Orçamentos**.

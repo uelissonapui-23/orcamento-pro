@@ -1,0 +1,58 @@
+ORÇAMENTO PRO — FASE 14
+A FAZER OPERACIONAL
+
+PATCH PARA EXTRAIR DIRETAMENTE NA RAIZ.
+
+MIGRATION
+supabase/migrations/20260808001200_work_orders_operational.sql
+
+ENTREGUE
+- ordem automática por prazo;
+- alerta atrasado;
+- alerta próximo;
+- filtros;
+- iniciar produção;
+- marcar pronto;
+- alterar prazo;
+- WhatsApp;
+- PDF;
+- acesso ao orçamento;
+- marcar entregue;
+- timestamps e notas de entrega;
+- RPCs seguras.
+
+APÓS EXTRAIR
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR
+git add .
+git commit -m "Fase 14 - a fazer operacional"
+git push origin main
+
+AGUARDE
+✅ Validar aplicação
+✅ Atualizar Supabase em produção
+✅ Deploy Vercel
+
+TESTE
+1. Tenha um orçamento aprovado em A Fazer.
+2. Altere o prazo.
+3. Use uma data passada e confirme alerta vermelho.
+4. Use hoje/amanhã e confirme alerta amarelo.
+5. Confirme ordenação pelo prazo mais próximo.
+6. Clique Iniciar.
+7. Confirme status Em produção.
+8. Clique Marcar pronto.
+9. Confirme status Pronto.
+10. Teste WhatsApp.
+11. Teste PDF.
+12. Clique Entregar.
+13. Informe nota opcional.
+14. Confirme que saiu do filtro Em aberto.
+15. Recarregue e confirme persistência.
+
+PRÓXIMA
+FASE 15 — ENTREGUES.

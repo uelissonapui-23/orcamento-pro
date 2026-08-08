@@ -210,3 +210,10 @@ Próxima fase: Aprovação → A Fazer.
 Aprovação atômica de orçamento com criação única de work_order em A Fazer e snapshots operacionais.
 
 Próxima fase: A Fazer operacional.
+
+
+## Fase 14 concluída
+
+A Fazer operacional com prioridade por prazo, alertas, produção, pronto, entrega, WhatsApp e PDF.
+
+Próxima fase: Entregues.
