@@ -1,5 +1,6 @@
 import { CALCULATION_MODES, calculationModeMeta } from "../../lib/product";
 import PriceTiersEditor from "./PriceTiersEditor";
+import PricingPreview from "./PricingPreview";
 
 export default function ProductForm({
   value,
@@ -156,6 +157,8 @@ export default function ProductForm({
           </div>
         ) : null}
       </div>
+
+      <PricingPreview product={value} tiers={tiers} />
     </div>
   );
 }

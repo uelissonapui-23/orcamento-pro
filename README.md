@@ -133,3 +133,21 @@ Produtos e Serviços:
 - RLS e RPC transacional.
 
 Próxima fase: Motor de preços.
+
+
+## Fase 6 concluída
+
+Motor de preços central:
+- m²;
+- metro linear;
+- unidade;
+- faixas;
+- valor fixo;
+- manual;
+- mínimos;
+- desperdício;
+- desconto/adicional;
+- snapshot versionado;
+- adapter pronto para quote_item.
+
+Próxima fase: Materiais.

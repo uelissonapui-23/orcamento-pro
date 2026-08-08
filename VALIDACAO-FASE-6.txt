@@ -1,0 +1,102 @@
+$ npm run lint
+exit=0
+
+> orcamento-app@0.1.0 lint
+> eslint . --max-warnings=0
+
+
+
+$ npm run typecheck
+exit=0
+
+> orcamento-app@0.1.0 typecheck
+> tsc --noEmit
+
+
+
+$ npm run test
+exit=1
+
+> orcamento-app@0.1.0 test
+> vitest run
+
+/mnt/data/ORCAMENTO_APP_FASE_6_WORK/node_modules/rollup/dist/native.js:121
+		throw new Error(
+		      ^
+
+Error: Cannot find module @rollup/rollup-linux-x64-gnu. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+    at requireWithFriendlyError [90m(/mnt/data/ORCAMENTO_APP_FASE_6_WORK/[39mnode_modules/[4mrollup[24m/dist/native.js:121:9[90m)[39m
+    at Object.<anonymous> [90m(/mnt/data/ORCAMENTO_APP_FASE_6_WORK/[39mnode_modules/[4mrollup[24m/dist/native.js:130:76[90m)[39m
+[90m    at Module._compile (node:internal/modules/cjs/loader:1730:14)[39m
+[90m    at Object..js (node:internal/modules/cjs/loader:1895:10)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1465:32)[39m
+[90m    at Function._load (node:internal/modules/cjs/loader:1282:12)[39m
+[90m    at TracingChannel.traceSync (node:diagnostics_channel:322:14)[39m
+[90m    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)[39m
+[90m    at cjsLoader (node:internal/modules/esm/translators:266:5)[39m
+[90m    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:200:7)[39m {
+  [cause]: Error: Cannot find module '@rollup/rollup-linux-x64-gnu'
+  Require stack:
+  - /mnt/data/ORCAMENTO_APP_FASE_6_WORK/node_modules/rollup/dist/native.js
+  [90m    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)[39m
+  [90m    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)[39m
+  [90m    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)[39m
+  [90m    at Function._load (node:internal/modules/cjs/loader:1211:37)[39m
+  [90m    at TracingChannel.traceSync (node:diagnostics_channel:322:14)[39m
+  [90m    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)[39m
+  [90m    at Module.require (node:internal/modules/cjs/loader:1487:12)[39m
+  [90m    at require (node:internal/modules/helpers:135:16)[39m
+      at requireWithFriendlyError [90m(/mnt/data/ORCAMENTO_APP_FASE_6_WORK/[39mnode_modules/[4mrollup[24m/dist/native.js:103:10[90m)[39m
+      at Object.<anonymous> [90m(/mnt/data/ORCAMENTO_APP_FASE_6_WORK/[39mnode_modules/[4mrollup[24m/dist/native.js:130:76[90m)[39m {
+    code: [32m'MODULE_NOT_FOUND'[39m,
+    requireStack: [
+      [32m'/mnt/data/ORCAMENTO_APP_FASE_6_WORK/node_modules/rollup/dist/native.js'[39m
+    ]
+  }
+}
+
+Node.js v22.16.0
+
+
+$ npm run build
+exit=1
+
+> orcamento-app@0.1.0 build
+> vite build
+
+/mnt/data/ORCAMENTO_APP_FASE_6_WORK/node_modules/rollup/dist/native.js:121
+		throw new Error(
+		      ^
+
+Error: Cannot find module @rollup/rollup-linux-x64-gnu. npm has a bug related to optional dependencies (https://github.com/npm/cli/issues/4828). Please try `npm i` again after removing both package-lock.json and node_modules directory.
+    at requireWithFriendlyError [90m(/mnt/data/ORCAMENTO_APP_FASE_6_WORK/[39mnode_modules/[4mrollup[24m/dist/native.js:121:9[90m)[39m
+    at Object.<anonymous> [90m(/mnt/data/ORCAMENTO_APP_FASE_6_WORK/[39mnode_modules/[4mrollup[24m/dist/native.js:130:76[90m)[39m
+[90m    at Module._compile (node:internal/modules/cjs/loader:1730:14)[39m
+[90m    at Object..js (node:internal/modules/cjs/loader:1895:10)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:1465:32)[39m
+[90m    at Function._load (node:internal/modules/cjs/loader:1282:12)[39m
+[90m    at TracingChannel.traceSync (node:diagnostics_channel:322:14)[39m
+[90m    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)[39m
+[90m    at cjsLoader (node:internal/modules/esm/translators:266:5)[39m
+[90m    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:200:7)[39m {
+  [cause]: Error: Cannot find module '@rollup/rollup-linux-x64-gnu'
+  Require stack:
+  - /mnt/data/ORCAMENTO_APP_FASE_6_WORK/node_modules/rollup/dist/native.js
+  [90m    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)[39m
+  [90m    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)[39m
+  [90m    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)[39m
+  [90m    at Function._load (node:internal/modules/cjs/loader:1211:37)[39m
+  [90m    at TracingChannel.traceSync (node:diagnostics_channel:322:14)[39m
+  [90m    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)[39m
+  [90m    at Module.require (node:internal/modules/cjs/loader:1487:12)[39m
+  [90m    at require (node:internal/modules/helpers:135:16)[39m
+      at requireWithFriendlyError [90m(/mnt/data/ORCAMENTO_APP_FASE_6_WORK/[39mnode_modules/[4mrollup[24m/dist/native.js:103:10[90m)[39m
+      at Object.<anonymous> [90m(/mnt/data/ORCAMENTO_APP_FASE_6_WORK/[39mnode_modules/[4mrollup[24m/dist/native.js:130:76[90m)[39m {
+    code: [32m'MODULE_NOT_FOUND'[39m,
+    requireStack: [
+      [32m'/mnt/data/ORCAMENTO_APP_FASE_6_WORK/node_modules/rollup/dist/native.js'[39m
+    ]
+  }
+}
+
+Node.js v22.16.0

@@ -1,0 +1,25 @@
+FASE 6 — MOTOR DE PREÇOS
+
+CONCLUÍDO:
+- money helpers;
+- pricingService central;
+- m²;
+- desperdício;
+- mínimo;
+- metro linear;
+- unidade;
+- faixas;
+- fixo;
+- manual;
+- wrapping delegado;
+- quote totals;
+- descontos;
+- adicionais;
+- snapshots versionados;
+- adapter quoteItemDraft;
+- testes;
+- preview no cadastro;
+- roadmap atualizado.
+
+PRÓXIMA:
+FASE 7 — MATERIAIS.

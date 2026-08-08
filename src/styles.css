@@ -495,3 +495,28 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .product-card { grid-template-columns: minmax(0,1fr) auto; }
   .product-card-price { padding-left: 0; }
 }
+
+
+/* Fase 6 — Motor de preços */
+.pricing-preview-box { padding: 15px; border: 1px solid #dbeafe; border-radius: 12px; background: #f8fbff; }
+.pricing-preview-box.muted { border-color: #e5e7eb; background: #f9fafb; }
+.pricing-preview-box > p { margin: 5px 0 0; color: #6b7280; font-size: 11px; line-height: 1.5; }
+.pricing-preview-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+.pricing-preview-head strong,
+.pricing-preview-head span { display: block; }
+.pricing-preview-head strong { font-size: 12px; }
+.pricing-preview-head span { margin-top: 2px; color: #6b7280; font-size: 10px; }
+.pricing-preview-head b { flex: none; color: #1d4ed8; font-size: 15px; }
+.pricing-preview-inputs { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; margin-top: 11px; }
+.pricing-preview-inputs label { min-width: 0; display: grid; gap: 4px; }
+.pricing-preview-inputs label span { color: #64748b; font-size: 9px; font-weight: 750; }
+.pricing-preview-inputs input { width: 100%; min-width: 0; height: 36px; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0 9px; outline: 0; background: #fff; }
+.pricing-preview-inputs input:focus { border-color: #64748b; box-shadow: 0 0 0 2px rgba(30,64,175,.08); }
+.pricing-preview-error { display: block; margin-top: 8px; color: #b91c1c; font-size: 10px; }
+.pricing-preview-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+.pricing-preview-meta span { padding: 4px 7px; border-radius: 999px; background: #eff6ff; color: #1e40af; font-size: 9px; font-weight: 750; }
+
+@media (max-width: 560px) {
+  .pricing-preview-head { flex-direction: column; }
+  .pricing-preview-inputs { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,56 @@
+ORÇAMENTO PRO — FASE 6
+MOTOR DE PREÇOS
+
+PATCH PARA EXTRAIR DIRETAMENTE NA RAIZ.
+
+NÃO HÁ MIGRATION NESTA FASE.
+A Fase 6 usa o banco/configuração da Fase 5.
+
+ENTREGUE
+- motor central de preço;
+- m²;
+- metro linear;
+- unidade;
+- faixa;
+- fixo;
+- manual;
+- valor mínimo;
+- desperdício;
+- total do orçamento;
+- desconto fixo/percentual;
+- adicional;
+- snapshot versionado;
+- adapter pronto para quote_item;
+- testes;
+- teste rápido de cálculo dentro do cadastro de produto;
+- cronograma atualizado.
+
+APÓS EXTRAIR
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR
+git add .
+git commit -m "Fase 6 - motor de precos"
+git push origin main
+
+Como não há migration nova nesta fase, o workflow de Supabase pode não ser disparado.
+O importante é:
+✅ Validar aplicação
+
+TESTE FUNCIONAL
+1. Abra Produtos e Serviços.
+2. Edite/crie produto por m².
+3. Use “Teste rápido do preço”.
+4. Confira desperdício e mínimo.
+5. Teste metro linear.
+6. Teste unidade.
+7. Teste faixa.
+8. Teste fixo.
+9. Teste manual.
+10. Envelopamento deve informar que depende do wizard.
+
+PRÓXIMA
+FASE 7 — MATERIAIS.
