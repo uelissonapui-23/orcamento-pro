@@ -1,0 +1,22 @@
+-- FASE 5 — Produtos e Serviços
+--
+-- ISOLAMENTO
+-- 1. Usuário A não lê categorias/produtos/faixas de B.
+-- 2. save_product_with_tiers rejeita workspace de B.
+-- 3. duplicate_product rejeita produto de B.
+--
+-- INTEGRIDADE
+-- 4. Categoria pertence ao mesmo workspace do produto.
+-- 5. calculation_mode aceita somente os 7 modos oficiais.
+-- 6. preço/mínimo não aceitam negativos.
+-- 7. desperdício aceita 0..500.
+-- 8. faixa não aceita máximo < mínimo.
+-- 9. faixas sobrepostas são rejeitadas pela RPC.
+-- 10. quantity_tier exige pelo menos uma faixa.
+--
+-- HISTÓRICO / UX
+-- 11. desativar produto preserva registro.
+-- 12. duplicar copia faixas e cria novo ID.
+-- 13. alterar cadastro no futuro não deve recalcular quote antigo;
+--     isso será protegido pelos snapshots do quote_item.
+select 'phase5 products checklist loaded' as status;

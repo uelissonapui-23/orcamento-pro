@@ -1,0 +1,61 @@
+ORÇAMENTO PRO — FASE 5
+PRODUTOS E SERVIÇOS
+
+PATCH PARA EXTRAIR DIRETAMENTE NA RAIZ.
+
+ENTREGUE
+- categorias;
+- produtos e serviços;
+- 7 modos de cobrança;
+- formulário dinâmico;
+- faixas de quantidade;
+- preço mínimo;
+- desperdício;
+- duplicação;
+- desativação/reativação;
+- busca/filtros;
+- RLS;
+- RPC transacional;
+- testes.
+
+MIGRATION
+supabase/migrations/20260808000500_products_services.sql
+
+NÃO SUBSTITUI
+.github/workflows/deploy-supabase.yml
+
+O workflow de migrations isoladas deve continuar como está.
+
+APÓS EXTRAIR
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR
+git add .
+git commit -m "Fase 5 - produtos e servicos"
+git push origin main
+
+AGUARDE
+✅ Validar aplicação
+✅ Atualizar Supabase em produção
+
+TESTE FUNCIONAL
+1. Cadastros > Produtos e Serviços.
+2. Criar categoria.
+3. Criar produto por m².
+4. Criar produto por metro linear.
+5. Criar produto por unidade.
+6. Criar produto por faixas.
+7. Criar serviço de valor fixo.
+8. Criar item de preço manual.
+9. Criar item de envelopamento.
+10. Editar.
+11. Duplicar.
+12. Desativar e reativar.
+13. Filtrar por categoria e modo.
+14. Conferir layout no celular.
+
+PRÓXIMA
+FASE 6 — MOTOR DE PREÇOS.

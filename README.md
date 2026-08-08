@@ -118,3 +118,18 @@ Clientes:
 - RLS.
 
 Próxima fase: Produtos e Serviços.
+
+
+## Fase 5 concluída
+
+Produtos e Serviços:
+- categorias;
+- 7 modos de cobrança;
+- preços mínimos;
+- desperdício;
+- faixas de quantidade;
+- duplicação;
+- formulário dinâmico;
+- RLS e RPC transacional.
+
+Próxima fase: Motor de preços.

@@ -3,7 +3,7 @@ import { NavLink, Outlet } from "react-router-dom";
 
 const tabs = [
   ["/cadastros/clientes", "Clientes", Users, false],
-  ["/cadastros/produtos", "Produtos e Serviços", Boxes, true],
+  ["/cadastros/produtos", "Produtos e Serviços", Boxes, false],
   ["/cadastros/materiais", "Materiais", PackageSearch, true],
   ["/cadastros/envelopamento", "Envelopamento", CarFront, true],
 ];

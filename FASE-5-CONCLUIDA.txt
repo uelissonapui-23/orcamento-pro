@@ -1,0 +1,30 @@
+FASE 5 — PRODUTOS E SERVIÇOS
+
+CONCLUÍDO:
+- product_categories;
+- products;
+- product_price_tiers;
+- RLS;
+- categorias completas;
+- categoria Geral automática;
+- busca e filtros;
+- ativo/inativo;
+- duplicação;
+- formulário dinâmico;
+- m²;
+- metro linear;
+- unidade;
+- faixa de quantidade;
+- valor fixo;
+- manual;
+- envelopamento;
+- preço mínimo;
+- desperdício padrão;
+- faixas total/unitário;
+- validação de faixas;
+- RPC transacional;
+- responsividade;
+- testes de domínio.
+
+PRÓXIMA:
+FASE 6 — MOTOR DE PREÇOS.
