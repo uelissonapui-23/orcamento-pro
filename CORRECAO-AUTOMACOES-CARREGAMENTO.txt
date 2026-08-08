@@ -1,0 +1,31 @@
+CORREÇÃO — AUTOMAÇÕES CARREGANDO INFINITAMENTE
+
+CAUSA ENCONTRADA:
+A migration da Fase 18 criou automation_settings e quote_templates com RLS,
+mas não concedeu SELECT/INSERT/UPDATE/DELETE para authenticated.
+
+Quando Supabase respondia permission denied:
+- load() capturava o erro;
+- settings continuava null;
+- a página usava `if (loading || !settings)`;
+- por isso o spinner ficava infinito e o erro nunca era exibido.
+
+CORRIGIDO:
+1. Migration 20260808001600_automation_runtime_repair.sql
+   - garante tabelas;
+   - garante RLS;
+   - garante policies;
+   - concede privilégios necessários para authenticated.
+
+2. Automations.jsx
+   - nunca mais fica em spinner infinito após erro;
+   - exibe a causa;
+   - mostra botão Tentar novamente;
+   - usa estado padrão seguro enquanto o banco não estiver pronto.
+
+3. automationService.js
+   - defaults centralizados;
+   - sugestões vazias seguras.
+
+APÓS O PUSH:
+aguarde o workflow de Supabase ficar verde e recarregue /automacoes.

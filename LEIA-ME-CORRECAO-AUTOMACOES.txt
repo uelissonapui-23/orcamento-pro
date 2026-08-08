@@ -1,0 +1,28 @@
+CORREÇÃO — AUTOMAÇÕES CARREGANDO INFINITAMENTE
+
+EXTRAIA DIRETAMENTE NA RAIZ.
+
+MIGRATION NOVA:
+supabase/migrations/20260808001600_automation_runtime_repair.sql
+
+DEPOIS:
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR:
+git add .
+git commit -m "Corrige carregamento e permissoes das automacoes"
+git push origin main
+
+IMPORTANTE:
+Aguarde o workflow "Atualizar Supabase em produção" ficar VERDE.
+Depois recarregue a página Automações.
+
+RESULTADO ESPERADO:
+- sem spinner infinito;
+- página abre normalmente;
+- configurações podem ser salvas;
+- modelos podem ser criados;
+- se houver problema no banco, o erro aparece na tela com "Tentar novamente".

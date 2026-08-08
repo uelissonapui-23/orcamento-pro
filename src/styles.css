@@ -1617,3 +1617,50 @@ a:focus-visible, button:focus-visible {
   .content { padding-top: 22px; }
   .sidebar { box-shadow: none; }
 }
+
+
+/* Correção Automações — evita carregamento infinito */
+.automation-main-alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 13px;
+}
+.automation-main-alert > span { min-width: 0; }
+.automation-main-alert button {
+  flex: none;
+  min-height: 33px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border: 1px solid currentColor;
+  border-radius: 8px;
+  background: rgba(255,255,255,.65);
+  color: inherit;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.automation-error-state {
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 28px;
+  text-align: center;
+  color: #64748b;
+}
+.automation-error-state strong { color: #0f172a; }
+.automation-error-state span { font-size: 10px; }
+.automation-content.database-pending {
+  opacity: .72;
+}
+@media (max-width: 600px) {
+  .automation-main-alert { align-items: stretch; flex-direction: column; }
+  .automation-main-alert button { justify-content: center; }
+}
