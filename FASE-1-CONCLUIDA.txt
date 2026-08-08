@@ -1,0 +1,20 @@
+FASE 1 — FUNDAÇÃO TÉCNICA
+
+ENTREGUE:
+- projeto novo do zero;
+- sem Base44;
+- React/Vite;
+- shell responsivo;
+- PWA;
+- Supabase preparado;
+- migration foundation;
+- RLS foundation;
+- GitHub Actions;
+- Vercel;
+- testes/lint/typecheck/build configurados;
+- sem node_modules;
+- sem .git;
+- sem segredos.
+
+PRÓXIMA:
+FASE 2 — AUTENTICAÇÃO + WORKSPACE + SEGURANÇA.

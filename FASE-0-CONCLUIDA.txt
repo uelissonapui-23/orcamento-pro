@@ -1,0 +1,17 @@
+FASE 0 — CONCLUÍDA
+
+O projeto já possui definição oficial de:
+- objetivo;
+- escopo;
+- módulos;
+- arquitetura;
+- modelo de dados;
+- motor de preço;
+- wizard de envelopamento;
+- automações;
+- segurança e isolamento;
+- PWA/responsividade;
+- critérios de pronto;
+- roadmap.
+
+Próximo passo: FASE 1 — criar o projeto novo no VS Code, sem Base44.

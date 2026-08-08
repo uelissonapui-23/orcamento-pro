@@ -1,0 +1,51 @@
+NOVO APP DE ORÇAMENTOS — FASE 2
+
+Este ZIP é um PATCH para extrair diretamente na raiz do projeto da Fase 1.
+
+ANTES DE PUBLICAR
+1. Supabase → Data API → Exposed schemas:
+   adicione: orcamento_app
+
+2. Supabase → Authentication → URL Configuration:
+   Site URL: URL de produção do Vercel
+   Redirect URLs:
+   http://localhost:5173/**
+   https://SEU-DOMINIO-VERCEL/**
+
+3. Confirme as variáveis frontend:
+   VITE_SUPABASE_URL
+   VITE_SUPABASE_PUBLISHABLE_KEY
+
+APLICAR
+Extraia na raiz e substitua.
+
+Depois:
+npm install
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+Se passar:
+git add .
+git commit -m "Fase 2 - autenticacao workspace e seguranca"
+git push origin main
+
+Aguarde:
+- GitHub Actions CI verde
+- GitHub Actions Supabase verde
+- Vercel Ready
+
+TESTE
+- criar conta
+- confirmar e-mail
+- entrar
+- perfil
+- atualizar página
+- sair
+- entrar novamente
+- recuperação de senha
+- testar usuário B separado de usuário A
+
+Próxima fase:
+FASE 3 — EMPRESA + CONFIGURAÇÕES DO PDF.

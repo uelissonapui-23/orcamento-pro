@@ -1,0 +1,11 @@
+$ npm install --no-audit --no-fund
+exit=1
+npm error code E404
+npm error 404 Not Found - GET https://packages.applied-caas-gateway1.internal.api.openai.org/artifactory/api/npm/npm-public/@eslint%2fjs
+npm error 404
+npm error 404  '@eslint/js@^9.35.0' is not in this registry.
+npm error 404
+npm error 404 Note that you can also install from a
+npm error 404 tarball, folder, http url, or git url.
+npm error Log files were not written due to an error writing to the directory: /home/oai/.npm/_logs
+npm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal

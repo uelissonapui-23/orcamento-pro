@@ -1,0 +1,24 @@
+FASE 2 — AUTENTICAÇÃO + WORKSPACE + SEGURANÇA
+
+ENTREGUE
+- cadastro por e-mail/senha;
+- login;
+- confirmação de e-mail compatível com Supabase;
+- recuperação de senha;
+- redefinição de senha;
+- sessão persistente;
+- rotas públicas/privadas;
+- logout;
+- perfil;
+- renomear workspace;
+- bootstrap automático profile + workspace + owner;
+- recuperação idempotente via ensure_user_foundation();
+- RLS para profile/workspace/members;
+- helpers server-side de membership/admin;
+- proteção do owner;
+- backfill de usuários existentes;
+- checklist de isolamento A/B;
+- UI responsiva de autenticação.
+
+PRÓXIMA FASE
+FASE 3 — EMPRESA + CONFIGURAÇÕES DO PDF.

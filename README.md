@@ -1,0 +1,91 @@
+# Orçamento App — Fase 1
+
+Fundação técnica do novo aplicativo de orçamentos.
+
+## O que já existe
+
+- React + Vite;
+- navegação responsiva definitiva;
+- shell mobile/desktop;
+- PWA;
+- Supabase client;
+- schema isolado `orcamento_app`;
+- fundação de `profiles`, `workspaces` e `workspace_members`;
+- RLS inicial;
+- GitHub Actions para lint/typecheck/test/build;
+- workflow de migrations Supabase;
+- Vercel SPA + headers básicos;
+- estrutura preparada para os módulos do Plano Mestre.
+
+As páginas de negócio ainda aparecem como “Módulo preparado” de propósito. Não há implementação descartável.
+
+## Rodar no VS Code
+
+1. Extraia este ZIP em uma pasta nova.
+2. Abra a pasta no VS Code.
+3. Rode:
+
+```powershell
+npm install
+Copy-Item .env.example .env
+npm run dev
+```
+
+O projeto abre normalmente mesmo antes de configurar Supabase; autenticação entra na Fase 2.
+
+## Validar
+
+```powershell
+npm run check
+```
+
+## Supabase
+
+Preencha `.env`:
+
+```text
+VITE_SUPABASE_URL=
+VITE_SUPABASE_PUBLISHABLE_KEY=
+```
+
+No GitHub, o workflow de produção espera:
+
+```text
+SUPABASE_ACCESS_TOKEN
+SUPABASE_PROJECT_ID
+SUPABASE_DB_PASSWORD
+```
+
+## Publicação
+
+Depois de criar o repositório:
+
+```powershell
+git init
+git add .
+git commit -m "Fase 1 - fundacao tecnica"
+git branch -M main
+git remote add origin SEU_REPOSITORIO
+git push -u origin main
+```
+
+Conecte o repositório ao Vercel e cadastre as duas variáveis `VITE_...`.
+
+## Próxima fase
+
+Fase 2 — autenticação + bootstrap de workspace + segurança completa.
+
+
+## Fase 2 concluída
+
+A fundação agora inclui autenticação e workspace reais:
+- cadastro/login/logout;
+- reset de senha;
+- rotas protegidas;
+- perfil;
+- bootstrap automático de workspace;
+- RLS e isolamento.
+
+Antes de testar, adicione `orcamento_app` aos schemas expostos na Data API do Supabase.
+
+Próxima fase: Empresa + configurações do PDF.

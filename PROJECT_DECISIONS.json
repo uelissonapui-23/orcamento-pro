@@ -1,0 +1,55 @@
+{
+  "phase": 0,
+  "status": "completed",
+  "product_principle": "simple_ui_complete_structure",
+  "source_reference": "evoria-pro.zip",
+  "copy_evoria_as_runtime_base": false,
+  "stack": [
+    "React",
+    "Vite",
+    "Tailwind",
+    "Supabase",
+    "GitHub Actions",
+    "Vercel",
+    "PWA"
+  ],
+  "main_navigation": [
+    "home",
+    "quotes",
+    "todo",
+    "delivered"
+  ],
+  "secondary_navigation": [
+    "clients",
+    "products_services",
+    "materials",
+    "wrapping",
+    "settings"
+  ],
+  "pricing_modes": [
+    "square_meter",
+    "linear_meter",
+    "unit",
+    "quantity_tier",
+    "fixed",
+    "manual",
+    "wrapping"
+  ],
+  "quote_statuses": [
+    "draft",
+    "waiting",
+    "approved",
+    "rejected",
+    "cancelled"
+  ],
+  "job_statuses": [
+    "todo",
+    "delivered",
+    "cancelled"
+  ],
+  "automation_principle": "automate_repetition_not_business_decisions",
+  "workspace_isolation": true,
+  "pwa_from_phase_1": true,
+  "mobile_first": true,
+  "phase_1_next": true
+}

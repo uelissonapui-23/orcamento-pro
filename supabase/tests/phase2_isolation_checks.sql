@@ -1,0 +1,21 @@
+-- FASE 2 — checklist manual de isolamento
+-- Execute em ambiente de homologação com dois usuários de teste.
+--
+-- 1. Usuário A deve conseguir:
+--    select próprio profile
+--    select próprio workspace
+--    update nome do próprio workspace se owner/admin
+--
+-- 2. Usuário A NÃO deve conseguir:
+--    select workspace exclusivo de B
+--    update workspace de B por UUID
+--    inserir membro em workspace de B
+--    remover owner do próprio workspace
+--
+-- 3. Usuário B deve ter workspace independente criado automaticamente.
+--
+-- 4. ensure_user_foundation() deve ser idempotente:
+--    chamar duas vezes não cria workspace duplicado.
+--
+-- 5. Nenhuma função aceita user_id do frontend como autoridade.
+select 'phase2 isolation checklist loaded' as status;
