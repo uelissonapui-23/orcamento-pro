@@ -1,0 +1,17 @@
+FASE 16 — HOME FINAL
+
+CONCLUÍDO:
+- prioridade do dia;
+- métricas operacionais;
+- aguardando resposta;
+- serviços em aberto;
+- atrasados;
+- próximos do prazo;
+- entregues hoje;
+- listas rápidas;
+- ações rápidas;
+- responsividade;
+- sem gráficos desnecessários.
+
+PRÓXIMA:
+FASE 17 — BUSCA, FILTROS E DUPLICAÇÃO.

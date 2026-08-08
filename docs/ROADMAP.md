@@ -199,11 +199,14 @@ Concluída.
 - PDF;
 - duplicar orçamento.
 
-### ⏳ Fase 16 — Home final
+### ✅ Fase 16 — Home final
+Concluída.
+- prioridade do dia;
 - aguardando resposta;
 - a fazer;
 - entregas próximas;
 - atrasados;
+- entregues hoje;
 - ações rápidas;
 - sem gráficos desnecessários.
 
@@ -249,7 +252,7 @@ Concluída.
 
 ## Progresso
 
-Fases concluídas: **16 de 21 (0 a 20)**.
+Fases concluídas: **17 de 21 (0 a 20)**.
 
 Blocos de fundação/cadastros concluídos:
 - Fundação: 100%
@@ -267,5 +270,6 @@ Blocos de fundação/cadastros concluídos:
 - Aprovação → A Fazer: 100%
 - A Fazer operacional: 100%
 - Entregues: 100%
+- Home final: 100%
 
 Próximo foco: **Editor de Orçamento → PDF → Gestão de Orçamentos**.

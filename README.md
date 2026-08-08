@@ -224,3 +224,10 @@ Próxima fase: Entregues.
 Histórico de Entregues com busca, período, detalhes, PDF e duplicação.
 
 Próxima fase: Home final.
+
+
+## Fase 16 concluída
+
+Home final operacional com prioridades, atrasados, próximos, aguardando resposta e ações rápidas.
+
+Próxima fase: Busca global.

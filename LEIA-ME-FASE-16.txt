@@ -1,0 +1,47 @@
+ORÇAMENTO PRO — FASE 16
+HOME FINAL
+
+PATCH PARA EXTRAIR DIRETAMENTE NA RAIZ.
+
+NÃO HÁ MIGRATION NESTA FASE.
+
+ENTREGUE
+- prioridade do dia;
+- aguardando resposta;
+- serviços em aberto;
+- atrasados;
+- próximos;
+- entregues hoje;
+- listas resumidas;
+- ações rápidas;
+- responsividade;
+- sem gráficos desnecessários.
+
+APÓS EXTRAIR
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR
+git add .
+git commit -m "Fase 16 - home final"
+git push origin main
+
+AGUARDE
+✅ Validar aplicação
+✅ Deploy Vercel
+
+TESTE
+1. Abra Início.
+2. Confirme os números de Aguardando resposta.
+3. Confirme A Fazer.
+4. Crie um serviço atrasado e confira destaque vermelho.
+5. Coloque prazo para amanhã e confira destaque de próximo.
+6. Entregue um serviço hoje e confira Entregues hoje.
+7. Abra itens das listas.
+8. Teste ações rápidas.
+9. Confira celular/tablet/computador.
+
+PRÓXIMA
+FASE 17 — BUSCA, FILTROS E DUPLICAÇÃO.

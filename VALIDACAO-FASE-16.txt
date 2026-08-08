@@ -1,0 +1,36 @@
+$ npm run lint
+exit=127
+
+> orcamento-app@0.1.0 lint
+> eslint . --max-warnings=0
+
+sh: 1: eslint: Permission denied
+
+
+$ npm run typecheck
+exit=2
+
+> orcamento-app@0.1.0 typecheck
+> tsc --noEmit
+
+error TS2688: Cannot find type definition file for 'vite/client'.
+  The file is in the program because:
+    Entry point of type library 'vite/client' specified in compilerOptions
+
+
+$ npm run test
+exit=127
+
+> orcamento-app@0.1.0 test
+> vitest run
+
+sh: 1: vitest: Permission denied
+
+
+$ npm run build
+exit=127
+
+> orcamento-app@0.1.0 build
+> vite build
+
+sh: 1: vite: Permission denied
