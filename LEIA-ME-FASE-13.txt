@@ -1,0 +1,51 @@
+ORÇAMENTO PRO — FASE 13
+APROVAÇÃO → A FAZER
+
+PATCH PARA EXTRAIR DIRETAMENTE NA RAIZ.
+
+MIGRATION
+supabase/migrations/20260808001100_quote_approval_work_orders.sql
+
+ENTREGUE
+- tabela work_orders;
+- aprovação atômica;
+- criação automática de A Fazer;
+- proteção contra duplicação;
+- snapshots;
+- prazo;
+- ação Marcar como aprovado;
+- listagem básica em A Fazer;
+- RLS.
+
+APÓS EXTRAIR
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR
+git add .
+git commit -m "Fase 13 - aprovacao para a fazer"
+git push origin main
+
+AGUARDE
+✅ Validar aplicação
+✅ Atualizar Supabase em produção
+✅ Deploy Vercel
+
+TESTE
+1. Crie um orçamento.
+2. Salve e finalize para “Aguardando resposta”.
+3. Vá em Orçamentos > Mais ações.
+4. Clique “Marcar como aprovado”.
+5. Confirme status Aprovado.
+6. Vá em A Fazer.
+7. Confirme que apareceu exatamente 1 serviço.
+8. Confira cliente, número, quantidade de itens, valor e prazo.
+9. Volte ao orçamento aprovado: não deve permitir edição normal.
+10. Recarregue a página e confira persistência.
+11. Tente repetir a aprovação: não pode criar segundo serviço.
+12. Teste com outro workspace/usuário quando possível para validar isolamento.
+
+PRÓXIMA
+FASE 14 — A FAZER OPERACIONAL.

@@ -1,5 +1,6 @@
 import {
   Ban,
+  CheckCircle2,
   Copy,
   Download,
   MoreHorizontal,
@@ -22,6 +23,7 @@ export default function QuoteManagementCard({
   onDuplicate,
   onCancel,
   onReopen,
+  onApprove,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const clientName = quote.client_snapshot_json?.name || "Cliente";
@@ -70,6 +72,12 @@ export default function QuoteManagementCard({
 
           {menuOpen ? (
             <div className="quote-action-menu">
+              {quote.status === "awaiting_response" ? (
+                <button className="success" type="button" onClick={() => { setMenuOpen(false); onApprove(quote); }}>
+                  <CheckCircle2 size={15} /> Marcar como aprovado
+                </button>
+              ) : null}
+
               {quoteCanDuplicate(quote.status) ? (
                 <button type="button" onClick={() => { setMenuOpen(false); onDuplicate(quote); }}>
                   <Copy size={15} /> Duplicar

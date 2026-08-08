@@ -203,3 +203,10 @@ Próxima fase: Gestão de Orçamentos.
 Gestão de orçamentos com busca, filtros, duplicação, cancelamento, reabertura e acesso ao PDF.
 
 Próxima fase: Aprovação → A Fazer.
+
+
+## Fase 13 concluída
+
+Aprovação atômica de orçamento com criação única de work_order em A Fazer e snapshots operacionais.
+
+Próxima fase: A Fazer operacional.

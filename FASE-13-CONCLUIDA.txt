@@ -1,0 +1,17 @@
+FASE 13 — APROVAÇÃO → A FAZER
+
+CONCLUÍDO:
+- work_orders;
+- aprovação atômica;
+- aprovação idempotente;
+- uma tarefa por orçamento;
+- snapshots operacionais;
+- prazo herdado;
+- approved_by/approved_at;
+- RLS;
+- ação Aprovar em Orçamentos;
+- A Fazer com listagem básica;
+- bloqueio natural de edição após aprovação.
+
+PRÓXIMA:
+FASE 14 — A FAZER OPERACIONAL.

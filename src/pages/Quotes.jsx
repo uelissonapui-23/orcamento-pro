@@ -5,6 +5,7 @@ import QuoteManagementCard from "../components/quotes/QuoteManagementCard";
 import { useAuth } from "../contexts/AuthContext";
 import { QUOTE_FILTERS } from "../lib/quote";
 import {
+  approveQuote,
   cancelQuote,
   duplicateQuote,
   listQuotes,
@@ -88,6 +89,32 @@ export default function Quotes() {
     }
   };
 
+
+  const approve = async (quote) => {
+    if (!window.confirm(
+      `Aprovar o orçamento #${String(quote.quote_number).padStart(4, "0")}?\n\n` +
+      "Ele será bloqueado para edição e entrará automaticamente em A Fazer."
+    )) return;
+
+    setBusyId(quote.id);
+
+    try {
+      await approveQuote(workspace.id, quote.id);
+      setMessage({
+        type: "success",
+        text: "Orçamento aprovado. O serviço foi criado automaticamente em A Fazer.",
+      });
+      await load();
+    } catch (err) {
+      setMessage({
+        type: "error",
+        text: err instanceof Error ? err.message : "Não foi possível aprovar o orçamento.",
+      });
+    } finally {
+      setBusyId("");
+    }
+  };
+
   const reopen = async (quote) => {
     if (!window.confirm("Reabrir este orçamento cancelado como rascunho?")) return;
 
@@ -161,6 +188,7 @@ export default function Quotes() {
               onDuplicate={duplicate}
               onCancel={cancel}
               onReopen={reopen}
+              onApprove={approve}
             />
           ))}
         </div>

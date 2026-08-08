@@ -167,13 +167,15 @@ Concluída.
 - PDF;
 - aguardando resposta.
 
-### ⏳ Fase 13 — Aprovação → A Fazer
+### ✅ Fase 13 — Aprovação → A Fazer
+Concluída.
 - RPC atômica;
-- aprovado;
-- criação única de job;
-- snapshot;
-- eventos;
-- prazo automático.
+- status aprovado;
+- criação única de work_order;
+- idempotência;
+- snapshot operacional;
+- prazo herdado do orçamento;
+- listagem básica em A Fazer.
 
 ### ⏳ Fase 14 — A Fazer
 - lista operacional;
@@ -242,7 +244,7 @@ Concluída.
 
 ## Progresso
 
-Fases concluídas: **13 de 21 (0 a 20)**.
+Fases concluídas: **14 de 21 (0 a 20)**.
 
 Blocos de fundação/cadastros concluídos:
 - Fundação: 100%
@@ -257,5 +259,6 @@ Blocos de fundação/cadastros concluídos:
 - Editor de orçamento: 100%
 - PDF definitivo: 100%
 - Gestão de orçamentos: 100%
+- Aprovação → A Fazer: 100%
 
 Próximo foco: **Editor de Orçamento → PDF → Gestão de Orçamentos**.

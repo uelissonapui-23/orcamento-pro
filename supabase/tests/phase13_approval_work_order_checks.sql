@@ -1,0 +1,27 @@
+-- FASE 13 — Aprovação → A Fazer
+--
+-- ATOMICIDADE
+-- 1. approve_quote_and_create_work_order usa uma única transação.
+-- 2. se work_order falhar, quote não permanece aprovado sem serviço.
+--
+-- IDEMPOTÊNCIA
+-- 3. unique(workspace_id, quote_id) impede job duplicado.
+-- 4. segunda chamada de aprovação retorna o mesmo work_order.
+--
+-- STATUS
+-- 5. somente awaiting_response pode virar approved.
+-- 6. draft/cancelled não podem ser aprovados diretamente.
+-- 7. approved fica bloqueado para edição pela RPC de save_quote já existente.
+--
+-- SNAPSHOT
+-- 8. work_order guarda client_snapshot_json.
+-- 9. work_order guarda quote_snapshot_json.
+-- 10. work_order guarda items_snapshot_json incluindo calculation_snapshot_json.
+--
+-- PRAZO
+-- 11. due_date recebe expected_delivery_date do orçamento.
+--
+-- ISOLAMENTO
+-- 12. RPC exige membership.
+-- 13. work_orders possui RLS por workspace.
+select 'phase13 approval work order checklist loaded' as status;

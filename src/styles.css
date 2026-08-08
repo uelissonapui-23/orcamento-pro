@@ -1006,3 +1006,46 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .quote-management-actions { flex-direction: column; }
   .quote-action-menu { right: 0; top: 0; transform: translateY(38px); }
 }
+
+
+/* Fase 13 — Aprovação → A Fazer */
+.quote-action-menu button.success { color: #047857; }
+.phase13-note { display: flex; align-items: center; gap: 10px; margin-bottom: 13px; padding: 11px 13px; border: 1px solid #bbf7d0; border-radius: 11px; background: #f0fdf4; color: #047857; }
+.phase13-note > div { min-width: 0; }
+.phase13-note strong, .phase13-note span { display: block; }
+.phase13-note strong { font-size: 11px; }
+.phase13-note span { margin-top: 2px; color: #4b5563; font-size: 9px; }
+
+.work-orders-list { display: grid; gap: 9px; }
+.work-order-card { display: grid; grid-template-columns: auto minmax(0,1fr) minmax(130px,170px) minmax(100px,130px) auto; gap: 13px; align-items: center; min-width: 0; padding: 14px 15px; border: 1px solid #e5e7eb; border-radius: 13px; background: #fff; }
+.work-order-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; background: #ecfdf5; color: #047857; }
+.work-order-main { min-width: 0; }
+.work-order-title { display: flex; align-items: center; gap: 7px; min-width: 0; flex-wrap: wrap; }
+.work-order-title strong { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
+.work-order-main > span { display: block; margin-top: 3px; color: #6b7280; font-size: 9px; }
+.work-order-status { display: inline-flex; min-height: 21px; align-items: center; padding: 0 7px; border-radius: 999px; font-size: 8px; font-weight: 850; }
+.work-order-status.pending { background: #fff7ed; color: #c2410c; }
+.work-order-status.in_progress { background: #eff6ff; color: #1d4ed8; }
+.work-order-status.ready { background: #ecfdf5; color: #047857; }
+.work-order-due small, .work-order-due strong, .work-order-total small, .work-order-total strong { display: block; }
+.work-order-due small { display: flex; align-items: center; gap: 4px; color: #9ca3af; font-size: 8px; }
+.work-order-due strong, .work-order-total strong { margin-top: 3px; font-size: 11px; }
+.work-order-total { text-align: right; }
+.work-order-total small { color: #9ca3af; font-size: 8px; }
+
+.work-orders-empty { min-height: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; padding: 30px; border: 1px dashed #d1d5db; border-radius: 14px; background: #fff; text-align: center; color: #6b7280; }
+.work-orders-empty-icon { width: 54px; height: 54px; display: grid; place-items: center; border-radius: 16px; background: #ecfdf5; color: #047857; }
+.work-orders-empty strong { color: #111827; }
+.work-orders-empty p { max-width: 530px; margin: 0 0 8px; font-size: 11px; line-height: 1.5; }
+
+@media (max-width: 850px) {
+  .work-order-card { grid-template-columns: auto minmax(0,1fr) auto; }
+  .work-order-due { grid-column: 2; }
+  .work-order-total { grid-column: 2; text-align: left; }
+  .work-order-card > a { grid-column: 3; grid-row: 1 / span 3; }
+}
+@media (max-width: 520px) {
+  .work-order-card { grid-template-columns: auto minmax(0,1fr) auto; gap: 9px; }
+  .work-order-icon { width: 38px; height: 38px; }
+  .work-order-title strong { white-space: normal; }
+}

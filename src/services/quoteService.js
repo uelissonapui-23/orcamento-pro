@@ -160,3 +160,18 @@ export async function reopenQuote(workspaceId, quoteId) {
   if (error) throw error;
   return data;
 }
+
+
+export async function approveQuote(workspaceId, quoteId) {
+  const client = requireClient();
+
+  const { data, error } = await client
+    .schema("orcamento_app")
+    .rpc("approve_quote_and_create_work_order", {
+      p_workspace_id: workspaceId,
+      p_quote_id: quoteId,
+    });
+
+  if (error) throw error;
+  return data;
+}
