@@ -103,3 +103,18 @@ Configurações da empresa e fonte definitiva dos dados do PDF:
 - automação de defaults para novos orçamentos.
 
 Próxima fase: Clientes.
+
+
+## Fase 4 concluída
+
+Clientes:
+- cadastro completo;
+- cliente rápido;
+- busca;
+- edição;
+- desativação;
+- duplicidade controlada;
+- snapshot histórico preparado;
+- RLS.
+
+Próxima fase: Produtos e Serviços.

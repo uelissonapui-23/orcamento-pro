@@ -10,6 +10,8 @@ import Home from "./pages/Home";
 import Placeholder from "./pages/Placeholder";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+import Clients from "./pages/Clients";
+import RegistrationsLayout from "./components/registrations/RegistrationsLayout";
 
 export default function App() {
   return (
@@ -30,7 +32,10 @@ export default function App() {
         <Route path="/orcamentos" element={<Placeholder title="Orçamentos" />} />
         <Route path="/a-fazer" element={<Placeholder title="A Fazer" />} />
         <Route path="/entregues" element={<Placeholder title="Entregues" />} />
-        <Route path="/cadastros" element={<Placeholder title="Cadastros" />} />
+        <Route path="/cadastros" element={<RegistrationsLayout />}>
+          <Route index element={<Navigate to="clientes" replace />} />
+          <Route path="clientes" element={<Clients />} />
+        </Route>
         <Route path="/configuracoes" element={<Settings />} />
         <Route path="/perfil" element={<Profile />} />
       </Route>

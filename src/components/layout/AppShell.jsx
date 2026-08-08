@@ -10,7 +10,7 @@ const main = [
 ];
 
 const secondary = [
-  ["/cadastros", "Cadastros", Database],
+  ["/cadastros/clientes", "Cadastros", Database],
   ["/configuracoes", "Configurações", Settings],
 ];
 

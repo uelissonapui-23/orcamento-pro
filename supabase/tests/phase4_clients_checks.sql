@@ -1,0 +1,21 @@
+-- FASE 4 — Clientes
+--
+-- ISOLAMENTO
+-- 1. Usuário A cria cliente no workspace A.
+-- 2. Usuário B NÃO lê esse cliente por UUID.
+-- 3. Usuário B NÃO altera esse cliente por UUID.
+-- 4. A busca de B não retorna clientes de A.
+--
+-- DUPLICIDADE
+-- 5. Mesmo CPF/CNPJ normalizado no mesmo workspace deve falhar.
+-- 6. Mesmo CPF/CNPJ em workspaces diferentes deve ser permitido.
+-- 7. Telefone/WhatsApp iguais geram aviso no frontend, mas não bloqueiam banco.
+--
+-- HISTÓRICO
+-- 8. Desativar cliente preserva o registro.
+-- 9. Não existe hard-delete na UI.
+--
+-- SNAPSHOT
+-- 10. O futuro quote deve usar buildClientSnapshot() no momento da criação,
+--     preservando dados históricos mesmo após edição do cliente.
+select 'phase4 clients checklist loaded' as status;

@@ -1,0 +1,53 @@
+ORÇAMENTO PRO — FASE 4
+CLIENTES
+
+Este ZIP é um PATCH.
+Extraia diretamente na raiz do projeto e aceite substituir.
+
+ENTREGUE
+- cadastro completo;
+- cliente rápido;
+- busca;
+- filtros;
+- edição;
+- desativação/reativação;
+- WhatsApp;
+- prevenção de duplicidade;
+- snapshot histórico;
+- RLS;
+- estrutura definitiva de Cadastros.
+
+MIGRATION
+supabase/migrations/20260808000400_clients.sql
+
+APÓS EXTRAIR
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR
+git add .
+git commit -m "Fase 4 - clientes"
+git push origin main
+
+AGUARDE
+- Validar aplicação -> verde
+- Atualizar Supabase em produção -> verde
+
+TESTE
+1. Cadastros > Clientes.
+2. Novo cliente completo.
+3. Cliente rápido.
+4. Pesquisar por nome.
+5. Pesquisar por telefone/documento.
+6. Editar.
+7. Desativar.
+8. Filtrar Inativos.
+9. Reativar.
+10. Tentar cadastrar mesmo CPF/CNPJ duas vezes.
+11. Cadastrar mesmo telefone e confirmar que aparece aviso.
+12. Testar celular: formulário/modal não pode sair da tela.
+
+IMPORTANTE
+O workflow de migrations isoladas que já ficou verde NÃO é substituído por este ZIP.

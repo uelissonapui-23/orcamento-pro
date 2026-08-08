@@ -1,0 +1,62 @@
+ORÇAMENTO PRO — CORREÇÃO DO DEPLOY DE MIGRATIONS
+
+CAUSA DO ERRO
+O projeto Supabase é compartilhado e já contém migrations remotas de outros apps.
+O comando `supabase db push` compara o histórico global do Supabase e exige que
+todas essas migrations também existam neste repositório.
+
+NÃO FAÇA:
+- supabase migration repair --status reverted ...
+- supabase db pull para misturar migrations de outros apps
+- apagar histórico remoto do Supabase
+
+CORREÇÃO
+Este patch substitui o workflow por deploy SQL isolado.
+
+O Orçamento Pro passa a controlar somente suas migrations usando:
+orcamento_app._app_migration_history
+
+Assim:
+- não altera o histórico global de migrations dos outros apps;
+- não importa migrations alheias;
+- cada migration do Orçamento Pro roda uma única vez;
+- futuras migrations continuam automáticas.
+
+SECRET NECESSÁRIO
+Crie no GitHub:
+SUPABASE_DB_URL
+
+Use a Connection String do Supabase via Session Pooler, já com a senha real.
+
+Exemplo de formato:
+postgresql://postgres.<PROJECT_REF>:SENHA@aws-0-sa-east-1.pooler.supabase.com:5432/postgres
+
+Não envie essa URL completa para ninguém, pois contém a senha.
+
+Os secrets abaixo podem continuar no repositório:
+SUPABASE_ACCESS_TOKEN
+SUPABASE_PROJECT_ID
+SUPABASE_DB_PASSWORD
+
+Mas este workflow isolado usa apenas:
+SUPABASE_DB_URL
+
+COMO APLICAR
+1. Extraia este ZIP diretamente na raiz do projeto.
+2. Aceite substituir .github/workflows/deploy-supabase.yml
+
+Depois:
+git add .github/workflows/deploy-supabase.yml
+git commit -m "Isola migrations do Orcamento Pro no Supabase"
+git push origin main
+
+A nova execução deverá mostrar:
+✓ Validar secret de conexão
+✓ Instalar cliente PostgreSQL
+✓ Testar conexão com o banco
+✓ Aplicar migrations isoladas do Orçamento Pro
+
+IMPORTANTE
+Na primeira execução, as migrations 001, 002 e 003 serão aplicadas em ordem.
+Como foram escritas com CREATE IF NOT EXISTS / DROP POLICY IF EXISTS e estruturas
+idempotentes apropriadas, o workflow consegue estabelecer o histórico próprio.

@@ -1,0 +1,25 @@
+FASE 4 — CLIENTES
+
+CONCLUÍDO:
+- tabela clients;
+- RLS;
+- índices;
+- busca;
+- normalização;
+- prevenção de CPF/CNPJ duplicado;
+- aviso de duplicidade por contato;
+- cadastro completo;
+- cliente rápido reutilizável;
+- edição;
+- desativação/reativação;
+- WhatsApp;
+- filtro ativo/todos/inativo;
+- estados vazio/loading/erro;
+- snapshot histórico preparado;
+- navegação final de Cadastros;
+- responsividade celular/tablet/computador;
+- testes de domínio;
+- checklist de isolamento.
+
+PRÓXIMA FASE:
+FASE 5 — PRODUTOS E SERVIÇOS.
