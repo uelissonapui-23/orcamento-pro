@@ -1,0 +1,19 @@
+FASE 12 — GESTÃO DE ORÇAMENTOS
+
+CONCLUÍDO:
+- busca;
+- filtros;
+- cards de gestão;
+- status;
+- edição por status;
+- PDF;
+- duplicação segura;
+- cancelamento sem exclusão;
+- motivo de cancelamento;
+- reabertura;
+- RLS/RPC;
+- responsividade;
+- roadmap atualizado.
+
+PRÓXIMA:
+FASE 13 — APROVAÇÃO → A FAZER.

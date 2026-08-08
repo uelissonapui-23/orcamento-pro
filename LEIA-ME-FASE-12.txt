@@ -1,0 +1,53 @@
+ORÇAMENTO PRO — FASE 12
+GESTÃO DE ORÇAMENTOS
+
+PATCH PARA EXTRAIR DIRETAMENTE NA RAIZ.
+
+MIGRATION
+supabase/migrations/20260808001000_quote_management.sql
+
+ENTREGUE
+- busca;
+- filtros de status;
+- edição quando permitido;
+- PDF;
+- duplicação;
+- cancelamento sem apagar;
+- motivo de cancelamento;
+- reabertura;
+- histórico preservado;
+- RPCs seguras.
+
+APÓS EXTRAIR
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR
+git add .
+git commit -m "Fase 12 - gestao de orcamentos"
+git push origin main
+
+AGUARDE
+✅ Validar aplicação
+✅ Atualizar Supabase em produção
+✅ Deploy Vercel
+
+TESTE
+1. Criar 3 ou mais orçamentos.
+2. Buscar por nome do cliente.
+3. Buscar pelo número.
+4. Filtrar rascunhos.
+5. Filtrar aguardando resposta.
+6. Abrir PDF.
+7. Duplicar orçamento.
+8. Confirmar que duplicado recebe novo número e nasce como rascunho.
+9. Cancelar um rascunho.
+10. Confirmar que continua no histórico.
+11. Filtrar cancelados.
+12. Reabrir cancelado.
+13. Conferir celular/tablet/computador.
+
+PRÓXIMA
+FASE 13 — APROVAÇÃO → A FAZER.

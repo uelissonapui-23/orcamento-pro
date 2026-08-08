@@ -196,3 +196,10 @@ Próxima fase: PDF definitivo.
 PDF A4 definitivo com prévia, download, impressão, compartilhamento e snapshot histórico da empresa.
 
 Próxima fase: Gestão de Orçamentos.
+
+
+## Fase 12 concluída
+
+Gestão de orçamentos com busca, filtros, duplicação, cancelamento, reabertura e acesso ao PDF.
+
+Próxima fase: Aprovação → A Fazer.

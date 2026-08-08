@@ -1,0 +1,22 @@
+-- FASE 12 — Gestão de Orçamentos
+--
+-- DUPLICAÇÃO
+-- 1. duplicate_quote exige autenticação e membership.
+-- 2. não duplica orçamento de outro workspace.
+-- 3. cria novo número único dentro do workspace.
+-- 4. duplica itens e snapshots.
+-- 5. novo orçamento sempre nasce como draft.
+--
+-- CANCELAMENTO
+-- 6. somente draft/awaiting_response podem ser cancelados.
+-- 7. cancelamento preserva quote e quote_items.
+-- 8. registra cancelled_at/cancelled_by/cancellation_reason.
+--
+-- REABERTURA
+-- 9. somente cancelled pode voltar a draft.
+-- 10. limpa metadados de cancelamento.
+--
+-- HISTÓRICO
+-- 11. approved não é alterado pela gestão desta fase.
+-- 12. nenhum fluxo usa hard-delete.
+select 'phase12 quote management checklist loaded' as status;

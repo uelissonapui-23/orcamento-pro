@@ -154,14 +154,16 @@ Concluída.
 - compartilhar;
 - snapshot histórico da empresa.
 
-### ⏳ Fase 12 — Gestão de Orçamentos
+### ✅ Fase 12 — Gestão de Orçamentos
+Concluída.
 - lista;
 - busca;
 - filtros;
 - status;
 - editar;
 - duplicar;
-- cancelar;
+- cancelar sem apagar;
+- reabrir;
 - PDF;
 - aguardando resposta.
 
@@ -240,7 +242,7 @@ Concluída.
 
 ## Progresso
 
-Fases concluídas: **12 de 21 (0 a 20)**.
+Fases concluídas: **13 de 21 (0 a 20)**.
 
 Blocos de fundação/cadastros concluídos:
 - Fundação: 100%
@@ -254,5 +256,6 @@ Blocos de fundação/cadastros concluídos:
 - Wizard de envelopamento: 100%
 - Editor de orçamento: 100%
 - PDF definitivo: 100%
+- Gestão de orçamentos: 100%
 
 Próximo foco: **Editor de Orçamento → PDF → Gestão de Orçamentos**.

@@ -6,19 +6,43 @@ function requireClient() {
   return supabase;
 }
 
-export async function listQuotes(workspaceId, { limit = 50 } = {}) {
+export async function listQuotes(
+  workspaceId,
+  { limit = 100, status = "all", search = "" } = {},
+) {
   const client = requireClient();
 
-  const { data, error } = await client
+  let query = client
     .schema("orcamento_app")
     .from("quotes")
-    .select("id,workspace_id,quote_number,status,client_id,client_snapshot_json,issue_date,valid_until,expected_delivery_date,total,created_at,updated_at")
+    .select("id,workspace_id,quote_number,status,client_id,client_snapshot_json,business_snapshot_json,issue_date,valid_until,expected_delivery_date,total,created_at,updated_at")
     .eq("workspace_id", workspaceId)
     .order("updated_at", { ascending: false })
     .limit(limit);
 
+  if (status && status !== "all") query = query.eq("status", status);
+
+  const { data, error } = await query;
   if (error) throw error;
-  return (data || []).map(normalizeQuote);
+
+  const term = String(search || "").trim().toLowerCase();
+  const normalized = (data || []).map(normalizeQuote);
+
+  if (!term) return normalized;
+
+  return normalized.filter((quote) => {
+    const haystack = [
+      quote.quote_number,
+      quote.client_snapshot_json?.name,
+      quote.client_snapshot_json?.trade_name,
+      quote.client_snapshot_json?.document,
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+    return haystack.includes(term);
+  });
 }
 
 export async function getQuote(workspaceId, quoteId) {
@@ -91,4 +115,48 @@ export async function saveQuote(workspaceId, quote) {
 
   const quoteId = typeof data === "string" ? data : data?.id || quote.id;
   return getQuote(workspaceId, quoteId);
+}
+
+
+export async function duplicateQuote(workspaceId, quoteId) {
+  const client = requireClient();
+
+  const { data, error } = await client
+    .schema("orcamento_app")
+    .rpc("duplicate_quote", {
+      p_workspace_id: workspaceId,
+      p_quote_id: quoteId,
+    });
+
+  if (error) throw error;
+  return data;
+}
+
+export async function cancelQuote(workspaceId, quoteId, reason = "") {
+  const client = requireClient();
+
+  const { data, error } = await client
+    .schema("orcamento_app")
+    .rpc("cancel_quote", {
+      p_workspace_id: workspaceId,
+      p_quote_id: quoteId,
+      p_reason: String(reason || "").trim(),
+    });
+
+  if (error) throw error;
+  return data;
+}
+
+export async function reopenQuote(workspaceId, quoteId) {
+  const client = requireClient();
+
+  const { data, error } = await client
+    .schema("orcamento_app")
+    .rpc("reopen_quote", {
+      p_workspace_id: workspaceId,
+      p_quote_id: quoteId,
+    });
+
+  if (error) throw error;
+  return data;
 }

@@ -950,3 +950,59 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .pdf-sheet { width: 210mm; min-height: 297mm; margin: 0; padding: 14mm 15mm 11mm; box-shadow: none; }
   @page { size: A4; margin: 0; }
 }
+
+
+/* Fase 12 — Gestão de Orçamentos */
+.quotes-page-heading .primary-button { border: 0; }
+.quote-management-toolbar { display: grid; grid-template-columns: minmax(260px,1fr) auto; gap: 10px; align-items: center; margin-bottom: 13px; }
+.quote-management-search { height: 43px; display: flex; align-items: center; gap: 8px; padding: 0 12px; border: 1px solid #d1d5db; border-radius: 11px; background: #fff; color: #9ca3af; }
+.quote-management-search:focus-within { border-color: #6b7280; box-shadow: 0 0 0 3px rgba(17,24,39,.06); }
+.quote-management-search input { min-width: 0; flex: 1; border: 0; outline: 0; background: transparent; font: inherit; color: #111827; }
+.quote-status-filters { display: flex; gap: 3px; padding: 3px; border: 1px solid #e5e7eb; border-radius: 11px; background: #fff; }
+.quote-status-filters button { min-height: 35px; padding: 0 10px; border: 0; border-radius: 8px; background: transparent; color: #6b7280; font: inherit; font-size: 10px; font-weight: 750; white-space: nowrap; cursor: pointer; }
+.quote-status-filters button.active { background: #f3f4f6; color: #111827; }
+.quotes-page-message { margin-bottom: 12px; }
+.quote-management-list { display: grid; gap: 9px; }
+.quote-management-list.busy { pointer-events: none; opacity: .75; }
+
+.quote-management-card { position: relative; display: grid; grid-template-columns: minmax(0,1fr) minmax(110px,150px) auto; gap: 16px; align-items: center; min-width: 0; padding: 14px 15px 14px 18px; border: 1px solid #e5e7eb; border-radius: 13px; background: #fff; }
+.quote-management-card::before { content: ""; position: absolute; left: 0; top: 12px; bottom: 12px; width: 3px; border-radius: 0 3px 3px 0; background: #d1d5db; }
+.quote-management-card.awaiting_response::before { background: #f59e0b; }
+.quote-management-card.approved::before { background: #10b981; }
+.quote-management-card.cancelled::before { background: #ef4444; }
+.quote-management-card.cancelled { background: #fcfcfc; }
+.quote-management-main { min-width: 0; }
+.quote-management-topline { display: flex; align-items: center; gap: 7px; min-width: 0; flex-wrap: wrap; }
+.quote-management-topline strong { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
+.quote-management-main > span { display: block; margin-top: 3px; color: #6b7280; font-size: 10px; }
+.quote-management-total { text-align: right; }
+.quote-management-total small, .quote-management-total strong { display: block; }
+.quote-management-total small { color: #9ca3af; font-size: 8px; }
+.quote-management-total strong { margin-top: 3px; font-size: 13px; }
+.quote-management-actions { display: flex; gap: 5px; align-items: center; }
+.quote-icon-button { width: 34px; height: 34px; display: grid; place-items: center; border: 0; border-radius: 9px; background: #f8fafc; color: #64748b; text-decoration: none; cursor: pointer; }
+.quote-icon-button:hover { background: #f1f5f9; color: #111827; }
+.quote-menu-wrap { position: relative; }
+.quote-action-menu { position: absolute; z-index: 20; right: 0; top: 40px; width: 190px; padding: 5px; border: 1px solid #e5e7eb; border-radius: 10px; background: #fff; box-shadow: 0 14px 35px rgba(17,24,39,.13); }
+.quote-action-menu button { width: 100%; display: flex; align-items: center; gap: 8px; padding: 9px 10px; border: 0; border-radius: 7px; background: transparent; color: #374151; text-align: left; font: inherit; font-size: 10px; cursor: pointer; }
+.quote-action-menu button:hover { background: #f8fafc; }
+.quote-action-menu button.danger { color: #b91c1c; }
+
+@media (max-width: 900px) {
+  .quote-management-toolbar { grid-template-columns: 1fr; }
+  .quote-status-filters { overflow-x: auto; }
+  .quote-status-filters button { flex: 1; }
+}
+@media (max-width: 650px) {
+  .quote-management-card { grid-template-columns: minmax(0,1fr) auto; align-items: start; }
+  .quote-management-total { grid-column: 1; text-align: left; }
+  .quote-management-actions { grid-column: 2; grid-row: 1 / span 2; }
+}
+@media (max-width: 480px) {
+  .quote-management-toolbar { margin-left: -2px; margin-right: -2px; }
+  .quote-status-filters { width: 100%; }
+  .quote-status-filters button { flex: none; }
+  .quote-management-card { padding-right: 10px; gap: 10px; }
+  .quote-management-actions { flex-direction: column; }
+  .quote-action-menu { right: 0; top: 0; transform: translateY(38px); }
+}

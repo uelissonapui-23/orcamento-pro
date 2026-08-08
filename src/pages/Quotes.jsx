@@ -1,66 +1,183 @@
-import { Download, FileText, Pencil, Plus } from "lucide-react";
+import { FileText, Plus, Search } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import QuoteManagementCard from "../components/quotes/QuoteManagementCard";
 import { useAuth } from "../contexts/AuthContext";
-import { formatBRL } from "../lib/money";
-import { quoteNumberLabel, quoteStatusLabel } from "../lib/quote";
-import { listQuotes } from "../services/quoteService";
+import { QUOTE_FILTERS } from "../lib/quote";
+import {
+  cancelQuote,
+  duplicateQuote,
+  listQuotes,
+  reopenQuote,
+} from "../services/quoteService";
 
 export default function Quotes() {
   const { workspace } = useAuth();
+  const navigate = useNavigate();
   const [quotes, setQuotes] = useState([]);
+  const [status, setStatus] = useState("all");
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [busyId, setBusyId] = useState("");
+  const [message, setMessage] = useState({ type: "", text: "" });
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setDebouncedSearch(search.trim()), 220);
+    return () => window.clearTimeout(timer);
+  }, [search]);
 
   const load = useCallback(async () => {
     if (!workspace?.id) return;
     setLoading(true);
-    setError("");
+    setMessage({ type: "", text: "" });
+
     try {
-      setQuotes(await listQuotes(workspace.id));
+      setQuotes(await listQuotes(workspace.id, {
+        status,
+        search: debouncedSearch,
+        limit: 200,
+      }));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Não foi possível carregar os orçamentos.");
+      setMessage({
+        type: "error",
+        text: err instanceof Error ? err.message : "Não foi possível carregar os orçamentos.",
+      });
     } finally {
       setLoading(false);
     }
-  }, [workspace?.id]);
+  }, [workspace?.id, status, debouncedSearch]);
 
   useEffect(() => { load(); }, [load]);
 
+  const duplicate = async (quote) => {
+    if (!window.confirm(`Duplicar o orçamento #${String(quote.quote_number).padStart(4, "0")}?`)) return;
+
+    setBusyId(quote.id);
+    try {
+      const newId = await duplicateQuote(workspace.id, quote.id);
+      navigate(`/orcamentos/${newId}`);
+    } catch (err) {
+      setMessage({
+        type: "error",
+        text: err instanceof Error ? err.message : "Não foi possível duplicar.",
+      });
+    } finally {
+      setBusyId("");
+    }
+  };
+
+  const cancel = async (quote) => {
+    const reason = window.prompt("Motivo do cancelamento (opcional):", "");
+    if (reason === null) return;
+
+    if (!window.confirm("Cancelar este orçamento? Ele continuará no histórico.")) return;
+
+    setBusyId(quote.id);
+    try {
+      await cancelQuote(workspace.id, quote.id, reason);
+      setMessage({ type: "success", text: "Orçamento cancelado e mantido no histórico." });
+      await load();
+    } catch (err) {
+      setMessage({
+        type: "error",
+        text: err instanceof Error ? err.message : "Não foi possível cancelar.",
+      });
+    } finally {
+      setBusyId("");
+    }
+  };
+
+  const reopen = async (quote) => {
+    if (!window.confirm("Reabrir este orçamento cancelado como rascunho?")) return;
+
+    setBusyId(quote.id);
+    try {
+      await reopenQuote(workspace.id, quote.id);
+      setMessage({ type: "success", text: "Orçamento reaberto como rascunho." });
+      await load();
+    } catch (err) {
+      setMessage({
+        type: "error",
+        text: err instanceof Error ? err.message : "Não foi possível reabrir.",
+      });
+    } finally {
+      setBusyId("");
+    }
+  };
+
   return (
     <section>
-      <div className="page-heading">
-        <div><p className="eyebrow">ORÇAMENTOS</p><h1>Orçamentos</h1><p>Crie, continue e acompanhe seus orçamentos.</p></div>
-        <Link className="primary-button" to="/orcamentos/novo"><Plus size={19} /> Novo orçamento</Link>
+      <div className="page-heading quotes-page-heading">
+        <div>
+          <p className="eyebrow">ORÇAMENTOS</p>
+          <h1>Orçamentos</h1>
+          <p>Encontre rapidamente o que está em andamento e mantenha o histórico organizado.</p>
+        </div>
+        <Link className="primary-button" to="/orcamentos/novo">
+          <Plus size={19} /> Novo orçamento
+        </Link>
       </div>
 
-      {error ? <div className="form-alert error">{error}</div> : null}
+      <div className="quote-management-toolbar">
+        <div className="quote-management-search">
+          <Search size={18} />
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Buscar por cliente, documento ou número..."
+          />
+        </div>
+
+        <div className="quote-status-filters">
+          {QUOTE_FILTERS.map((filter) => (
+            <button
+              key={filter.value}
+              className={status === filter.value ? "active" : ""}
+              type="button"
+              onClick={() => setStatus(filter.value)}
+            >
+              {filter.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {message.text ? (
+        <div className={`form-alert ${message.type} quotes-page-message`}>{message.text}</div>
+      ) : null}
 
       {loading ? (
-        <div className="quotes-empty"><div className="spinner" /><strong>Carregando orçamentos...</strong></div>
+        <div className="quotes-empty">
+          <div className="spinner" />
+          <strong>Carregando orçamentos...</strong>
+        </div>
       ) : quotes.length ? (
-        <div className="quotes-list">
+        <div className={`quote-management-list ${busyId ? "busy" : ""}`}>
           {quotes.map((quote) => (
-            <article className="quote-list-card" key={quote.id}>
-              <div className="quote-list-icon"><FileText size={20} /></div>
-              <Link className="quote-list-main" to={`/orcamentos/${quote.id}`}>
-                <div><strong>{quoteNumberLabel(quote.quote_number)} · {quote.client_snapshot_json?.name || "Cliente"}</strong><span className={`quote-status ${quote.status}`}>{quoteStatusLabel(quote.status)}</span></div>
-                <span>Emitido em {quote.issue_date ? new Date(`${quote.issue_date}T12:00:00`).toLocaleDateString("pt-BR") : "—"} · válido até {quote.valid_until ? new Date(`${quote.valid_until}T12:00:00`).toLocaleDateString("pt-BR") : "—"}</span>
-              </Link>
-              <div className="quote-list-total"><small>Total</small><strong>{formatBRL(quote.total)}</strong></div>
-              <div className="quote-list-actions">
-                <Link to={`/orcamentos/${quote.id}/pdf`} title="PDF"><Download size={17} /></Link>
-                <Link to={`/orcamentos/${quote.id}`} title="Editar"><Pencil size={17} /></Link>
-              </div>
-            </article>
+            <QuoteManagementCard
+              key={quote.id}
+              quote={quote}
+              onDuplicate={duplicate}
+              onCancel={cancel}
+              onReopen={reopen}
+            />
           ))}
         </div>
       ) : (
         <div className="quotes-empty">
           <div className="quotes-empty-icon"><FileText size={30} /></div>
-          <strong>Nenhum orçamento ainda</strong>
-          <p>Crie o primeiro orçamento. Cliente, itens e cálculos ficarão salvos no mesmo fluxo.</p>
-          <Link className="primary-button" to="/orcamentos/novo"><Plus size={18} /> Criar orçamento</Link>
+          <strong>{search || status !== "all" ? "Nenhum orçamento encontrado" : "Nenhum orçamento ainda"}</strong>
+          <p>
+            {search || status !== "all"
+              ? "Tente alterar a busca ou o filtro."
+              : "Crie o primeiro orçamento e acompanhe todo o histórico por aqui."}
+          </p>
+          {!search && status === "all" ? (
+            <Link className="primary-button" to="/orcamentos/novo">
+              <Plus size={18} /> Criar orçamento
+            </Link>
+          ) : null}
         </div>
       )}
     </section>

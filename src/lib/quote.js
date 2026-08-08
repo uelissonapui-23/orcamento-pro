@@ -98,3 +98,37 @@ export function quoteNumberLabel(value) {
   const number = Number(value);
   return Number.isFinite(number) && number > 0 ? `#${String(number).padStart(4, "0")}` : "Novo";
 }
+
+
+export const QUOTE_FILTERS = Object.freeze([
+  { value: "all", label: "Todos" },
+  { value: "draft", label: "Rascunhos" },
+  { value: "awaiting_response", label: "Aguardando resposta" },
+  { value: "approved", label: "Aprovados" },
+  { value: "cancelled", label: "Cancelados" },
+]);
+
+export function quoteCanEdit(status) {
+  return status === "draft" || status === "awaiting_response";
+}
+
+export function quoteCanCancel(status) {
+  return status === "draft" || status === "awaiting_response";
+}
+
+export function quoteCanDuplicate(status) {
+  return Boolean(status);
+}
+
+export function quoteSearchText(quote = {}) {
+  return [
+    quote.quote_number,
+    quote.client_snapshot_json?.name,
+    quote.client_snapshot_json?.trade_name,
+    quote.client_snapshot_json?.document,
+    quote.status,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
