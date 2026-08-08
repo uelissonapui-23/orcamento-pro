@@ -1,0 +1,20 @@
+FASE 17 — BUSCA, FILTROS E DUPLICAÇÃO
+
+CONCLUÍDO:
+- busca global;
+- Ctrl/Cmd + K;
+- clientes;
+- orçamentos;
+- A Fazer;
+- entregues;
+- produtos;
+- materiais;
+- veículos;
+- ranking de relevância;
+- navegação direta;
+- query string nos cadastros;
+- duplicação centralizada;
+- responsividade.
+
+PRÓXIMA:
+FASE 18 — AUTOMAÇÕES AVANÇADAS DA V1.

@@ -1,5 +1,6 @@
 import { Layers3, Plus, Search, Tags } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import CategoryManagerDialog from "../components/products/CategoryManagerDialog";
 import ProductCard from "../components/products/ProductCard";
 import ProductDialog from "../components/products/ProductDialog";
@@ -18,12 +19,13 @@ function errorMessage(error) {
 }
 
 export default function Products() {
+  const [searchParams] = useSearchParams();
   const { workspace } = useAuth();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [materials, setMaterials] = useState([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(() => searchParams.get("q") || "");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("active");
   const [categoryFilter, setCategoryFilter] = useState("");

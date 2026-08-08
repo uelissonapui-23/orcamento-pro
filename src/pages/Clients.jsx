@@ -1,5 +1,6 @@
 import { Plus, Search, UserRoundPlus, Users } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import ClientCard from "../components/clients/ClientCard";
 import ClientDialog from "../components/clients/ClientDialog";
 import QuickClientDialog from "../components/clients/QuickClientDialog";
@@ -11,9 +12,10 @@ function errorMessage(error) {
 }
 
 export default function Clients() {
+  const [searchParams] = useSearchParams();
   const { workspace } = useAuth();
   const [clients, setClients] = useState([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(() => searchParams.get("q") || "");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("active");
   const [loading, setLoading] = useState(true);

@@ -1,5 +1,6 @@
 import { CarFront, Copy, Plus, Search, Tags, WandSparkles } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import CopyVehiclePartsDialog from "../components/vehicles/CopyVehiclePartsDialog";
 import VehicleCard from "../components/vehicles/VehicleCard";
 import VehicleImageDialog from "../components/vehicles/VehicleImageDialog";
@@ -19,11 +20,12 @@ function errorMessage(error) {
 }
 
 export default function Vehicles() {
+  const [searchParams] = useSearchParams();
   const { workspace } = useAuth();
   const [vehicles, setVehicles] = useState([]);
   const [types, setTypes] = useState([]);
   const [allTypes, setAllTypes] = useState([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(() => searchParams.get("q") || "");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("active");
   const [typeFilter, setTypeFilter] = useState("");

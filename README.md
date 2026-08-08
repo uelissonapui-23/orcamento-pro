@@ -231,3 +231,10 @@ Próxima fase: Home final.
 Home final operacional com prioridades, atrasados, próximos, aguardando resposta e ações rápidas.
 
 Próxima fase: Busca global.
+
+
+## Fase 17 concluída
+
+Busca global com Ctrl/Cmd+K, navegação rápida, filtros por query e duplicação centralizada.
+
+Próxima fase: Automações avançadas da V1.

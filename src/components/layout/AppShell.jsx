@@ -1,5 +1,7 @@
-import { CheckCircle2, ClipboardList, Database, FileText, Home, LogOut, Settings, UserRound } from "lucide-react";
+import { CheckCircle2, ClipboardList, Database, FileText, Home, LogOut, Search, Settings, UserRound } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import GlobalSearchDialog from "../search/GlobalSearchDialog";
 import { useAuth } from "../../contexts/AuthContext";
 
 const main = [
@@ -31,7 +33,20 @@ function LinkItem({ item, mobile = false }) {
 
 export default function AppShell() {
   const { signOut, user, workspace } = useAuth();
+  const [searchOpen, setSearchOpen] = useState(false);
   const userName = user?.user_metadata?.full_name || user?.email || "Usuário";
+
+  useEffect(() => {
+    const handler = (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   return (
     <div className="app-shell">
@@ -69,6 +84,12 @@ export default function AppShell() {
             </div>
           </div>
 
+          <button className="topbar-global-search" type="button" onClick={() => setSearchOpen(true)}>
+            <Search size={17} />
+            <span>Buscar no app</span>
+            <kbd>Ctrl K</kbd>
+          </button>
+
           <NavLink className="mobile-profile" to="/perfil" aria-label="Perfil">
             <UserRound size={20} />
           </NavLink>
@@ -80,6 +101,8 @@ export default function AppShell() {
       <nav className="bottom-nav" aria-label="Navegação principal">
         {main.map((item) => <LinkItem key={item[0]} item={item} mobile />)}
       </nav>
+
+      <GlobalSearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
     </div>
   );
 }

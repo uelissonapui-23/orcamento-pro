@@ -1,5 +1,6 @@
 import { PackageSearch, Plus, Search, Tags } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import MaterialCard from "../components/materials/MaterialCard";
 import MaterialCategoryDialog from "../components/materials/MaterialCategoryDialog";
 import MaterialDialog from "../components/materials/MaterialDialog";
@@ -16,11 +17,12 @@ function errorMessage(error) {
 }
 
 export default function Materials() {
+  const [searchParams] = useSearchParams();
   const { workspace } = useAuth();
   const [materials, setMaterials] = useState([]);
   const [categories, setCategories] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(() => searchParams.get("q") || "");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("active");
   const [categoryFilter, setCategoryFilter] = useState("");

@@ -252,7 +252,7 @@ Concluída.
 
 ## Progresso
 
-Fases concluídas: **17 de 21 (0 a 20)**.
+Fases concluídas: **18 de 21 (0 a 20)**.
 
 Blocos de fundação/cadastros concluídos:
 - Fundação: 100%
@@ -271,5 +271,6 @@ Blocos de fundação/cadastros concluídos:
 - A Fazer operacional: 100%
 - Entregues: 100%
 - Home final: 100%
+- Busca global: 100%
 
 Próximo foco: **Editor de Orçamento → PDF → Gestão de Orçamentos**.

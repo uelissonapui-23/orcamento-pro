@@ -1,0 +1,50 @@
+ORÇAMENTO PRO — FASE 17
+BUSCA, FILTROS E DUPLICAÇÃO
+
+PATCH PARA EXTRAIR DIRETAMENTE NA RAIZ.
+
+NÃO HÁ MIGRATION NESTA FASE.
+
+ENTREGUE
+- busca global;
+- Ctrl/Cmd + K;
+- busca em clientes/orçamentos/A Fazer/Entregues/produtos/materiais/veículos;
+- ranking;
+- navegação direta;
+- filtros por ?q= nos cadastros;
+- duplicação centralizada;
+- responsividade.
+
+APÓS EXTRAIR
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR
+git add .
+git commit -m "Fase 17 - busca filtros e duplicacao"
+git push origin main
+
+AGUARDE
+✅ Validar aplicação
+✅ Deploy Vercel
+
+TESTE
+1. Pressione Ctrl+K.
+2. Busque cliente.
+3. Busque número de orçamento.
+4. Busque produto.
+5. Busque material.
+6. Busque veículo.
+7. Busque serviço em A Fazer.
+8. Busque um entregue.
+9. Abra cada tipo de resultado.
+10. Confirme que cadastros abrem já filtrados.
+11. Teste Duplicar em produto/material/veículo/orçamento.
+12. Confirme que original permanece intacto.
+13. Teste Ctrl+K no desktop.
+14. Teste botão de busca no celular/tablet.
+
+PRÓXIMA
+FASE 18 — AUTOMAÇÕES AVANÇADAS DA V1.
