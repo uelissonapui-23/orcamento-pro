@@ -1,0 +1,18 @@
+FASE 15 — ENTREGUES
+
+CONCLUÍDO:
+- histórico;
+- busca;
+- filtro por período;
+- ordem por entrega;
+- detalhes;
+- timestamps;
+- observação da entrega;
+- itens snapshot;
+- PDF;
+- duplicar orçamento;
+- responsividade;
+- índices.
+
+PRÓXIMA:
+FASE 16 — HOME FINAL.

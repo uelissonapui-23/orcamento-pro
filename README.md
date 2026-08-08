@@ -217,3 +217,10 @@ Próxima fase: A Fazer operacional.
 A Fazer operacional com prioridade por prazo, alertas, produção, pronto, entrega, WhatsApp e PDF.
 
 Próxima fase: Entregues.
+
+
+## Fase 15 concluída
+
+Histórico de Entregues com busca, período, detalhes, PDF e duplicação.
+
+Próxima fase: Home final.

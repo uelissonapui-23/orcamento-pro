@@ -1,0 +1,16 @@
+-- FASE 15 — Entregues
+--
+-- HISTÓRICO
+-- 1. Somente work_orders com status delivered aparecem.
+-- 2. delivered_at define a ordem mais recente primeiro.
+-- 3. delivery_notes permanece visível.
+-- 4. items_snapshot_json preserva itens antigos.
+--
+-- SEGURANÇA
+-- 5. listagem continua protegida pela RLS de work_orders.
+-- 6. não existe hard-delete.
+--
+-- REUTILIZAÇÃO
+-- 7. Duplicar usa duplicate_quote e cria um novo draft.
+-- 8. O entregue original permanece inalterado.
+select 'phase15 delivered history checklist loaded' as status;

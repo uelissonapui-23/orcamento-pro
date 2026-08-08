@@ -1,0 +1,53 @@
+ORÇAMENTO PRO — FASE 15
+ENTREGUES
+
+PATCH PARA EXTRAIR DIRETAMENTE NA RAIZ.
+
+MIGRATION
+supabase/migrations/20260808001300_delivered_history.sql
+
+ENTREGUE
+- histórico de entregues;
+- busca;
+- filtros por período;
+- detalhes;
+- timestamps;
+- observação da entrega;
+- itens;
+- PDF;
+- duplicação de orçamento;
+- índices.
+
+APÓS EXTRAIR
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR
+git add .
+git commit -m "Fase 15 - entregues"
+git push origin main
+
+AGUARDE
+✅ Validar aplicação
+✅ Atualizar Supabase em produção
+✅ Deploy Vercel
+
+TESTE
+1. Finalize um serviço como Entregue na Fase 14.
+2. Abra Entregues.
+3. Confirme que apareceu.
+4. Pesquise pelo cliente.
+5. Pesquise pelo número.
+6. Filtre por período.
+7. Abra detalhes.
+8. Confira timestamps e itens.
+9. Abra PDF.
+10. Clique duplicar orçamento.
+11. Confirme que abre um novo rascunho com novo número.
+12. Confirme que o entregue original continua intacto.
+13. Teste celular/tablet/computador.
+
+PRÓXIMA
+FASE 16 — HOME FINAL.

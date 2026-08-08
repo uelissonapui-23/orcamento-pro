@@ -80,3 +80,62 @@ export async function updateWorkOrderDueDate(workspaceId, workOrderId, dueDate) 
   if (error) throw error;
   return data;
 }
+
+
+export async function listDeliveredWorkOrders(
+  workspaceId,
+  { search = "", dateFrom = "", dateTo = "", limit = 200 } = {},
+) {
+  const client = requireClient();
+
+  let query = client
+    .schema("orcamento_app")
+    .from("work_orders")
+    .select("*")
+    .eq("workspace_id", workspaceId)
+    .eq("status", "delivered")
+    .order("delivered_at", { ascending: false })
+    .limit(limit);
+
+  if (dateFrom) query = query.gte("delivered_at", `${dateFrom}T00:00:00`);
+  if (dateTo) query = query.lte("delivered_at", `${dateTo}T23:59:59`);
+
+  const { data, error } = await query;
+  if (error) throw error;
+
+  const term = String(search || "").trim().toLowerCase();
+
+  return (data || [])
+    .map(normalizeWorkOrder)
+    .filter((order) => {
+      if (!term) return true;
+
+      const haystack = [
+        order.quote_number,
+        order.client_snapshot_json?.name,
+        order.client_snapshot_json?.trade_name,
+        order.client_snapshot_json?.document,
+        order.delivery_notes,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return haystack.includes(term);
+    });
+}
+
+export async function getWorkOrder(workspaceId, workOrderId) {
+  const client = requireClient();
+
+  const { data, error } = await client
+    .schema("orcamento_app")
+    .from("work_orders")
+    .select("*")
+    .eq("workspace_id", workspaceId)
+    .eq("id", workOrderId)
+    .single();
+
+  if (error) throw error;
+  return normalizeWorkOrder(data);
+}

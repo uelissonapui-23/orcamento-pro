@@ -18,6 +18,7 @@ import Quotes from "./pages/Quotes";
 import QuoteEditor from "./pages/QuoteEditor";
 import QuotePdf from "./pages/QuotePdf";
 import WorkOrders from "./pages/WorkOrders";
+import Delivered from "./pages/Delivered";
 import RegistrationsLayout from "./components/registrations/RegistrationsLayout";
 
 export default function App() {
@@ -41,7 +42,7 @@ export default function App() {
         <Route path="/orcamentos/:quoteId/pdf" element={<QuotePdf />} />
         <Route path="/orcamentos/:quoteId" element={<QuoteEditor />} />
         <Route path="/a-fazer" element={<WorkOrders />} />
-        <Route path="/entregues" element={<Placeholder title="Entregues" />} />
+        <Route path="/entregues" element={<Delivered />} />
         <Route path="/cadastros" element={<RegistrationsLayout />}>
           <Route index element={<Navigate to="clientes" replace />} />
           <Route path="clientes" element={<Clients />} />

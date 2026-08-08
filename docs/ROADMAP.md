@@ -190,10 +190,12 @@ Concluída.
 - alterar prazo;
 - marcar entregue.
 
-### ⏳ Fase 15 — Entregues
+### ✅ Fase 15 — Entregues
+Concluída.
 - histórico;
-- filtros;
-- detalhes;
+- busca;
+- filtros por período;
+- detalhes operacionais;
 - PDF;
 - duplicar orçamento.
 
@@ -247,7 +249,7 @@ Concluída.
 
 ## Progresso
 
-Fases concluídas: **15 de 21 (0 a 20)**.
+Fases concluídas: **16 de 21 (0 a 20)**.
 
 Blocos de fundação/cadastros concluídos:
 - Fundação: 100%
@@ -264,5 +266,6 @@ Blocos de fundação/cadastros concluídos:
 - Gestão de orçamentos: 100%
 - Aprovação → A Fazer: 100%
 - A Fazer operacional: 100%
+- Entregues: 100%
 
 Próximo foco: **Editor de Orçamento → PDF → Gestão de Orçamentos**.
