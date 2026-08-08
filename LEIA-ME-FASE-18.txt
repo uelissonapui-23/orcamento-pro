@@ -1,0 +1,32 @@
+ORÇAMENTO PRO — FASE 18 — AUTOMAÇÕES AVANÇADAS
+
+EXTRAIA DIRETAMENTE NA RAIZ.
+
+MIGRATION:
+supabase/migrations/20260808001400_v1_automations.sql
+
+APÓS EXTRAIR:
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR:
+git add .
+git commit -m "Fase 18 - automacoes avancadas"
+git push origin main
+
+TESTE:
+1. Abra Automações.
+2. Salve os 3 prazos.
+3. Confira retornos sugeridos.
+4. Confira validade próxima.
+5. Confira entregas prioritárias.
+6. Edite a mensagem do WhatsApp.
+7. Teste o botão WhatsApp.
+8. Confira Recentes.
+9. Crie um modelo e marque favorito.
+10. Recarregue e confirme persistência.
+11. Teste celular/tablet/computador.
+
+PRÓXIMA: FASE 19 — AUDITORIA COMPLETA.

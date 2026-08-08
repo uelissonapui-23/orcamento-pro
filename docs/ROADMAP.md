@@ -219,13 +219,15 @@ Concluída.
 - veículo;
 - índices.
 
-### ⏳ Fase 18 — Automações avançadas da V1
-- lembretes;
+### ✅ Fase 18 — Automações avançadas da V1
+Concluída.
+- lembretes configuráveis;
 - recentes;
-- favoritos/modelos quando aplicável;
+- favoritos/modelos;
 - sugestões seguras;
-- mensagens;
-- redução de repetição.
+- mensagens reutilizáveis;
+- redução de repetição;
+- isolamento e RLS.
 
 ### ⏳ Fase 19 — Auditoria completa
 - bugs;
@@ -252,7 +254,7 @@ Concluída.
 
 ## Progresso
 
-Fases concluídas: **18 de 21 (0 a 20)**.
+Fases concluídas: **19 de 21 (0 a 20)**.
 
 Blocos de fundação/cadastros concluídos:
 - Fundação: 100%

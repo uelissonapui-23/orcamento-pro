@@ -238,3 +238,10 @@ Próxima fase: Busca global.
 Busca global com Ctrl/Cmd+K, navegação rápida, filtros por query e duplicação centralizada.
 
 Próxima fase: Automações avançadas da V1.
+
+
+## Fase 18 concluída
+
+Automações seguras, lembretes, recentes, modelos/favoritos e mensagens reutilizáveis.
+
+Próxima fase: Auditoria completa.

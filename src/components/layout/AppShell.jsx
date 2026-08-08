@@ -1,4 +1,4 @@
-import { CheckCircle2, ClipboardList, Database, FileText, Home, LogOut, Search, Settings, UserRound } from "lucide-react";
+import { BellRing, CheckCircle2, ClipboardList, Database, FileText, Home, LogOut, Search, Settings, UserRound } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import GlobalSearchDialog from "../search/GlobalSearchDialog";
@@ -13,6 +13,7 @@ const main = [
 
 const secondary = [
   ["/cadastros/clientes", "Cadastros", Database],
+  ["/automacoes", "Automações", BellRing],
   ["/configuracoes", "Configurações", Settings],
 ];
 

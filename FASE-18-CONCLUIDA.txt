@@ -1,0 +1,14 @@
+FASE 18 — AUTOMAÇÕES AVANÇADAS DA V1
+
+CONCLUÍDO:
+- lembretes;
+- alertas de validade e entrega;
+- sugestões seguras;
+- mensagem reutilizável;
+- recentes;
+- favoritos/modelos;
+- RLS;
+- responsividade.
+
+PRÓXIMA:
+FASE 19 — AUDITORIA COMPLETA.
