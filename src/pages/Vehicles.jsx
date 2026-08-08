@@ -1,10 +1,11 @@
-import { CarFront, Copy, Plus, Search, Tags } from "lucide-react";
+import { CarFront, Copy, Plus, Search, Tags, WandSparkles } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import CopyVehiclePartsDialog from "../components/vehicles/CopyVehiclePartsDialog";
 import VehicleCard from "../components/vehicles/VehicleCard";
 import VehicleImageDialog from "../components/vehicles/VehicleImageDialog";
 import VehicleModelDialog from "../components/vehicles/VehicleModelDialog";
 import VehicleTypeDialog from "../components/vehicles/VehicleTypeDialog";
+import WrappingWizardDialog from "../components/wrapping/WrappingWizardDialog";
 import { useAuth } from "../contexts/AuthContext";
 import {
   duplicateVehicleModel,
@@ -32,6 +33,7 @@ export default function Vehicles() {
   const [typesOpen, setTypesOpen] = useState(false);
   const [imageVehicle, setImageVehicle] = useState(null);
   const [copyOpen, setCopyOpen] = useState(false);
+  const [wizardOpen, setWizardOpen] = useState(false);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setDebouncedSearch(search.trim()), 250);
@@ -123,6 +125,7 @@ export default function Vehicles() {
         </div>
 
         <div className="vehicles-actions">
+          <button className="secondary-button" type="button" onClick={() => setWizardOpen(true)}><WandSparkles size={16} /> Testar wizard</button>
           <button className="secondary-button" type="button" onClick={() => setTypesOpen(true)}><Tags size={16} /> Tipos</button>
           <button className="secondary-button" type="button" disabled={vehicles.length < 2} onClick={() => setCopyOpen(true)}><Copy size={16} /> Copiar peças</button>
           <button className="primary-button" type="button" onClick={() => setDialog({ open: true, vehicle: null })}><Plus size={18} /> Novo veículo</button>
@@ -184,6 +187,13 @@ export default function Vehicles() {
           await loadVehicles();
           setImageVehicle((current) => current ? vehicles.find((item) => item.id === current.id) || current : current);
         }}
+      />
+
+      <WrappingWizardDialog
+        open={wizardOpen}
+        workspaceId={workspace?.id}
+        onClose={() => setWizardOpen(false)}
+        onComplete={() => { setWizardOpen(false); setMessage({ type: "success", text: "Cálculo do wizard concluído. Na Fase 10 ele será adicionado diretamente ao orçamento." }); }}
       />
 
       <CopyVehiclePartsDialog

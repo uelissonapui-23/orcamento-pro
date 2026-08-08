@@ -1,0 +1,13 @@
+FASE 9 CONCLUIDA — WIZARD DE ENVELOPAMENTO
+
+Entregue:
+- wizard responsivo em 6 etapas;
+- tipo, modelo, peças e material;
+- integração com produto de cálculo "wrapping";
+- cálculo automático por área + perda + dificuldade;
+- ajustes opcionais;
+- tempo estimado;
+- snapshot imutável;
+- quoteItemDraft pronto para a Fase 10;
+- teste visual em Cadastros > Envelopamento;
+- teste unitário do motor.

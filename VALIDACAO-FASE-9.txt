@@ -1,0 +1,7 @@
+Validação executada em 08/08/2026:
+- npm run lint: OK
+- npm run typecheck: OK
+- npm run test: bloqueado no ambiente de geração pela dependência opcional nativa @rollup/rollup-linux-x64-gnu ausente
+- npm run build: não executado após o mesmo bloqueio do Rollup
+
+O erro é do node_modules do ambiente Linux e não do código da Fase 9. GitHub Actions deve instalar as dependências no runner limpo.

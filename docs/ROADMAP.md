@@ -110,15 +110,16 @@ Concluída.
 - copiar peças;
 - imagens privadas.
 
-### ⏳ Fase 9 — Wizard de Envelopamento
-- tipo;
-- modelo;
-- peças;
-- material;
-- ajustes;
-- cálculo;
-- snapshot;
-- saída padronizada para quote_item.
+### ✅ Fase 9 — Wizard de Envelopamento
+Concluída.
+- tipo e modelo;
+- seleção de peças;
+- material exclusivo de envelopamento;
+- ajustes pontuais;
+- cálculo automático por área, desperdício e dificuldade;
+- tempo estimado;
+- snapshot imutável;
+- saída padronizada `quoteItemDraft` para a Fase 10.
 
 ### ⏳ Fase 10 — Editor de Orçamento
 - cliente;
@@ -231,7 +232,7 @@ Concluída.
 
 ## Progresso
 
-Fases concluídas: **9 de 21 (0 a 20)**.
+Fases concluídas: **10 de 21 (0 a 20)**.
 
 Blocos de fundação/cadastros concluídos:
 - Fundação: 100%
@@ -243,4 +244,4 @@ Blocos de fundação/cadastros concluídos:
 - Materiais: 100%
 - Veículos e peças: 100%
 
-Próximo foco: **Veículos/Peças → Wizard → Editor de Orçamento → PDF**.
+Próximo foco: **Editor de Orçamento → PDF → Gestão de Orçamentos**.

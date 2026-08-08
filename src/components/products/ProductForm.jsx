@@ -167,7 +167,7 @@ export default function ProductForm({
         {mode === "wrapping" ? (
           <div className="mode-info-box accent">
             <strong>Calculado pelo wizard de envelopamento</strong>
-            <p>Veículo, peças, material, área e preço serão definidos no wizard que construiremos na fase específica.</p>
+            <p>Veículo, peças, material, área, dificuldade, desperdício e preço são definidos pelo wizard de envelopamento.</p>
           </div>
         ) : null}
       </div>
