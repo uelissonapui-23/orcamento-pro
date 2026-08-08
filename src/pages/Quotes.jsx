@@ -1,6 +1,6 @@
 import { FileText, Plus, Search } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import QuoteManagementCard from "../components/quotes/QuoteManagementCard";
 import { useAuth } from "../contexts/AuthContext";
 import { QUOTE_FILTERS } from "../lib/quote";
@@ -13,11 +13,12 @@ import {
 } from "../services/quoteService";
 
 export default function Quotes() {
+  const [searchParams] = useSearchParams();
   const { workspace } = useAuth();
   const navigate = useNavigate();
   const [quotes, setQuotes] = useState([]);
   const [status, setStatus] = useState("all");
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(() => searchParams.get("q") || "");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState("");

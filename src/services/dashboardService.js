@@ -42,8 +42,7 @@ export async function loadDashboard(workspaceId) {
       .select("id,quote_number,client_snapshot_json,total,valid_until,updated_at")
       .eq("workspace_id", workspaceId)
       .eq("status", "awaiting_response")
-      .order("updated_at", { ascending: false })
-      .limit(8),
+      .order("updated_at", { ascending: false }),
 
     client
       .schema("orcamento_app")
@@ -52,8 +51,7 @@ export async function loadDashboard(workspaceId) {
       .eq("workspace_id", workspaceId)
       .in("status", ["pending", "in_progress", "ready"])
       .order("due_date", { ascending: true, nullsFirst: false })
-      .order("created_at", { ascending: false })
-      .limit(20),
+      .order("created_at", { ascending: false }),
 
     client
       .schema("orcamento_app")

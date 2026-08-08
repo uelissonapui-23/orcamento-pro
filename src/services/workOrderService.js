@@ -6,7 +6,7 @@ function requireClient() {
   return supabase;
 }
 
-export async function listWorkOrders(workspaceId, { status = "open", limit = 100 } = {}) {
+export async function listWorkOrders(workspaceId, { status = "open", search = "", limit = 100 } = {}) {
   const client = requireClient();
 
   let query = client
@@ -20,8 +20,21 @@ export async function listWorkOrders(workspaceId, { status = "open", limit = 100
 
   if (status === "open") {
     query = query.in("status", ["pending", "in_progress", "ready"]);
-  } else if (status && status !== "all") {
+  } else if (status === "all") {
+    query = query.in("status", ["pending", "in_progress", "ready", "cancelled"]);
+  } else if (status) {
     query = query.eq("status", status);
+  }
+
+  const term = String(search || "").trim();
+  if (term) {
+    if (/^#?\d+$/.test(term)) {
+      query = query.eq("quote_number", Number(term.replace("#", "")));
+    } else {
+      query = query.or(
+        `client_snapshot_json->>name.ilike.%${term}%,client_snapshot_json->>trade_name.ilike.%${term}%,client_snapshot_json->>document.ilike.%${term}%`
+      );
+    }
   }
 
   const { data, error } = await query;

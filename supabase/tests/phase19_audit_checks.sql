@@ -1,0 +1,11 @@
+-- FASE 19 — Auditoria completa
+-- Verificações manuais/SQL de homologação:
+-- 1. RLS habilitada nas tabelas de negócio.
+-- 2. RPCs de escrita validam auth + workspace.
+-- 3. Funções internas SECURITY DEFINER sem EXECUTE para authenticated.
+-- 4. work_orders entregues aparecem somente em Entregues.
+-- 5. dashboard não subconta itens por limite de consulta.
+-- 6. busca de A Fazer ocorre no servidor, não apenas nos primeiros registros.
+-- 7. snapshots de orçamento/cliente/itens permanecem imutáveis após aprovação.
+-- 8. nenhuma operação da V1 usa hard-delete de histórico financeiro/operacional.
+select 'phase19 audit checklist loaded' as status;

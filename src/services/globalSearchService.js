@@ -48,14 +48,13 @@ export async function globalSearch(workspaceId, term, { limitPerType = 8 } = {})
   ] = await Promise.all([
     listClients(workspaceId, { search: clean, status: "all", limit: limitPerType }),
     listQuotes(workspaceId, { search: clean, status: "all", limit: 80 }),
-    listWorkOrders(workspaceId, { status: "open", limit: 80 }),
+    listWorkOrders(workspaceId, { status: "open", search: clean, limit: limitPerType }),
     listDeliveredWorkOrders(workspaceId, { search: clean, limit: 80 }),
     listProducts(workspaceId, { search: clean, status: "all" }),
     listMaterials(workspaceId, { search: clean, status: "all" }),
     listVehicleModels(workspaceId, { search: clean, status: "all" }),
   ]);
 
-  const normalizedTerm = clean.toLowerCase();
 
   const results = [
     ...clients.slice(0, limitPerType).map((client) => ({
@@ -80,17 +79,7 @@ export async function globalSearch(workspaceId, term, { limitPerType = 8 } = {})
       duplicate_id: quote.id,
     })),
 
-    ...openOrders
-      .filter((order) => {
-        const haystack = [
-          order.quote_number,
-          order.client_snapshot_json?.name,
-          order.client_snapshot_json?.trade_name,
-          order.client_snapshot_json?.document,
-        ].filter(Boolean).join(" ").toLowerCase();
-        return haystack.includes(normalizedTerm);
-      })
-      .slice(0, limitPerType)
+    ...openOrders.slice(0, limitPerType)
       .map((order) => ({
         type: "work_order",
         id: order.id,

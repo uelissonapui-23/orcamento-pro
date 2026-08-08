@@ -254,7 +254,7 @@ Concluída.
 
 ## Progresso
 
-Fases concluídas: **19 de 21 (0 a 20)**.
+Fases concluídas: **20 de 21 (0 a 20)**.
 
 Blocos de fundação/cadastros concluídos:
 - Fundação: 100%

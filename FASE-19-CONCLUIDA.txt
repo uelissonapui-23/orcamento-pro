@@ -1,0 +1,17 @@
+FASE 19 — AUDITORIA COMPLETA
+
+CORRIGIDO:
+- contadores da Home em escala;
+- busca de A Fazer no servidor;
+- separação A Fazer x Entregues;
+- filtro de Orçamentos via query string;
+- hardening SECURITY DEFINER;
+- checklist SQL de auditoria.
+
+VALIDAÇÃO:
+- typecheck: OK
+- lint: OK
+- test/build: bloqueados no ambiente Linux pelo node_modules Windows/Rollup opcional.
+
+PRÓXIMA:
+FASE 20 — HOMOLOGAÇÃO E V1.0.

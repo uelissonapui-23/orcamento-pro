@@ -1,0 +1,38 @@
+ORÇAMENTO PRO — FASE 19 — AUDITORIA COMPLETA
+
+EXTRAIA DIRETAMENTE NA RAIZ.
+
+MIGRATION:
+supabase/migrations/20260808001500_audit_hardening.sql
+
+DEPOIS:
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR:
+git add .
+git commit -m "Fase 19 - auditoria completa"
+git push origin main
+
+TESTE PRINCIPAL:
+1. Login.
+2. Cadastre cliente.
+3. Cadastre produto/material.
+4. Faça orçamento.
+5. Confira cálculo.
+6. Gere PDF.
+7. Marque aguardando resposta.
+8. Aprove.
+9. Confirme em A Fazer.
+10. Inicie produção.
+11. Marque pronto.
+12. Entregue.
+13. Confirme em Entregues.
+14. Teste Home.
+15. Teste Ctrl+K.
+16. Teste Automações.
+17. Teste celular/tablet/computador.
+
+PRÓXIMA: FASE 20 — HOMOLOGAÇÃO E V1.0.
