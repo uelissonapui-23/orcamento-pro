@@ -84,7 +84,8 @@ Concluída.
 
 ## Próximas fases
 
-### ⏳ Fase 7 — Materiais
+### ✅ Fase 7 — Materiais
+Concluída.
 - cadastro;
 - categorias;
 - unidade;
@@ -93,7 +94,7 @@ Concluída.
 - material padrão;
 - flag envelopamento;
 - ativo/inativo;
-- integração preparada com produtos/wizard.
+- integração com produtos e preparação do wizard.
 
 ### ⏳ Fase 8 — Veículos e Peças
 - tipos de veículo;
@@ -229,7 +230,7 @@ Concluída.
 
 ## Progresso
 
-Fases concluídas: **7 de 21 (0 a 20)**.
+Fases concluídas: **8 de 21 (0 a 20)**.
 
 Blocos de fundação/cadastros concluídos:
 - Fundação: 100%
@@ -238,5 +239,6 @@ Blocos de fundação/cadastros concluídos:
 - Clientes: 100%
 - Produtos: 100%
 - Motor de preços: 100%
+- Materiais: 100%
 
-Próximo foco: **Materiais → Veículos/Peças → Wizard → Editor de Orçamento**.
+Próximo foco: **Veículos/Peças → Wizard → Editor de Orçamento → PDF**.

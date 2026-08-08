@@ -1,0 +1,24 @@
+-- FASE 7 — Materiais
+--
+-- ISOLAMENTO
+-- 1. Usuário A não lê materiais/categorias de B.
+-- 2. Usuário A não altera material de B.
+-- 3. duplicate_material rejeita material de B.
+-- 4. Produto de A não pode apontar material padrão de B.
+--
+-- INTEGRIDADE
+-- 5. material use_in_wrapping=true exige roll_width.
+-- 6. custo/preço não aceitam negativos.
+-- 7. largura deve ser > 0.
+-- 8. categoria deve pertencer ao mesmo workspace.
+-- 9. default_material_id possui FK e ON DELETE SET NULL.
+--
+-- HISTÓRICO
+-- 10. UI não faz hard-delete.
+-- 11. material pode ser desativado/reativado.
+-- 12. produto conserva referência enquanto material existir.
+--
+-- WIZARD
+-- 13. listMaterials(... wrapping=yes) retorna apenas materiais ativos
+--     marcados para envelopamento.
+select 'phase7 materials checklist loaded' as status;

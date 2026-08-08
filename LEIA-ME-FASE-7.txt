@@ -1,0 +1,54 @@
+ORÇAMENTO PRO — FASE 7
+MATERIAIS
+
+PATCH PARA EXTRAIR DIRETAMENTE NA RAIZ.
+
+MIGRATION
+supabase/migrations/20260808000600_materials.sql
+
+ENTREGUE
+- materiais;
+- categorias;
+- unidade;
+- largura do rolo;
+- custo;
+- preço de referência;
+- uso em envelopamento;
+- ativo/inativo;
+- duplicação;
+- busca/filtros;
+- RLS;
+- material padrão integrado ao produto.
+
+APÓS EXTRAIR
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+
+SE PASSAR
+git add .
+git commit -m "Fase 7 - materiais"
+git push origin main
+
+AGUARDE
+✅ Validar aplicação
+✅ Atualizar Supabase em produção
+
+TESTE
+1. Cadastros > Materiais.
+2. Criar categoria.
+3. Criar material comum.
+4. Criar material de envelopamento com largura do rolo.
+5. Tentar marcar envelopamento sem largura: deve bloquear.
+6. Editar.
+7. Duplicar.
+8. Desativar/reativar.
+9. Filtrar “Usa no envelopamento”.
+10. Abrir Produtos e Serviços.
+11. Editar um produto e escolher Material padrão.
+12. Salvar e reabrir para confirmar persistência.
+13. Conferir mobile/tablet.
+
+PRÓXIMA
+FASE 8 — VEÍCULOS E PEÇAS.

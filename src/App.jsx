@@ -12,6 +12,7 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Clients from "./pages/Clients";
 import Products from "./pages/Products";
+import Materials from "./pages/Materials";
 import RegistrationsLayout from "./components/registrations/RegistrationsLayout";
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
           <Route index element={<Navigate to="clientes" replace />} />
           <Route path="clientes" element={<Clients />} />
           <Route path="produtos" element={<Products />} />
+          <Route path="materiais" element={<Materials />} />
         </Route>
         <Route path="/configuracoes" element={<Settings />} />
         <Route path="/perfil" element={<Profile />} />

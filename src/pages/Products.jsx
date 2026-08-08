@@ -5,6 +5,7 @@ import ProductCard from "../components/products/ProductCard";
 import ProductDialog from "../components/products/ProductDialog";
 import { useAuth } from "../contexts/AuthContext";
 import { CALCULATION_MODES } from "../lib/product";
+import { listMaterials } from "../services/materialService";
 import {
   duplicateProduct,
   listProductCategories,
@@ -21,6 +22,7 @@ export default function Products() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
+  const [materials, setMaterials] = useState([]);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("active");
@@ -70,6 +72,13 @@ export default function Products() {
   useEffect(() => {
     loadCategories().catch((error) => setMessage({ type: "error", text: errorMessage(error) }));
   }, [loadCategories]);
+
+  useEffect(() => {
+    if (!workspace?.id) return;
+    listMaterials(workspace.id)
+      .then(setMaterials)
+      .catch((error) => setMessage({ type: "error", text: errorMessage(error) }));
+  }, [workspace?.id]);
 
   useEffect(() => {
     loadProducts();
@@ -173,6 +182,7 @@ export default function Products() {
         workspaceId={workspace?.id}
         product={dialog.product}
         categories={categories}
+        materials={materials}
         onClose={() => setDialog({ open: false, product: null })}
         onSaved={() => { setMessage({ type: "success", text: "Produto salvo." }); refresh(); }}
         onCategoryCreated={() => loadCategories()}

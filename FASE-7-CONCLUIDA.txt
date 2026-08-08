@@ -1,0 +1,24 @@
+FASE 7 — MATERIAIS
+
+CONCLUÍDO:
+- material_categories;
+- materials;
+- categoria Geral automática;
+- cadastro;
+- categorias;
+- unidade;
+- largura do rolo;
+- custo;
+- preço de referência;
+- flag de envelopamento;
+- ativo/inativo;
+- duplicação;
+- busca e filtros;
+- RLS;
+- FK product.default_material_id;
+- material padrão no cadastro de produto;
+- validação de mesmo workspace;
+- preparação do wizard.
+
+PRÓXIMA:
+FASE 8 — VEÍCULOS E PEÇAS.

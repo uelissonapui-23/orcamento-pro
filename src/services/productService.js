@@ -101,6 +101,7 @@ export async function saveProduct(workspaceId, productId, product, tiers = []) {
       p_payload: {
         ...normalizeProduct(product),
         category_id: product.category_id || null,
+        default_material_id: product.default_material_id || null,
       },
       p_tiers: tiers.map(normalizeTier),
     });

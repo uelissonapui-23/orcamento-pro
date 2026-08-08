@@ -1,64 +1,44 @@
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { EMPTY_PRODUCT, EMPTY_TIER, normalizeProduct, validateProduct } from "../../lib/product";
-import { createProductCategory, saveProduct } from "../../services/productService";
-import ProductForm from "./ProductForm";
+import { EMPTY_MATERIAL, normalizeMaterial, validateMaterial } from "../../lib/material";
+import {
+  createMaterial,
+  createMaterialCategory,
+  updateMaterial,
+} from "../../services/materialService";
+import MaterialForm from "./MaterialForm";
 
 function errorMessage(error) {
   if (!(error instanceof Error)) return "Ocorreu um erro inesperado.";
-  if (/product_categories_workspace_name_unique/i.test(error.message)) return "Já existe uma categoria com esse nome.";
+  if (/material_categories_workspace_name_unique/i.test(error.message)) return "Já existe uma categoria com esse nome.";
   return error.message;
 }
 
-export default function ProductDialog({
+export default function MaterialDialog({
   open,
   workspaceId,
-  product = null,
+  material = null,
   categories,
-  materials = [],
   onClose,
   onSaved,
   onCategoryCreated,
 }) {
-  const [form, setForm] = useState(EMPTY_PRODUCT);
-  const [tiers, setTiers] = useState([]);
+  const [form, setForm] = useState(EMPTY_MATERIAL);
   const [errors, setErrors] = useState({});
-  const [tierErrors, setTierErrors] = useState([]);
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     if (!open) return;
-    setForm(normalizeProduct(product || EMPTY_PRODUCT));
-    setTiers(
-      product?.tiers?.length
-        ? product.tiers
-        : product?.calculation_mode === "quantity_tier"
-          ? [{ ...EMPTY_TIER }]
-          : [],
-    );
+    setForm(normalizeMaterial(material || EMPTY_MATERIAL));
     setErrors({});
-    setTierErrors([]);
     setStatus("");
-  }, [open, product]);
+  }, [open, material]);
 
   if (!open) return null;
 
   const update = (field, value) => {
-    setForm((current) => {
-      const next = { ...current, [field]: value };
-
-      if (field === "calculation_mode") {
-        if (value === "square_meter") next.unit_label = "m²";
-        if (value === "linear_meter") next.unit_label = "m";
-        if (value === "unit") next.unit_label = "un";
-        if (value === "fixed") next.unit_label = "serviço";
-        if (value === "manual") next.unit_label = "item";
-        if (value === "wrapping") next.unit_label = "veículo";
-      }
-
-      return next;
-    });
+    setForm((current) => ({ ...current, [field]: value }));
     setErrors((current) => ({ ...current, [field]: "" }));
     setStatus("");
   };
@@ -68,7 +48,7 @@ export default function ProductDialog({
     if (!name?.trim()) return;
 
     try {
-      const category = await createProductCategory(workspaceId, name);
+      const category = await createMaterialCategory(workspaceId, name);
       onCategoryCreated?.(category);
       update("category_id", category.id);
     } catch (error) {
@@ -78,18 +58,20 @@ export default function ProductDialog({
 
   const submit = async (event) => {
     event.preventDefault();
-
-    const validation = validateProduct(form, tiers);
+    const validation = validateMaterial(form);
     setErrors(validation.errors);
-    setTierErrors(validation.tierErrors);
-
     if (!validation.valid) return;
 
     setBusy(true);
     setStatus("");
 
     try {
-      await saveProduct(workspaceId, product?.id || null, validation.product, validation.tiers);
+      if (material?.id) {
+        await updateMaterial(material.id, validation.material);
+      } else {
+        await createMaterial(workspaceId, validation.material);
+      }
+
       onSaved?.();
       onClose();
     } catch (error) {
@@ -101,11 +83,11 @@ export default function ProductDialog({
 
   return (
     <div className="dialog-backdrop" role="presentation" onMouseDown={(e) => e.target === e.currentTarget && !busy && onClose()}>
-      <section className="product-dialog" role="dialog" aria-modal="true" aria-labelledby="product-dialog-title">
+      <section className="material-dialog" role="dialog" aria-modal="true" aria-labelledby="material-dialog-title">
         <header className="dialog-header">
           <div>
-            <h2 id="product-dialog-title">{product?.id ? "Editar produto ou serviço" : "Novo produto ou serviço"}</h2>
-            <p>Configure uma vez para o orçamento calcular e preencher automaticamente depois.</p>
+            <h2 id="material-dialog-title">{material?.id ? "Editar material" : "Novo material"}</h2>
+            <p>Cadastre uma vez e reutilize nos produtos e no futuro wizard de envelopamento.</p>
           </div>
           <button className="dialog-close" type="button" disabled={busy} onClick={onClose} aria-label="Fechar">
             <X size={20} />
@@ -115,23 +97,19 @@ export default function ProductDialog({
         <form onSubmit={submit}>
           <div className="dialog-body">
             {status ? <div className="form-alert error">{status}</div> : null}
-            <ProductForm
+            <MaterialForm
               value={form}
               categories={categories}
-              tiers={tiers}
               errors={errors}
-              tierErrors={tierErrors}
               onChange={update}
-              onTiersChange={setTiers}
               onCreateCategory={createCategory}
-              materials={materials}
             />
           </div>
 
           <footer className="dialog-footer">
             <button className="secondary-button" type="button" disabled={busy} onClick={onClose}>Cancelar</button>
             <button className="primary-button dialog-save" type="submit" disabled={busy}>
-              {busy ? "Salvando..." : product?.id ? "Salvar alterações" : "Cadastrar"}
+              {busy ? "Salvando..." : material?.id ? "Salvar alterações" : "Cadastrar"}
             </button>
           </footer>
         </form>

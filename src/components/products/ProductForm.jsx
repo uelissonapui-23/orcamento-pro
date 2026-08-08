@@ -11,6 +11,7 @@ export default function ProductForm({
   onChange,
   onTiersChange,
   onCreateCategory,
+  materials = [],
 }) {
   const mode = value.calculation_mode;
   const modeMeta = calculationModeMeta(mode);
@@ -63,6 +64,19 @@ export default function ProductForm({
             onChange={update("description")}
             placeholder="Descrição padrão que poderá aparecer no orçamento."
           />
+        </label>
+
+        <label className="product-form-full">
+          <span>Material padrão</span>
+          <select value={value.default_material_id || ""} onChange={update("default_material_id")}>
+            <option value="">Nenhum material padrão</option>
+            {materials.map((material) => (
+              <option key={material.id} value={material.id}>
+                {material.name} · {material.unit}
+              </option>
+            ))}
+          </select>
+          <small>Opcional. Ao adicionar este produto no orçamento, esse material poderá vir pré-selecionado.</small>
         </label>
       </div>
 

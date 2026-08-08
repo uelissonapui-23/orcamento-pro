@@ -151,3 +151,18 @@ Motor de preços central:
 - adapter pronto para quote_item.
 
 Próxima fase: Materiais.
+
+
+## Fase 7 concluída
+
+Materiais:
+- categorias;
+- unidades;
+- largura de rolo;
+- custo/preço;
+- envelopamento;
+- ativo/inativo;
+- duplicação;
+- material padrão integrado aos produtos.
+
+Próxima fase: Veículos e Peças.
