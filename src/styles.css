@@ -1667,7 +1667,8 @@ a:focus-visible, button:focus-visible {
 
 /* V1.1 — Responsividade global e PDF comercial */
 html, body, #root { width: 100%; max-width: 100%; overflow-x: hidden; }
-body { overflow-wrap: anywhere; }
+body { overflow-wrap: normal; }
+.page-heading p, .panel, .metric-card, .quote-line-main, .settings-card, .automation-card { overflow-wrap: anywhere; }
 img, video, canvas { max-width: 100%; }
 .content, .content > *, .app-main, .page-heading > *, .panel, .quote-editor-page,
 .settings-page, .clients-module, .products-module, .materials-module, .vehicles-module,
@@ -1690,15 +1691,26 @@ pre, code { max-width: 100%; overflow-x: auto; }
 .pdf-total-box .grand span { text-transform: uppercase; letter-spacing: .03em; }
 .pdf-preview-stage { min-width: 0; max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; }
 
-/* Tablet: usa a navegação compacta para não sacrificar 250px de largura útil. */
-@media (max-width: 1024px) {
-  .sidebar { display: none; }
-  .app-main { margin-left: 0; padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
-  .topbar { display: flex; padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
-  .bottom-nav { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
-  .mobile-more-backdrop { display: flex; }
-  .content { width: 100%; max-width: 100%; padding-left: 22px; padding-right: 22px; }
+/* Tablet: preserva a navegação desktop até 820px.
+   A troca prematura para a barra mobile em 1024px fazia a navegação entrar no fluxo
+   da página e dividir a tela ao meio em notebooks/tablets na horizontal. */
+@media (min-width: 821px) and (max-width: 1100px) {
+  .content { width: 100%; max-width: 100%; padding-left: 24px; padding-right: 24px; }
   .quote-editor-side { position: static; }
+}
+
+/* Reforça o comportamento da navegação compacta somente no breakpoint original. */
+@media (max-width: 820px) {
+  .app-shell { display: block; width: 100%; }
+  .app-main { width: 100%; margin-left: 0; }
+  .bottom-nav {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    width: 100%;
+    z-index: 30;
+  }
 }
 
 @media (max-width: 760px) {

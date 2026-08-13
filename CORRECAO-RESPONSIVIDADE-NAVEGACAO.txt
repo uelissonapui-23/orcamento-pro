@@ -1,0 +1,12 @@
+Correção da regressão de responsividade
+
+Causa: a navegação mobile havia sido ativada em <=1024px sem carregar as regras de position:fixed que existiam no breakpoint original <=820px. Como bottom-nav é irmão do conteúdo principal, ela entrou no fluxo flex e dividiu a tela ao meio.
+
+Correção:
+- desktop/tablet horizontal preservam sidebar até 820px;
+- navegação inferior só entra no breakpoint original e fica position:fixed;
+- app-main volta a ocupar 100% em mobile;
+- mantém ajustes seguros de formulários/cards/PDF;
+- remove quebra global agressiva de texto no body.
+
+Não requer migration Supabase.
