@@ -40,8 +40,12 @@ export default function QuoteItemsEditor({ items, onAdd, onChange, error }) {
                   {item.notes ? ` · ${item.notes}` : ""}
                 </span>
               </div>
+              <div className="quote-line-quantity">
+                <small>Quantidade</small>
+                <span>{Number(item.quantity || 1).toLocaleString("pt-BR")}</span>
+              </div>
               <div className="quote-line-values">
-                <small>Unitário</small>
+                <small>Valor unitário</small>
                 <span>{formatBRL(item.unit_price)}</span>
               </div>
               <div className="quote-line-total">

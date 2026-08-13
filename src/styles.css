@@ -1773,3 +1773,208 @@ pre, code { max-width: 100%; overflow-x: auto; }
   .bottom-link svg { width: 19px; height: 19px; }
   .primary-button, .secondary-button { white-space: normal; text-align: center; }
 }
+
+
+/* V1.2 — Layout responsivo baseado no espaço REAL do conteúdo
+   Os breakpoints abaixo usam container queries. Assim o layout responde à área que
+   sobra depois da sidebar, em vez de considerar apenas a largura total da janela. */
+.content {
+  container-type: inline-size;
+  container-name: app-content;
+}
+
+/* Linhas do orçamento: nunca comprimir a descrição até uma coluna de letras. */
+.quote-line-item {
+  grid-template-columns: minmax(180px, 1fr) minmax(70px, 90px) minmax(105px, 125px) minmax(105px, 125px) auto;
+  align-items: center;
+}
+.quote-line-main strong,
+.quote-line-main span {
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.quote-line-main strong {
+  line-height: 1.35;
+  white-space: normal;
+}
+.quote-line-quantity small,
+.quote-line-quantity span,
+.quote-line-values small,
+.quote-line-values span,
+.quote-line-total small,
+.quote-line-total strong { display: block; }
+.quote-line-quantity small,
+.quote-line-values small,
+.quote-line-total small { color: #9ca3af; font-size: 8px; }
+.quote-line-quantity span,
+.quote-line-values span,
+.quote-line-total strong { margin-top: 2px; font-size: 11px; }
+.quote-line-quantity,
+.quote-line-values,
+.quote-line-total { min-width: 0; }
+
+/* Em notebooks pequenos, 2 colunas do editor deixam ambos os lados estreitos.
+   Abaixo deste ponto o resumo desce para baixo e o formulário volta a respirar. */
+@media (max-width: 1240px) and (min-width: 821px) {
+  .quote-editor-grid { grid-template-columns: 1fr; }
+  .quote-editor-side {
+    position: static;
+    grid-template-columns: minmax(280px, 420px) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+@container app-content (max-width: 940px) {
+  .quote-editor-grid,
+  .settings-page,
+  .home-final-grid,
+  .automation-bottom-grid { grid-template-columns: 1fr; }
+  .quote-editor-side,
+  .settings-preview-sticky { position: static; }
+
+  .quote-editor-side {
+    grid-template-columns: minmax(280px, 420px) minmax(0, 1fr);
+  }
+
+  .quote-basic-fields { grid-template-columns: minmax(0, 1fr) minmax(150px, .7fr); }
+  .quote-client-field { grid-column: 1 / -1; }
+
+  .products-toolbar,
+  .materials-toolbar { grid-template-columns: minmax(0, 1fr) minmax(160px, 210px); }
+  .products-actions,
+  .materials-actions { grid-column: 1 / -1; }
+
+  .product-card,
+  .material-card { grid-template-columns: minmax(0, 1fr) auto; }
+  .product-card-pricing,
+  .material-values { grid-column: 1 / -1; }
+
+  .automation-grid { grid-template-columns: 1fr 1fr; }
+  .automation-settings { grid-template-columns: 1fr 1fr; }
+  .automation-settings > div,
+  .automation-settings > .primary-button { grid-column: 1 / -1; }
+
+  .delivered-toolbar { grid-template-columns: 1fr 1fr; }
+  .home-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@container app-content (max-width: 720px) {
+  .quote-editor-top,
+  .page-heading,
+  .settings-heading,
+  .home-final-heading {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .quote-editor-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .quote-editor-actions > * { min-width: 0; width: 100%; justify-content: center; }
+
+  .quote-editor-side { grid-template-columns: 1fr; }
+  .quote-basic-fields,
+  .quote-text-fields,
+  .settings-form-grid,
+  .client-form-grid,
+  .material-form-grid,
+  .product-form-grid,
+  .vehicle-model-grid { grid-template-columns: 1fr 1fr; }
+  .quote-basic-fields > *, .quote-text-fields > * { min-width: 0; }
+  .quote-client-field { grid-column: 1 / -1; }
+
+  .quote-line-item {
+    grid-template-columns: minmax(0, 1fr) minmax(88px, auto) auto;
+    gap: 10px;
+    align-items: start;
+  }
+  .quote-line-main { grid-column: 1 / -1; }
+  .quote-line-quantity { grid-column: 1; }
+  .quote-line-values { grid-column: 2; }
+  .quote-line-total { grid-column: 1 / 3; display: flex; gap: 8px; align-items: baseline; }
+  .quote-line-actions { grid-column: 3; grid-row: 2 / span 2; flex-direction: row; align-self: center; }
+
+  .clients-toolbar,
+  .products-toolbar,
+  .materials-toolbar,
+  .vehicles-toolbar,
+  .quote-management-toolbar,
+  .delivered-toolbar,
+  .automation-settings,
+  .automation-grid,
+  .automation-message { grid-template-columns: 1fr; }
+  .clients-toolbar-actions,
+  .products-actions,
+  .materials-actions,
+  .vehicles-actions { grid-column: auto; width: 100%; }
+
+  .product-card,
+  .material-card,
+  .quote-management-card,
+  .work-order-card,
+  .work-order-card.operational,
+  .delivered-card { grid-template-columns: minmax(0, 1fr) auto; }
+
+  .home-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .metric-grid { grid-template-columns: 1fr 1fr; }
+
+  .tier-row,
+  .vehicle-part-row { grid-template-columns: 1fr 1fr; }
+
+  .pdf-items-head,
+  .pdf-item-row { grid-template-columns: minmax(0, 1fr) 62px 96px 96px; }
+}
+
+@container app-content (max-width: 520px) {
+  .quote-editor-actions,
+  .quote-basic-fields,
+  .quote-text-fields,
+  .settings-form-grid,
+  .client-form-grid,
+  .material-form-grid,
+  .product-form-grid,
+  .vehicle-model-grid,
+  .pricing-preview-inputs,
+  .automation-grid,
+  .automation-bottom-grid,
+  .home-metrics,
+  .metric-grid,
+  .delivered-detail-grid,
+  .tier-row,
+  .vehicle-part-row { grid-template-columns: 1fr !important; }
+
+  .quote-basic-fields > *, .quote-text-fields > *, .settings-form-grid > *,
+  .client-form-grid > *, .material-form-grid > *, .product-form-grid > *,
+  .vehicle-model-grid > * { grid-column: auto !important; }
+
+  .quote-card-heading { flex-direction: column; align-items: stretch; }
+  .quote-card-heading .primary-button { width: 100%; }
+  .quote-client-select { grid-template-columns: 1fr; }
+  .quote-client-select .secondary-button { width: 100%; }
+
+  .quote-line-item { grid-template-columns: minmax(0, 1fr) auto; }
+  .quote-line-main { grid-column: 1 / -1; }
+  .quote-line-quantity,
+  .quote-line-values,
+  .quote-line-total {
+    grid-column: 1;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    text-align: left;
+  }
+  .quote-line-quantity small,
+  .quote-line-values small,
+  .quote-line-total small { min-width: 88px; }
+  .quote-line-actions { grid-column: 2; grid-row: 2 / span 3; flex-direction: column; }
+
+  .product-card,
+  .material-card,
+  .quote-management-card,
+  .work-order-card,
+  .work-order-card.operational,
+  .delivered-card { grid-template-columns: minmax(0, 1fr) auto; }
+
+  .pdf-preview-stage { overflow-x: auto; }
+}
