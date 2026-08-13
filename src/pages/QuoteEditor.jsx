@@ -6,7 +6,7 @@ import QuoteItemsEditor from "../components/quotes/QuoteItemsEditor";
 import QuoteTotals from "../components/quotes/QuoteTotals";
 import QuickClientDialog from "../components/clients/QuickClientDialog";
 import { useAuth } from "../contexts/AuthContext";
-import { buildQuoteDefaults } from "../lib/quoteDefaults";
+import { addDaysToIsoDate, buildQuoteDefaults, quoteDeliveryDays } from "../lib/quoteDefaults";
 import { buildBusinessSnapshot } from "../lib/quotePdf";
 import {
   buildQuoteClientSnapshot,
@@ -103,6 +103,25 @@ export default function QuoteEditor() {
     setErrors((current) => ({ ...current, [field]: "" }));
   };
 
+  const updateIssueDate = (value) => {
+    const deliveryDays = quoteDeliveryDays(quote);
+    setQuote((current) => ({
+      ...current,
+      issue_date: value,
+      expected_delivery_date:
+        value && deliveryDays > 0 ? addDaysToIsoDate(value, deliveryDays) : "",
+    }));
+    setErrors((current) => ({ ...current, issue_date: "" }));
+  };
+
+  const updateDeliveryDays = (value) => {
+    const days = Math.max(0, Math.min(365, Number(value || 0)));
+    update(
+      "expected_delivery_date",
+      quote.issue_date && days > 0 ? addDaysToIsoDate(quote.issue_date, days) : "",
+    );
+  };
+
   const selectClient = (clientId) => {
     const client = clients.find((item) => item.id === clientId);
     setQuote((current) => ({
@@ -186,9 +205,21 @@ export default function QuoteEditor() {
                 {errors.client_id ? <small className="field-error">{errors.client_id}</small> : null}
               </label>
 
-              <label><span>Data</span><input type="date" value={quote.issue_date} onChange={(e) => update("issue_date", e.target.value)} />{errors.issue_date ? <small className="field-error">{errors.issue_date}</small> : null}</label>
+              <label><span>Data</span><input type="date" value={quote.issue_date} onChange={(e) => updateIssueDate(e.target.value)} />{errors.issue_date ? <small className="field-error">{errors.issue_date}</small> : null}</label>
               <label><span>Validade</span><input type="date" value={quote.valid_until} onChange={(e) => update("valid_until", e.target.value)} />{errors.valid_until ? <small className="field-error">{errors.valid_until}</small> : null}</label>
-              <label><span>Previsão de entrega</span><input type="date" value={quote.expected_delivery_date || ""} onChange={(e) => update("expected_delivery_date", e.target.value)} /></label>
+              <label>
+                <span>Prazo de entrega (dias)</span>
+                <input
+                  type="number"
+                  min="0"
+                  max="365"
+                  inputMode="numeric"
+                  value={quoteDeliveryDays(quote) || ""}
+                  placeholder="Ex.: 7"
+                  onChange={(e) => updateDeliveryDays(e.target.value)}
+                />
+                <small>O prazo começa a contar após a aprovação do orçamento.</small>
+              </label>
             </div>
           </section>
 

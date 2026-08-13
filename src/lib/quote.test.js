@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createEmptyQuote, normalizeQuoteItem, quoteNumberLabel, validateQuote } from "./quote";
+import { addDaysToIsoDate, quoteDeliveryDays } from "./quoteDefaults";
 
 describe("quote domain", () => {
   it("creates quote from defaults", () => {
@@ -19,6 +20,11 @@ describe("quote domain", () => {
     const item = normalizeQuoteItem({ description: "Banner", quantity: "2", total_price: "120.50" });
     expect(item.quantity).toBe(2);
     expect(item.total_price).toBe(120.5);
+  });
+
+  it("keeps delivery as a number of days instead of a promised calendar date", () => {
+    expect(addDaysToIsoDate("2026-08-13", 7)).toBe("2026-08-20");
+    expect(quoteDeliveryDays({ issue_date: "2026-08-13", expected_delivery_date: "2026-08-20" })).toBe(7);
   });
 
   it("formats quote number", () => {

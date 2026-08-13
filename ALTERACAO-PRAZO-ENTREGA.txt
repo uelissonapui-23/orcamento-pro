@@ -1,0 +1,8 @@
+ALTERAÇÃO — PRAZO DE ENTREGA POR DIAS
+
+- O orçamento não promete mais uma data fixa de entrega.
+- O editor passa a pedir "Prazo de entrega (dias)".
+- O PDF mostra, por exemplo: "7 dias após aprovação".
+- Ao aprovar o orçamento, a data real da ordem de serviço é calculada a partir do dia da aprovação.
+- Orçamentos antigos continuam compatíveis: o prazo é derivado da diferença entre emissão e previsão antiga.
+- Ao duplicar um orçamento, a quantidade de dias é preservada e recalculada a partir da nova emissão.

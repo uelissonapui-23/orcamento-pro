@@ -42,7 +42,7 @@ export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
       <section className="pdf-info-grid">
         <div><span>Emissão</span><strong>{vm.issueDate}</strong></div>
         <div><span>Validade</span><strong>{vm.validUntil}</strong></div>
-        <div><span>Previsão</span><strong>{vm.expectedDeliveryDate}</strong></div>
+        <div><span>Prazo de entrega</span><strong>{vm.deliveryTerm}</strong></div>
       </section>
 
       <section className="pdf-items">

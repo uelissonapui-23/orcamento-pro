@@ -305,7 +305,7 @@ async function renderPdfPages({ quote, business, logoUrl }) {
   const cardWidth = (CONTENT_WIDTH - 24) / 3;
   drawInfoCard(ctx, "Emissão", vm.issueDate, MARGIN, cardY, cardWidth);
   drawInfoCard(ctx, "Validade", vm.validUntil, MARGIN + cardWidth + 12, cardY, cardWidth);
-  drawInfoCard(ctx, "Previsão", vm.expectedDeliveryDate, MARGIN + (cardWidth + 12) * 2, cardY, cardWidth);
+  drawInfoCard(ctx, "Prazo de entrega", vm.deliveryTerm, MARGIN + (cardWidth + 12) * 2, cardY, cardWidth);
 
   y = cardY + 144;
 

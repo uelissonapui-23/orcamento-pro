@@ -1,5 +1,6 @@
 import { formatBRL } from "./money";
 import { quoteNumberLabel } from "./quote";
+import { quoteDeliveryDays } from "./quoteDefaults";
 
 export function buildBusinessSnapshot(settings = {}) {
   return {
@@ -109,7 +110,12 @@ export function quotePdfViewModel(quote, business = {}) {
     clientContact: formatContact(quote.client_snapshot_json),
     issueDate: formatQuoteDate(quote.issue_date),
     validUntil: formatQuoteDate(quote.valid_until),
-    expectedDeliveryDate: formatQuoteDate(quote.expected_delivery_date),
+    deliveryDays: quoteDeliveryDays(quote),
+    deliveryTerm: (() => {
+      const days = quoteDeliveryDays(quote);
+      if (!days) return "A combinar";
+      return `${days} ${days === 1 ? "dia" : "dias"} após aprovação`;
+    })(),
     subtotal: formatBRL(quote.subtotal),
     discount: formatBRL(quote.discount_total),
     surcharge: formatBRL(quote.surcharge_total),

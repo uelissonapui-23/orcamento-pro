@@ -5,6 +5,7 @@ import {
   businessDisplayName,
   formatAddress,
   quoteItemUnitPrice,
+  quotePdfViewModel,
 } from "./quotePdf";
 
 describe("quote PDF helpers", () => {
@@ -40,6 +41,16 @@ describe("quote PDF helpers", () => {
   it("derives a unit price for legacy items when necessary", () => {
     expect(quoteItemUnitPrice({ quantity: 4, total_price: 100 })).toBe(25);
     expect(quoteItemUnitPrice({ quantity: 4, total_price: 100, unit_price: 30 })).toBe(30);
+  });
+
+  it("shows delivery as a deadline counted after approval", () => {
+    const vm = quotePdfViewModel({
+      issue_date: "2026-08-13",
+      expected_delivery_date: "2026-08-20",
+      client_snapshot_json: {},
+    });
+    expect(vm.deliveryDays).toBe(7);
+    expect(vm.deliveryTerm).toBe("7 dias após aprovação");
   });
 
   it("creates filesystem-safe filename", () => {
