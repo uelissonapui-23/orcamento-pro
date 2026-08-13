@@ -4,6 +4,7 @@ import {
   formatContact,
   formatQuoteDate,
   quotePdfViewModel,
+  quoteItemUnitPrice,
 } from "../lib/quotePdf";
 import { formatBRL } from "../lib/money";
 
@@ -11,6 +12,10 @@ const PAGE_WIDTH = 1240;
 const PAGE_HEIGHT = 1754;
 const MARGIN = 88;
 const CONTENT_WIDTH = PAGE_WIDTH - MARGIN * 2;
+const PDF_RASTER_SCALE = 0.72;
+const PDF_RASTER_WIDTH = Math.round(PAGE_WIDTH * PDF_RASTER_SCALE);
+const PDF_RASTER_HEIGHT = Math.round(PAGE_HEIGHT * PDF_RASTER_SCALE);
+const PDF_JPEG_QUALITY = 0.78;
 
 function asHexColor(value) {
   return /^#[0-9a-fA-F]{6}$/.test(value || "") ? value : "#111827";
@@ -18,8 +23,10 @@ function asHexColor(value) {
 
 function createCanvas() {
   const canvas = document.createElement("canvas");
-  canvas.width = PAGE_WIDTH;
-  canvas.height = PAGE_HEIGHT;
+  canvas.width = PDF_RASTER_WIDTH;
+  canvas.height = PDF_RASTER_HEIGHT;
+  const ctx = canvas.getContext("2d");
+  ctx.scale(PDF_RASTER_SCALE, PDF_RASTER_SCALE);
   return canvas;
 }
 
@@ -106,7 +113,7 @@ function canvasToJpeg(canvas) {
         resolve(new Uint8Array(await blob.arrayBuffer()));
       },
       "image/jpeg",
-      0.92,
+      PDF_JPEG_QUALITY,
     );
   });
 }
@@ -148,7 +155,7 @@ function buildJpegPdf(jpegs) {
 
     objects[imageObject] = concat([
       ascii(
-        `<< /Type /XObject /Subtype /Image /Width ${PAGE_WIDTH} /Height ${PAGE_HEIGHT} ` +
+        `<< /Type /XObject /Subtype /Image /Width ${PDF_RASTER_WIDTH} /Height ${PDF_RASTER_HEIGHT} ` +
         `/ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.length} >>\nstream\n`,
       ),
       jpeg,
@@ -378,7 +385,7 @@ async function renderPdfPages({ quote, business, logoUrl }) {
     ctx.fillStyle = "#374151";
     ctx.font = "600 14px Arial";
     ctx.fillText(String(item.quantity || 1), columns.qty, y + 30);
-    ctx.fillText(formatBRL(item.unit_price), columns.unit, y + 30);
+    ctx.fillText(formatBRL(quoteItemUnitPrice(item)), columns.unit, y + 30);
     ctx.textAlign = "right";
     ctx.fillStyle = "#111827";
     ctx.font = "800 15px Arial";

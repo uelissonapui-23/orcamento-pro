@@ -4,6 +4,7 @@ import {
   buildPdfFilename,
   businessDisplayName,
   formatAddress,
+  quoteItemUnitPrice,
 } from "./quotePdf";
 
 describe("quote PDF helpers", () => {
@@ -15,6 +16,7 @@ describe("quote PDF helpers", () => {
     });
     expect(snapshot.trade_name).toBe("Minha Empresa");
     expect(snapshot.primary_color).toBe("#FF0000");
+    expect(snapshot.pdf_logo_path).toBe("");
     expect(snapshot.ignored).toBeUndefined();
   });
 
@@ -25,6 +27,19 @@ describe("quote PDF helpers", () => {
   it("formats address", () => {
     expect(formatAddress({ street: "Rua A", address_number: "10", city: "Goiânia", state: "GO" }))
       .toContain("Rua A, 10");
+  });
+
+  it("keeps the lightweight PDF logo in the historical snapshot", () => {
+    const snapshot = buildBusinessSnapshot({
+      logo_path: "workspace/logos/original.png",
+      pdf_logo_path: "workspace/logos/pdf/light.webp",
+    });
+    expect(snapshot.pdf_logo_path).toBe("workspace/logos/pdf/light.webp");
+  });
+
+  it("derives a unit price for legacy items when necessary", () => {
+    expect(quoteItemUnitPrice({ quantity: 4, total_price: 100 })).toBe(25);
+    expect(quoteItemUnitPrice({ quantity: 4, total_price: 100, unit_price: 30 })).toBe(30);
   });
 
   it("creates filesystem-safe filename", () => {

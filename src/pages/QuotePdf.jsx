@@ -35,9 +35,10 @@ export default function QuotePdf() {
       setQuote(loadedQuote);
       setBusiness(snapshot);
 
-      if (snapshot.logo_path) {
+      const pdfLogoPath = snapshot.pdf_logo_path || snapshot.logo_path;
+      if (pdfLogoPath) {
         try {
-          setLogoUrl(await createLogoPreviewUrl(snapshot.logo_path));
+          setLogoUrl(await createLogoPreviewUrl(pdfLogoPath));
         } catch {
           setLogoUrl("");
         }

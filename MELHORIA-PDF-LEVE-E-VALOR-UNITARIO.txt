@@ -1,0 +1,8 @@
+Melhoria do PDF de orçamento
+
+- Valor unitário fica explícito no PDF e possui fallback para orçamentos legados.
+- Renderização do PDF usa raster reduzido e JPEG otimizado para diminuir o tamanho do arquivo.
+- Ao enviar a logo da empresa, o app mantém a original e cria automaticamente uma cópia WebP leve.
+- A cópia leve fica salva em business_settings.pdf_logo_path e no Storage para reutilização.
+- Novos snapshots de orçamento preservam pdf_logo_path; históricos antigos continuam usando logo_path como fallback.
+- Migration: 20260813190000_lightweight_quote_pdf_logo.sql

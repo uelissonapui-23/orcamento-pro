@@ -4,6 +4,7 @@ import {
   formatContact,
   formatQuoteDate,
   quotePdfViewModel,
+  quoteItemUnitPrice,
 } from "../../lib/quotePdf";
 
 export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
@@ -60,7 +61,7 @@ export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
               </span>
             </div>
             <span>{item.quantity}</span>
-            <span>{formatBRL(item.unit_price)}</span>
+            <span>{formatBRL(quoteItemUnitPrice(item))}</span>
             <strong>{formatBRL(item.total_price)}</strong>
           </div>
         ))}

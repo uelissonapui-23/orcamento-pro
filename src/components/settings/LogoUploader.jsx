@@ -44,7 +44,7 @@ export default function LogoUploader({ logoUrl, busy, onUpload, onRemove }) {
           </button>
         ) : null}
 
-        <small>PNG, JPG ou WebP. Máximo de 2 MB.</small>
+        <small>PNG, JPG ou WebP. Máximo de 2 MB. O app cria automaticamente uma cópia leve para os PDFs.</small>
       </div>
     </div>
   );

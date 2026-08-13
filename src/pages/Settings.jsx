@@ -109,13 +109,13 @@ export default function Settings() {
     setStatus({ type: "", message: "" });
 
     try {
-      const path = await uploadBusinessLogo(workspace.id, file, settings.logo_path);
-      const url = await createLogoPreviewUrl(path);
-      const next = normalizeBusinessSettings({ ...settings, logo_path: path });
+      const paths = await uploadBusinessLogo(workspace.id, file, settings.logo_path);
+      const url = await createLogoPreviewUrl(paths.logo_path);
+      const next = normalizeBusinessSettings({ ...settings, ...paths });
       setSettings(next);
-      setSavedSettings((current) => normalizeBusinessSettings({ ...current, logo_path: path }));
+      setSavedSettings((current) => normalizeBusinessSettings({ ...current, ...paths }));
       setLogoUrl(url);
-      setStatus({ type: "success", message: "Logo atualizada." });
+      setStatus({ type: "success", message: "Logo atualizada. A versão leve para PDFs foi criada automaticamente." });
     } catch (error) {
       setStatus({ type: "error", message: errorMessage(error) });
     } finally {
@@ -130,9 +130,9 @@ export default function Settings() {
 
     try {
       await removeBusinessLogo(workspace.id, settings.logo_path);
-      const next = normalizeBusinessSettings({ ...settings, logo_path: "" });
+      const next = normalizeBusinessSettings({ ...settings, logo_path: "", pdf_logo_path: "" });
       setSettings(next);
-      setSavedSettings((current) => normalizeBusinessSettings({ ...current, logo_path: "" }));
+      setSavedSettings((current) => normalizeBusinessSettings({ ...current, logo_path: "", pdf_logo_path: "" }));
       setLogoUrl("");
       setStatus({ type: "success", message: "Logo removida." });
     } catch (error) {

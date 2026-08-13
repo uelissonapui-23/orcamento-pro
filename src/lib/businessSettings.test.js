@@ -15,6 +15,7 @@ describe("business settings", () => {
     expect(result.primary_color).toBe("#12ABEF");
     expect(result.default_quote_validity_days).toBe(365);
     expect(result.default_delivery_days).toBe(0);
+    expect(result.pdf_logo_path).toBe("");
   });
 
   it("falls back to a safe brand color", () => {

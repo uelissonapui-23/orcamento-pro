@@ -17,8 +17,22 @@ export function buildBusinessSnapshot(settings = {}) {
     city: settings.city || "",
     state: settings.state || "",
     logo_path: settings.logo_path || "",
+    pdf_logo_path: settings.pdf_logo_path || settings.logo_path || "",
     primary_color: settings.primary_color || "#111827",
   };
+}
+
+export function quoteItemUnitPrice(item = {}) {
+  if (item.unit_price !== null && item.unit_price !== undefined && item.unit_price !== "") {
+    const explicit = Number(item.unit_price);
+    if (Number.isFinite(explicit)) return explicit;
+  }
+
+  const quantity = Number(item.quantity || 1);
+  const total = Number(item.total_price || 0);
+  return Number.isFinite(total) && Number.isFinite(quantity) && quantity > 0
+    ? total / quantity
+    : 0;
 }
 
 export function businessDisplayName(business = {}) {
