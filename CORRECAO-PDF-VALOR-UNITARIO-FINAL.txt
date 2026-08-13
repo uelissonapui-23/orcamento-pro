@@ -1,0 +1,7 @@
+CORREÇÃO — PDF / VALOR UNITÁRIO COMERCIAL
+
+- Valor unitário no orçamento agora é o preço final de uma unidade vendida: total do item ÷ quantidade.
+- O valor técnico usado pelo motor de preço (R$/m², R$/metro etc.) continua preservado internamente, mas não é exibido como valor unitário comercial.
+- Cabeçalho do PDF reorganizado: Descrição | Qtd. | Valor unitário | Total do item.
+- Resumo final usa Total geral.
+- Linhas do PDF receberam melhor alinhamento, largura e leitura.

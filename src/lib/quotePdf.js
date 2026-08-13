@@ -24,16 +24,20 @@ export function buildBusinessSnapshot(settings = {}) {
 }
 
 export function quoteItemUnitPrice(item = {}) {
-  if (item.unit_price !== null && item.unit_price !== undefined && item.unit_price !== "") {
-    const explicit = Number(item.unit_price);
-    if (Number.isFinite(explicit)) return explicit;
-  }
-
+  // No orçamento, “valor unitário” significa o preço final de UMA unidade
+  // vendida daquele item (uma placa, uma faixa, uma peça, um serviço etc.).
+  // O campo item.unit_price pode representar a base técnica do motor de preço
+  // (ex.: R$/m² ou R$/metro), por isso ele não deve ser exibido como preço
+  // unitário comercial no PDF. O valor comercial correto é total / quantidade.
   const quantity = Number(item.quantity || 1);
   const total = Number(item.total_price || 0);
-  return Number.isFinite(total) && Number.isFinite(quantity) && quantity > 0
-    ? total / quantity
-    : 0;
+
+  if (Number.isFinite(total) && Number.isFinite(quantity) && quantity > 0) {
+    return Math.round((total / quantity + Number.EPSILON) * 100) / 100;
+  }
+
+  const fallback = Number(item.unit_price || 0);
+  return Number.isFinite(fallback) ? fallback : 0;
 }
 
 export function businessDisplayName(business = {}) {

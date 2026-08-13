@@ -1978,3 +1978,37 @@ pre, code { max-width: 100%; overflow-x: auto; }
 
   .pdf-preview-stage { overflow-x: auto; }
 }
+
+
+/* V1.2 — PDF comercial: coluna unitária final e leitura mais limpa */
+.pdf-items-head,
+.pdf-item-row {
+  grid-template-columns: minmax(0, 1fr) 64px 112px 118px;
+  column-gap: 10px;
+}
+.pdf-items-head {
+  align-items: center;
+  padding: 10px 12px;
+  font-size: 7.5px;
+}
+.pdf-items-head span:nth-child(2) { text-align: center; }
+.pdf-items-head span:nth-child(3),
+.pdf-items-head span:nth-child(4) { text-align: right; }
+.pdf-item-row {
+  align-items: center;
+  min-height: 48px;
+  padding: 11px 12px;
+}
+.pdf-item-row:nth-child(odd) { background: #fbfcfd; }
+.pdf-item-row > span:nth-child(2) { text-align: center; }
+.pdf-item-row > span:nth-child(3),
+.pdf-item-row > strong:last-child { text-align: right; white-space: nowrap; }
+.pdf-item-row > div strong { line-height: 1.25; }
+.pdf-item-row > div span { line-height: 1.35; overflow-wrap: break-word; word-break: normal; }
+.pdf-total-section { grid-template-columns: minmax(0,1fr) 300px; }
+.pdf-total-box .grand span { text-transform: uppercase; letter-spacing: .045em; }
+.pdf-total-box .grand strong { white-space: nowrap; }
+@media print {
+  .pdf-items-head,
+  .pdf-item-row { grid-template-columns: minmax(0, 1fr) 17mm 30mm 32mm; }
+}

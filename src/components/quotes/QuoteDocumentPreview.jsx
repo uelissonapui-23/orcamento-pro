@@ -48,7 +48,7 @@ export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
       <section className="pdf-items">
         <h3>Itens do orçamento</h3>
         <div className="pdf-items-head">
-          <span>Descrição</span><span>Quantidade</span><span>Valor unitário</span><span>Total</span>
+          <span>Descrição</span><span>Qtd.</span><span>Valor unitário</span><span>Total do item</span>
         </div>
         {(quote.items || []).map((item, index) => (
           <div className="pdf-item-row" key={item.id || item.local_id || index}>
@@ -76,7 +76,7 @@ export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
           <div><span>Subtotal dos itens</span><strong>{vm.subtotal}</strong></div>
           {Number(quote.surcharge_total) > 0 ? <div><span>Acréscimos</span><strong>+ {vm.surcharge}</strong></div> : null}
           {Number(quote.discount_total) > 0 ? <div><span>Descontos</span><strong>- {vm.discount}</strong></div> : null}
-          <div className="grand"><span>Total do orçamento</span><strong>{vm.total}</strong></div>
+          <div className="grand"><span>Total geral</span><strong>{vm.total}</strong></div>
         </div>
       </section>
 

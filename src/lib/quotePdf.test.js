@@ -38,9 +38,12 @@ describe("quote PDF helpers", () => {
     expect(snapshot.pdf_logo_path).toBe("workspace/logos/pdf/light.webp");
   });
 
-  it("derives a unit price for legacy items when necessary", () => {
+  it("shows the commercial price of one sold unit, not the technical pricing base", () => {
     expect(quoteItemUnitPrice({ quantity: 4, total_price: 100 })).toBe(25);
-    expect(quoteItemUnitPrice({ quantity: 4, total_price: 100, unit_price: 30 })).toBe(30);
+    // Em itens por m²/metro, unit_price pode ser a tarifa técnica do cálculo.
+    // O PDF deve mostrar quanto custa cada unidade final: 100 / 4 = 25.
+    expect(quoteItemUnitPrice({ quantity: 4, total_price: 100, unit_price: 30 })).toBe(25);
+    expect(quoteItemUnitPrice({ quantity: 3, total_price: 100 })).toBe(33.33);
   });
 
   it("shows delivery as a deadline counted after approval", () => {
