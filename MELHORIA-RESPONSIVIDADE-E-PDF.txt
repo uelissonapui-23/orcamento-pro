@@ -1,0 +1,14 @@
+Melhoria de responsividade e PDF — 13/08/2026
+
+PDF:
+- Cabeçalho dos itens: Descrição, Quantidade, Valor unitário e Total.
+- Colunas numéricas alinhadas à direita e dimensionadas para não sobrepor valores.
+- Resumo final: Subtotal dos itens, Acréscimos, Descontos e Total do orçamento.
+- Mantém a geração leve e a logo otimizada implementadas na etapa anterior.
+
+Aplicativo:
+- Navegação compacta também em tablets para preservar largura útil.
+- Regras globais contra overflow horizontal e elementos saindo da tela.
+- Formulários, cards, ações, diálogos e editor de orçamento reorganizados em telas estreitas.
+- Ajustes específicos para 1024px, 760px, 560px e 400px.
+- Prévia do PDF permanece íntegra e rolável quando a tela for menor que uma folha A4.

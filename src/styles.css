@@ -1664,3 +1664,100 @@ a:focus-visible, button:focus-visible {
   .automation-main-alert { align-items: stretch; flex-direction: column; }
   .automation-main-alert button { justify-content: center; }
 }
+
+/* V1.1 — Responsividade global e PDF comercial */
+html, body, #root { width: 100%; max-width: 100%; overflow-x: hidden; }
+body { overflow-wrap: anywhere; }
+img, video, canvas { max-width: 100%; }
+.content, .content > *, .app-main, .page-heading > *, .panel, .quote-editor-page,
+.settings-page, .clients-module, .products-module, .materials-module, .vehicles-module,
+.quotes-module, .work-orders-module, .delivered-module, .automation-module { min-width: 0; }
+
+/* Campos nunca podem ultrapassar o card que os contém. */
+.content input, .content select, .content textarea, .content button { max-width: 100%; }
+.content input, .content select, .content textarea { min-width: 0; }
+pre, code { max-width: 100%; overflow-x: auto; }
+
+/* PDF: nomenclatura comercial e alinhamento consistente das quatro colunas. */
+.pdf-items-head,
+.pdf-item-row { grid-template-columns: minmax(0, 1fr) 84px 118px 118px; }
+.pdf-items-head span:nth-child(n+2),
+.pdf-item-row > span,
+.pdf-item-row > strong { text-align: right; }
+.pdf-item-row > div { min-width: 0; }
+.pdf-item-row > div strong,
+.pdf-item-row > div span { overflow-wrap: anywhere; }
+.pdf-total-box .grand span { text-transform: uppercase; letter-spacing: .03em; }
+.pdf-preview-stage { min-width: 0; max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; }
+
+/* Tablet: usa a navegação compacta para não sacrificar 250px de largura útil. */
+@media (max-width: 1024px) {
+  .sidebar { display: none; }
+  .app-main { margin-left: 0; padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+  .topbar { display: flex; padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
+  .bottom-nav { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .mobile-more-backdrop { display: flex; }
+  .content { width: 100%; max-width: 100%; padding-left: 22px; padding-right: 22px; }
+  .quote-editor-side { position: static; }
+}
+
+@media (max-width: 760px) {
+  .content { padding: 20px 14px calc(28px + env(safe-area-inset-bottom)); }
+  .page-heading, .quote-editor-top, .settings-heading, .home-final-heading {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .page-heading > *, .quote-editor-top > *, .settings-heading > *, .home-final-heading > * { width: 100%; }
+  .page-heading h1, .quote-title-line h1 { line-height: 1.12; overflow-wrap: anywhere; }
+  .page-heading .primary-button, .quote-editor-actions .primary-button,
+  .quote-editor-actions .secondary-button { width: 100%; justify-content: center; }
+  .quote-editor-actions { width: 100%; display: grid; grid-template-columns: 1fr 1fr; }
+  .quote-editor-actions > :only-child { grid-column: 1 / -1; }
+  .quote-basic-fields, .quote-text-fields { grid-template-columns: 1fr 1fr; }
+  .quote-basic-fields > :first-child { grid-column: 1 / -1; }
+  .quote-line-item { grid-template-columns: minmax(0,1fr) minmax(90px, auto) auto; gap: 9px; }
+  .quote-line-values { grid-column: 1 / 2; }
+  .quote-line-total { grid-column: 2 / 3; text-align: right; }
+  .quote-line-actions { grid-column: 3 / 4; grid-row: 1 / span 2; }
+  .dialog-backdrop { padding: 12px; align-items: center; }
+  .dialog-backdrop > * { max-width: calc(100vw - 24px); max-height: calc(100dvh - 24px); }
+  .dialog-footer { flex-wrap: wrap; }
+  .dialog-footer > button { flex: 1 1 160px; min-width: 0; }
+  .pdf-toolbar-actions { gap: 8px; }
+}
+
+@media (max-width: 560px) {
+  .content { padding-left: 12px; padding-right: 12px; }
+  .topbar { min-height: 60px; height: auto; padding-top: 8px; padding-bottom: 8px; gap: 8px; }
+  .topbar-global-search { min-width: 0; }
+  .topbar-global-search span, .topbar-global-search kbd { display: none; }
+  .page-heading h1, .quote-title-line h1 { font-size: clamp(24px, 8vw, 31px); }
+  .quote-editor-actions { grid-template-columns: 1fr; }
+  .quote-basic-fields, .quote-text-fields, .quote-item-fields,
+  .form-grid, .settings-form-grid, .client-form-grid, .material-form-grid,
+  .product-form-grid, .vehicle-model-grid, .pricing-preview-inputs { grid-template-columns: 1fr !important; }
+  .quote-basic-fields > *, .quote-text-fields > *, .quote-item-fields > *,
+  .form-grid > *, .settings-form-grid > *, .client-form-grid > *, .material-form-grid > *,
+  .product-form-grid > *, .vehicle-model-grid > *, .pricing-preview-inputs > * { grid-column: auto !important; }
+  .quote-client-select { grid-template-columns: 1fr; }
+  .quote-client-select .secondary-button { width: 100%; }
+  .quote-line-item { grid-template-columns: minmax(0,1fr) auto; align-items: start; }
+  .quote-line-main { grid-column: 1 / 2; }
+  .quote-line-values, .quote-line-total { grid-column: 1 / 2; text-align: left; display: flex; gap: 8px; align-items: baseline; }
+  .quote-line-values small, .quote-line-total small { min-width: 72px; }
+  .quote-line-actions { grid-column: 2 / 3; grid-row: 1 / span 3; flex-direction: column; }
+  .metric-card, .home-metric-card { min-width: 0; }
+  .bottom-link { font-size: 9px; }
+  .bottom-link span { max-width: 72px; }
+  .pdf-preview-stage { margin-left: -12px; margin-right: -12px; padding: 10px 12px; }
+  .pdf-sheet { flex: none; }
+}
+
+@media (max-width: 400px) {
+  .content { padding-left: 10px; padding-right: 10px; }
+  .bottom-nav { padding-left: 2px; padding-right: 2px; }
+  .bottom-link { padding-left: 1px; padding-right: 1px; font-size: 8px; }
+  .bottom-link svg { width: 19px; height: 19px; }
+  .primary-button, .secondary-button { white-space: normal; text-align: center; }
+}

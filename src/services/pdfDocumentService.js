@@ -311,12 +311,16 @@ async function renderPdfPages({ quote, business, logoUrl }) {
 
   const headerHeight = 44;
   const rowMinHeight = 62;
+  // Colunas monetárias são alinhadas pela direita para manter os valores
+  // legíveis mesmo quando há números maiores. A descrição fica com a maior
+  // área útil da linha.
   const columns = {
     desc: MARGIN + 14,
-    qty: MARGIN + 650,
-    unit: MARGIN + 782,
+    qty: MARGIN + 705,
+    unit: MARGIN + 885,
     total: PAGE_WIDTH - MARGIN - 12,
   };
+  const descriptionWidth = 545;
 
   function drawItemsHeader() {
     ctx.fillStyle = "#111827";
@@ -328,9 +332,9 @@ async function renderPdfPages({ quote, business, logoUrl }) {
     ctx.fillStyle = "#FFFFFF";
     ctx.font = "800 12px Arial";
     ctx.fillText("DESCRIÇÃO", columns.desc, y + 27);
-    ctx.fillText("QTD.", columns.qty, y + 27);
-    ctx.fillText("UNITÁRIO", columns.unit, y + 27);
     ctx.textAlign = "right";
+    ctx.fillText("QUANTIDADE", columns.qty, y + 27);
+    ctx.fillText("VALOR UNITÁRIO", columns.unit, y + 27);
     ctx.fillText("TOTAL", columns.total, y + 27);
     ctx.textAlign = "left";
     y += headerHeight;
@@ -340,7 +344,7 @@ async function renderPdfPages({ quote, business, logoUrl }) {
 
   for (const item of quote.items || []) {
     ctx.font = "700 15px Arial";
-    const descriptionLines = textLines(ctx, item.description, 585);
+    const descriptionLines = textLines(ctx, item.description, descriptionWidth);
     ctx.font = "400 13px Arial";
     const metaText =
       item.calculation_mode === "square_meter" && item.area
@@ -348,7 +352,7 @@ async function renderPdfPages({ quote, business, logoUrl }) {
         : item.calculation_mode === "linear_meter" && item.linear_meters
           ? `${item.linear_meters} m`
           : "";
-    const noteLines = textLines(ctx, [metaText, item.notes].filter(Boolean).join(" · "), 585);
+    const noteLines = textLines(ctx, [metaText, item.notes].filter(Boolean).join(" · "), descriptionWidth);
     const rowHeight = Math.max(
       rowMinHeight,
       26 + descriptionLines.length * 19 + noteLines.length * 17,
@@ -384,9 +388,9 @@ async function renderPdfPages({ quote, business, logoUrl }) {
 
     ctx.fillStyle = "#374151";
     ctx.font = "600 14px Arial";
+    ctx.textAlign = "right";
     ctx.fillText(String(item.quantity || 1), columns.qty, y + 30);
     ctx.fillText(formatBRL(quoteItemUnitPrice(item)), columns.unit, y + 30);
-    ctx.textAlign = "right";
     ctx.fillStyle = "#111827";
     ctx.font = "800 15px Arial";
     ctx.fillText(formatBRL(item.total_price), columns.total, y + 30);
@@ -409,9 +413,9 @@ async function renderPdfPages({ quote, business, logoUrl }) {
   drawRoundedRect(ctx, totalsX, y, 430, 166, 14, "#F9FAFB", "#E5E7EB");
 
   const rows = [
-    ["Subtotal", vm.subtotal],
-    ...(Number(quote.surcharge_total) > 0 ? [["Adicional", `+ ${vm.surcharge}`]] : []),
-    ...(Number(quote.discount_total) > 0 ? [["Desconto", `- ${vm.discount}`]] : []),
+    ["Subtotal dos itens", vm.subtotal],
+    ...(Number(quote.surcharge_total) > 0 ? [["Acréscimos", `+ ${vm.surcharge}`]] : []),
+    ...(Number(quote.discount_total) > 0 ? [["Descontos", `- ${vm.discount}`]] : []),
   ];
 
   let ty = y + 30;
@@ -434,7 +438,7 @@ async function renderPdfPages({ quote, business, logoUrl }) {
 
   ctx.fillStyle = "#111827";
   ctx.font = "900 19px Arial";
-  ctx.fillText("Total", totalsX + 20, y + 145);
+  ctx.fillText("Total do orçamento", totalsX + 20, y + 145);
   ctx.textAlign = "right";
   ctx.font = "900 26px Arial";
   ctx.fillText(vm.total, totalsX + 410, y + 147);

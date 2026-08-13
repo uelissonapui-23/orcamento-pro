@@ -48,7 +48,7 @@ export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
       <section className="pdf-items">
         <h3>Itens do orçamento</h3>
         <div className="pdf-items-head">
-          <span>Descrição</span><span>Qtd.</span><span>Unitário</span><span>Total</span>
+          <span>Descrição</span><span>Quantidade</span><span>Valor unitário</span><span>Total</span>
         </div>
         {(quote.items || []).map((item, index) => (
           <div className="pdf-item-row" key={item.id || item.local_id || index}>
@@ -73,10 +73,10 @@ export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
           {formatContact(business) ? <p>{formatContact(business)}</p> : null}
         </div>
         <div className="pdf-total-box">
-          <div><span>Subtotal</span><strong>{vm.subtotal}</strong></div>
-          {Number(quote.surcharge_total) > 0 ? <div><span>Adicional</span><strong>+ {vm.surcharge}</strong></div> : null}
-          {Number(quote.discount_total) > 0 ? <div><span>Desconto</span><strong>- {vm.discount}</strong></div> : null}
-          <div className="grand"><span>Total</span><strong>{vm.total}</strong></div>
+          <div><span>Subtotal dos itens</span><strong>{vm.subtotal}</strong></div>
+          {Number(quote.surcharge_total) > 0 ? <div><span>Acréscimos</span><strong>+ {vm.surcharge}</strong></div> : null}
+          {Number(quote.discount_total) > 0 ? <div><span>Descontos</span><strong>- {vm.discount}</strong></div> : null}
+          <div className="grand"><span>Total do orçamento</span><strong>{vm.total}</strong></div>
         </div>
       </section>
 
