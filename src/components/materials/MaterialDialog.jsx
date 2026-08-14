@@ -1,10 +1,13 @@
-import { X } from "lucide-react";
+import { ImagePlus, Trash2, UploadCloud, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { EMPTY_MATERIAL, normalizeMaterial, validateMaterial } from "../../lib/material";
 import {
   createMaterial,
   createMaterialCategory,
   updateMaterial,
+  createMaterialImageUrl,
+  uploadMaterialImage,
+  removeMaterialImage,
 } from "../../services/materialService";
 import MaterialForm from "./MaterialForm";
 
@@ -27,12 +30,21 @@ export default function MaterialDialog({
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
+  const [removeImage, setRemoveImage] = useState(false);
 
   useEffect(() => {
     if (!open) return;
     setForm(normalizeMaterial(material || EMPTY_MATERIAL));
     setErrors({});
     setStatus("");
+    setImageFile(null);
+    setRemoveImage(false);
+    setImagePreview("");
+    if (material?.image_path) {
+      createMaterialImageUrl(material.image_path).then(setImagePreview).catch(() => setImagePreview(""));
+    }
   }, [open, material]);
 
   if (!open) return null;
@@ -66,10 +78,16 @@ export default function MaterialDialog({
     setStatus("");
 
     try {
-      if (material?.id) {
-        await updateMaterial(material.id, validation.material);
-      } else {
-        await createMaterial(workspaceId, validation.material);
+      let saved;
+      if (material?.id) saved = await updateMaterial(material.id, validation.material);
+      else saved = await createMaterial(workspaceId, validation.material);
+
+      if (removeImage && saved.image_path) {
+        await removeMaterialImage(workspaceId, saved.id, saved.image_path);
+        saved = { ...saved, image_path: "" };
+      }
+      if (imageFile) {
+        await uploadMaterialImage(workspaceId, saved.id, imageFile, removeImage ? "" : saved.image_path);
       }
 
       onSaved?.();
@@ -97,6 +115,28 @@ export default function MaterialDialog({
         <form onSubmit={submit}>
           <div className="dialog-body">
             {status ? <div className="form-alert error">{status}</div> : null}
+
+            <div className="material-image-editor">
+              <div className="material-image-preview">
+                {imagePreview && !removeImage ? <img src={imagePreview} alt="Prévia do material" /> : <div><ImagePlus size={28} /><span>Sem imagem</span></div>}
+              </div>
+              <div className="material-image-editor-actions">
+                <label className="secondary-button material-image-upload">
+                  <UploadCloud size={16} /> {imagePreview && !removeImage ? "Trocar imagem" : "Adicionar imagem"}
+                  <input hidden type="file" accept="image/png,image/jpeg,image/webp" onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    setImageFile(file);
+                    setRemoveImage(false);
+                    setImagePreview(URL.createObjectURL(file));
+                    e.target.value = "";
+                  }} />
+                </label>
+                {imagePreview && !removeImage ? <button className="text-danger-button" type="button" onClick={() => { setImageFile(null); setRemoveImage(true); setImagePreview(""); }}><Trash2 size={15} /> Remover</button> : null}
+                <small>Essa imagem aparece como miniatura no wizard para facilitar a escolha do material.</small>
+              </div>
+            </div>
+
             <MaterialForm
               value={form}
               categories={categories}

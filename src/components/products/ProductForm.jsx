@@ -167,12 +167,48 @@ export default function ProductForm({
           </div>
         ) : null}
 
-        {mode === "wrapping" ? (
-          <div className="mode-info-box accent">
-            <strong>Calculado pelo wizard de envelopamento</strong>
-            <p>Veículo, peças, material, área, dificuldade, desperdício e preço são definidos pelo wizard de envelopamento.</p>
-          </div>
-        ) : null}
+        {mode === "wrapping" ? (() => {
+          const wrapping = value.configuration_json?.wrapping || {};
+          const updateWrapping = (field, nextValue) => onChange("configuration_json", {
+            ...value.configuration_json,
+            wrapping: { ...wrapping, [field]: nextValue },
+          });
+
+          return (
+            <div className="wrapping-product-config">
+              <div className="mode-info-box accent">
+                <strong>Material escolhido no orçamento</strong>
+                <p>O multiplicador, desconto e imagem ficam configurados em cada material. Aqui você define apenas ajustes gerais do serviço.</p>
+              </div>
+
+              <div className="product-form-grid">
+                <label>
+                  <span>Adicional padrão do serviço</span>
+                  <div className="suffix-input">
+                    <input inputMode="decimal" value={wrapping.extra_percent ?? "0"} onChange={(e) => updateWrapping("extra_percent", e.target.value)} placeholder="0" />
+                    <span>%</span>
+                  </div>
+                  <small>Opcional. Aplicado ao valor calculado com o material escolhido.</small>
+                  {errors.wrapping_extra_percent ? <small className="field-error">{errors.wrapping_extra_percent}</small> : null}
+                </label>
+
+                <label>
+                  <span>Adicional fixo do serviço</span>
+                  <div className="money-input">
+                    <span>R$</span>
+                    <input inputMode="decimal" value={wrapping.extra_fixed ?? "0"} onChange={(e) => updateWrapping("extra_fixed", e.target.value)} placeholder="0,00" />
+                  </div>
+                  {errors.wrapping_extra_fixed ? <small className="field-error">{errors.wrapping_extra_fixed}</small> : null}
+                </label>
+              </div>
+
+              <div className="mode-info-box">
+                <strong>Como funciona no orçamento</strong>
+                <p>Depois de escolher veículo e peças, o wizard mostra todos os materiais disponíveis com miniatura e o valor final do serviço para cada opção. Basta tocar para comparar e trocar.</p>
+              </div>
+            </div>
+          );
+        })() : null}
       </div>
 
       <PricingPreview product={value} tiers={tiers} />

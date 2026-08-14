@@ -1,6 +1,6 @@
 import { roundMoney, toNumber } from "../lib/money";
 
-export const WRAPPING_ENGINE_VERSION = 1;
+export const WRAPPING_ENGINE_VERSION = 2;
 
 function positive(value, label) {
   const number = toNumber(value, NaN);
@@ -14,15 +14,26 @@ function nonNegative(value, label, fallback = 0) {
   return number;
 }
 
+function configuredValue(adjustment, configured, fallback = 0) {
+  if (adjustment !== "" && adjustment != null) return adjustment;
+  if (configured !== "" && configured != null) return configured;
+  return fallback;
+}
+
 export function calculateWrappingPrice({ product, vehicle, material, selectedParts = [], adjustments = {} }) {
   if (!vehicle?.id) throw new Error("Escolha o veículo.");
   if (!material?.id) throw new Error("Escolha o material.");
   if (!selectedParts.length) throw new Error("Selecione pelo menos uma peça.");
 
-  const materialPrice = positive(adjustments.material_price_m2 ?? material.sale_value, "Preço do material por m²");
-  const extraPercent = nonNegative(adjustments.extra_percent, "Adicional percentual");
-  const extraFixed = nonNegative(adjustments.extra_fixed, "Adicional fixo");
-  const discount = nonNegative(adjustments.discount, "Desconto");
+  const config = product?.configuration_json?.wrapping || {};
+  const materialBasePrice = positive(material.sale_value, "Preço de referência do material por m²");
+  const materialMultiplier = positive(material.wrapping_multiplier || 1, "Multiplicador do material");
+  const materialDiscountPercent = nonNegative(material.wrapping_discount_percent || 0, "Desconto do material");
+  if (materialDiscountPercent >= 100) throw new Error("Desconto do material deve ser menor que 100%.");
+  const materialPriceBeforeDiscount = roundMoney(materialBasePrice * materialMultiplier);
+  const materialPrice = roundMoney(materialPriceBeforeDiscount * (1 - materialDiscountPercent / 100));
+  const extraPercent = nonNegative(configuredValue(adjustments.extra_percent, config.extra_percent, 0), "Adicional percentual");
+  const extraFixed = nonNegative(configuredValue(adjustments.extra_fixed, config.extra_fixed, 0), "Adicional fixo");
 
   const parts = selectedParts.map((part) => {
     const area = positive(part.area_m2, `Área de ${part.name}`);
@@ -47,13 +58,19 @@ export function calculateWrappingPrice({ product, vehicle, material, selectedPar
   const installMinutes = parts.reduce((sum, part) => sum + part.install_minutes, 0);
   const baseTotal = roundMoney(parts.reduce((sum, part) => sum + part.subtotal, 0));
   const percentValue = roundMoney(baseTotal * extraPercent / 100);
-  const beforeDiscount = roundMoney(baseTotal + percentValue + extraFixed);
-  const finalTotal = roundMoney(Math.max(0, beforeDiscount - Math.min(discount, beforeDiscount)));
+  const finalTotal = roundMoney(baseTotal + percentValue + extraFixed);
 
   const snapshot = {
     engine_version: WRAPPING_ENGINE_VERSION,
     calculation_mode: "wrapping",
-    product: { id: product?.id || null, name: product?.name || "Envelopamento" },
+    product: {
+      id: product?.id || null,
+      name: product?.name || "Envelopamento",
+      wrapping_configuration: {
+        extra_percent: extraPercent,
+        extra_fixed: roundMoney(extraFixed),
+      },
+    },
     vehicle: {
       id: vehicle.id,
       type: vehicle.type?.name || "",
@@ -67,15 +84,26 @@ export function calculateWrappingPrice({ product, vehicle, material, selectedPar
       name: material.name,
       unit: material.unit,
       roll_width: material.roll_width || null,
+      base_price_m2: roundMoney(materialBasePrice),
+      multiplier: materialMultiplier,
+      discount_percent: materialDiscountPercent,
+      price_before_discount_m2: materialPriceBeforeDiscount,
       price_m2: roundMoney(materialPrice),
+      image_path: material.image_path || null,
     },
     parts,
     adjustments: {
       extra_percent: extraPercent,
       extra_fixed: roundMoney(extraFixed),
-      discount: roundMoney(discount),
     },
-    result: { area_m2: area, charged_area_m2: chargedArea, install_minutes: installMinutes, base_total: baseTotal, extra_percent_value: percentValue, final_total: finalTotal },
+    result: {
+      area_m2: area,
+      charged_area_m2: chargedArea,
+      install_minutes: installMinutes,
+      base_total: baseTotal,
+      extra_percent_value: percentValue,
+      final_total: finalTotal,
+    },
   };
 
   return {
@@ -97,7 +125,12 @@ export function calculateWrappingPrice({ product, vehicle, material, selectedPar
       unit_price: finalTotal,
       total_price: finalTotal,
       calculation_mode: "wrapping",
-      calculation_input_json: { vehicle_id: vehicle.id, material_id: material.id, part_ids: parts.map((part) => part.id).filter(Boolean), adjustments: snapshot.adjustments },
+      calculation_input_json: {
+        vehicle_id: vehicle.id,
+        material_id: material.id,
+        part_ids: parts.map((part) => part.id).filter(Boolean),
+        adjustments: snapshot.adjustments,
+      },
       calculation_snapshot_json: snapshot,
       notes: parts.map((part) => part.name).join(", "),
     },

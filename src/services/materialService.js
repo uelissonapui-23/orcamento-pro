@@ -1,9 +1,52 @@
 import { normalizeMaterial } from "../lib/material";
 import { supabase } from "../lib/supabase";
 
+const BUCKET = "orcamento-app-assets";
+const MAX_IMAGE_SIZE = 2 * 1024 * 1024;
+const ALLOWED_IMAGE_TYPES = new Set(["image/png", "image/jpeg", "image/webp"]);
+
 function requireClient() {
   if (!supabase) throw new Error("Supabase ainda não foi configurado.");
   return supabase;
+}
+
+function extensionFor(file) {
+  if (file.type === "image/png") return "png";
+  if (file.type === "image/webp") return "webp";
+  return "jpg";
+}
+
+export function validateMaterialImage(file) {
+  if (!file) throw new Error("Selecione uma imagem.");
+  if (!ALLOWED_IMAGE_TYPES.has(file.type)) throw new Error("Use PNG, JPG ou WebP.");
+  if (file.size > MAX_IMAGE_SIZE) throw new Error("A imagem deve ter no máximo 2 MB.");
+}
+
+export async function createMaterialImageUrl(path) {
+  if (!path) return "";
+  const client = requireClient();
+  const { data, error } = await client.storage.from(BUCKET).createSignedUrl(path, 60 * 60);
+  if (error) throw error;
+  return data.signedUrl;
+}
+
+export async function uploadMaterialImage(workspaceId, materialId, file, previousPath = "") {
+  validateMaterialImage(file);
+  const client = requireClient();
+  const path = `${workspaceId}/materials/${materialId}/material-${Date.now()}.${extensionFor(file)}`;
+  const { error: uploadError } = await client.storage.from(BUCKET).upload(path, file, { contentType: file.type, cacheControl: "3600", upsert: false });
+  if (uploadError) throw uploadError;
+  const { data, error: updateError } = await client.schema("orcamento_app").from("materials").update({ image_path: path }).eq("id", materialId).eq("workspace_id", workspaceId).select("image_path").single();
+  if (updateError) { await client.storage.from(BUCKET).remove([path]); throw updateError; }
+  if (previousPath && previousPath !== path) await client.storage.from(BUCKET).remove([previousPath]);
+  return data.image_path;
+}
+
+export async function removeMaterialImage(workspaceId, materialId, path) {
+  const client = requireClient();
+  const { error } = await client.schema("orcamento_app").from("materials").update({ image_path: null }).eq("id", materialId).eq("workspace_id", workspaceId);
+  if (error) throw error;
+  if (path) { const { error: removeError } = await client.storage.from(BUCKET).remove([path]); if (removeError) throw removeError; }
 }
 
 function cleanSearch(value) {

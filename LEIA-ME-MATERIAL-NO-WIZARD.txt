@@ -1,0 +1,21 @@
+ATUALIZAÇÃO — MATERIAL CONFIGURA PREÇO DO ENVELOPAMENTO
+
+O que mudou:
+- Multiplicador e desconto do envelopamento agora pertencem ao MATERIAL.
+- O produto Envelopamento não configura mais multiplicador/desconto do material.
+- No orçamento o material é sempre escolhido no wizard.
+- Cada material mostra o valor final estimado do serviço antes de ser selecionado.
+- O usuário pode tocar em outro material e comparar o valor imediatamente.
+- Materiais aceitam imagem PNG/JPG/WebP; a miniatura aparece no wizard.
+- O cálculo usa: preço de referência do material × multiplicador × desconto do material; depois aplica área/perda/dificuldade das peças e os adicionais gerais do serviço.
+
+MIGRATION:
+supabase/migrations/20260814193000_material_wrapping_pricing_and_image.sql
+
+Depois de extrair, execute:
+npm run lint
+npm run typecheck
+npm test
+npm run build
+
+Publique com git push. O workflow do projeto aplica a migration no Supabase compartilhado.

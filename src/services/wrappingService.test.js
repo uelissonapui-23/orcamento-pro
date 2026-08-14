@@ -16,10 +16,47 @@ it("calcula peças, desperdício, dificuldade e gera quoteItemDraft", () => {
 });
 
 describe("ajustes", () => {
-  it("aplica adicional e desconto sem permitir total negativo", () => {
+  it("aplica os adicionais informados no orçamento", () => {
     const result = calculateWrappingPrice({ product, vehicle, material, selectedParts: [
       { id: "a", name: "Porta", area_m2: 1, waste_percent: 0, difficulty_multiplier: 1, install_minutes: 30 },
-    ], adjustments: { extra_percent: 10, extra_fixed: 5, discount: 1000 } });
-    expect(result.final_total).toBe(0);
+    ], adjustments: { extra_percent: 10, extra_fixed: 5 } });
+    expect(result.final_total).toBe(60);
+  });
+});
+
+describe("configuração antecipada do material", () => {
+  it("usa multiplicador e desconto cadastrados no próprio material", () => {
+    const configuredMaterial = { ...material, wrapping_multiplier: 1.5, wrapping_discount_percent: 10 };
+    const result = calculateWrappingPrice({
+      product,
+      vehicle,
+      material: configuredMaterial,
+      selectedParts: [
+        { id: "a", name: "Porta", area_m2: 1, waste_percent: 0, difficulty_multiplier: 1, install_minutes: 30 },
+      ],
+    });
+    // 50 × 1,5 = 75; desconto de 10% = 67,50.
+    expect(result.final_total).toBe(67.5);
+    expect(result.snapshot.material.base_price_m2).toBe(50);
+    expect(result.snapshot.material.price_before_discount_m2).toBe(75);
+    expect(result.snapshot.material.price_m2).toBe(67.5);
+    expect(result.snapshot.material.multiplier).toBe(1.5);
+    expect(result.snapshot.material.discount_percent).toBe(10);
+  });
+
+  it("mantém adicionais gerais do serviço no produto", () => {
+    const configuredProduct = {
+      ...product,
+      configuration_json: { wrapping: { extra_percent: 10, extra_fixed: 5 } },
+    };
+    const result = calculateWrappingPrice({
+      product: configuredProduct,
+      vehicle,
+      material,
+      selectedParts: [
+        { id: "a", name: "Porta", area_m2: 1, waste_percent: 0, difficulty_multiplier: 1, install_minutes: 30 },
+      ],
+    });
+    expect(result.final_total).toBe(60);
   });
 });

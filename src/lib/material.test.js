@@ -26,6 +26,22 @@ describe("material domain", () => {
     expect(result.errors.roll_width).toBeTruthy();
   });
 
+  it("valida multiplicador e desconto do material de envelopamento", () => {
+    const invalid = validateMaterial({
+      name: "Vinil", category_id: "cat", unit: "m²", use_in_wrapping: true,
+      roll_width: 1.38, wrapping_multiplier: 0, wrapping_discount_percent: 100,
+    });
+    expect(invalid.valid).toBe(false);
+    expect(invalid.errors.wrapping_multiplier).toBeTruthy();
+    expect(invalid.errors.wrapping_discount_percent).toBeTruthy();
+
+    const valid = validateMaterial({
+      name: "Vinil", category_id: "cat", unit: "m²", use_in_wrapping: true,
+      roll_width: 1.38, sale_value: 50, wrapping_multiplier: 1.6, wrapping_discount_percent: 5,
+    });
+    expect(valid.valid).toBe(true);
+  });
+
   it("accepts regular material without roll width", () => {
     const result = validateMaterial({
       name: "Placa PVC",

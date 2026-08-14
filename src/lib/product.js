@@ -62,6 +62,10 @@ export const EMPTY_PRODUCT = Object.freeze({
   configuration_json: {
     fixed_multiplies_quantity: false,
     fluid_curve: { measure_type: "square_meter", base_cost: "", points: [{ measure: "0.01", multiplier: "1" }, { measure: "1", multiplier: "1" }] },
+    wrapping: {
+      extra_percent: "0",
+      extra_fixed: "0",
+    },
   },
 });
 
@@ -103,6 +107,14 @@ export function normalizeProduct(record = {}) {
     configuration_json: {
       ...EMPTY_PRODUCT.configuration_json,
       ...(record.configuration_json || {}),
+      fluid_curve: {
+        ...EMPTY_PRODUCT.configuration_json.fluid_curve,
+        ...(record.configuration_json?.fluid_curve || {}),
+      },
+      wrapping: {
+        ...EMPTY_PRODUCT.configuration_json.wrapping,
+        ...(record.configuration_json?.wrapping || {}),
+      },
     },
   };
 }
@@ -139,6 +151,14 @@ export function validateProduct(record, tiers = []) {
 
   if (minimum != null && minimum < 0) errors.minimum_price = "O valor mínimo não pode ser negativo.";
   if (!Number.isFinite(waste) || waste < 0 || waste > 500) errors.waste_percent = "Use desperdício entre 0% e 500%.";
+
+  if (product.calculation_mode === "wrapping") {
+    const wrapping = product.configuration_json?.wrapping || {};
+    const extraPercent = asMoneyNumber(wrapping.extra_percent);
+    const extraFixed = asMoneyNumber(wrapping.extra_fixed);
+    if (extraPercent != null && extraPercent < 0) errors.wrapping_extra_percent = "O adicional não pode ser negativo.";
+    if (extraFixed != null && extraFixed < 0) errors.wrapping_extra_fixed = "O adicional não pode ser negativo.";
+  }
 
   if (product.calculation_mode === "fluid_curve") {
     const curve = product.configuration_json?.fluid_curve || {};

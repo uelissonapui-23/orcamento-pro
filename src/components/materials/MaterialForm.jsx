@@ -87,6 +87,30 @@ export default function MaterialForm({
         <span>Disponível no wizard de envelopamento</span>
       </label>
 
+      {value.use_in_wrapping ? (
+        <>
+          <label>
+            <span>Multiplicador deste material</span>
+            <div className="suffix-input">
+              <input inputMode="decimal" value={value.wrapping_multiplier} onChange={update("wrapping_multiplier")} placeholder="1,00" />
+              <span>×</span>
+            </div>
+            <small>Multiplica o preço de referência deste próprio material no cálculo do envelopamento.</small>
+            {errors.wrapping_multiplier ? <small className="field-error">{errors.wrapping_multiplier}</small> : null}
+          </label>
+
+          <label>
+            <span>Desconto deste material</span>
+            <div className="suffix-input">
+              <input inputMode="decimal" value={value.wrapping_discount_percent} onChange={update("wrapping_discount_percent")} placeholder="0" />
+              <span>%</span>
+            </div>
+            <small>Aplicado depois do multiplicador. Serve para ajustar este material sem alterar os outros.</small>
+            {errors.wrapping_discount_percent ? <small className="field-error">{errors.wrapping_discount_percent}</small> : null}
+          </label>
+        </>
+      ) : null}
+
       <label className="material-form-full">
         <span>Observações</span>
         <textarea
