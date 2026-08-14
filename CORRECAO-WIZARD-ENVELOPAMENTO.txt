@@ -1,0 +1,6 @@
+Correção do fluxo do wizard de envelopamento:
+- o modal "Adicionar item" deixa de ficar sobre o wizard;
+- ao abrir o wizard, somente ele fica ativo;
+- cancelar o wizard retorna para a seleção do item;
+- concluir adiciona o item ao orçamento e fecha o fluxo;
+- nenhuma migration de banco é necessária.

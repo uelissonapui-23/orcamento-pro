@@ -64,6 +64,7 @@ export default function AddQuoteItemDialog({ open, workspaceId, products, onClos
 
   return (
     <>
+      {!wrappingOpen ? (
       <div className="dialog-backdrop quote-item-backdrop" role="presentation" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
         <section className="quote-item-dialog" role="dialog" aria-modal="true">
           <header className="dialog-header">
@@ -166,6 +167,7 @@ export default function AddQuoteItemDialog({ open, workspaceId, products, onClos
           ) : null}
         </section>
       </div>
+      ) : null}
 
       <WrappingWizardDialog
         open={wrappingOpen}
