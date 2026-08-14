@@ -1,0 +1,27 @@
+Correção de foco/teclado em formulários móveis
+
+Causa encontrada:
+- Linhas editáveis usavam React key baseada no próprio valor digitado.
+- Ao digitar uma letra no nome da peça do veículo, a key mudava.
+- React desmontava e recriava a linha/input.
+- No celular isso fecha o teclado virtual e remove o foco.
+
+Correções:
+1. VehiclePartsEditor
+   - key agora é estável (id da peça ou índice estável da linha).
+   - valores não são mais normalizados a cada tecla; a normalização continua na validação/salvamento.
+   - melhora digitação de nomes, casas decimais e espaços.
+
+2. PriceTiersEditor
+   - corrigido o mesmo padrão de key mutável em min_quantity.
+   - edição mantém valor bruto durante a digitação e normaliza no fluxo de validação.
+
+3. Auditoria
+   - revisadas listas editáveis do app procurando keys derivadas de campos alterados pelo usuário.
+   - FluidCurveEditor já usa key estável por índice e não precisava alteração.
+   - QuoteItemsEditor usa local_id/id estável e não precisava alteração.
+
+4. Teste de regressão
+   - mobileInputFocus.test.js impede a volta desses dois padrões perigosos.
+
+Não há migration de banco nesta correção.

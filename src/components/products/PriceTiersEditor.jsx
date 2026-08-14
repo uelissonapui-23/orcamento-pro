@@ -1,11 +1,11 @@
 import { Plus, Trash2 } from "lucide-react";
-import { EMPTY_TIER, normalizeTier } from "../../lib/product";
+import { EMPTY_TIER } from "../../lib/product";
 
 export default function PriceTiersEditor({ tiers, errors = [], generalError, onChange }) {
   const update = (index, field, value) => {
     onChange(
       tiers.map((tier, currentIndex) =>
-        currentIndex === index ? normalizeTier({ ...tier, [field]: value }) : tier,
+        currentIndex === index ? { ...tier, [field]: value } : tier,
       ),
     );
   };
@@ -41,7 +41,7 @@ export default function PriceTiersEditor({ tiers, errors = [], generalError, onC
 
       <div className="tiers-list">
         {tiers.map((tier, index) => (
-          <div className="tier-row" key={`${index}-${tier.min_quantity}`}>
+          <div className="tier-row" key={tier.id || `price-tier-${index}`}>
             <label>
               <span>De</span>
               <input

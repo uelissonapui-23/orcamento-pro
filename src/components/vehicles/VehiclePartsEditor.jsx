@@ -1,11 +1,11 @@
 import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
-import { EMPTY_VEHICLE_PART, normalizeVehiclePart } from "../../lib/vehicle";
+import { EMPTY_VEHICLE_PART } from "../../lib/vehicle";
 
 export default function VehiclePartsEditor({ parts, errors = [], onChange }) {
   const update = (index, field, value) => {
     onChange(
       parts.map((part, currentIndex) =>
-        currentIndex === index ? normalizeVehiclePart({ ...part, [field]: value }) : part,
+        currentIndex === index ? { ...part, [field]: value } : part,
       ),
     );
   };
@@ -45,7 +45,7 @@ export default function VehiclePartsEditor({ parts, errors = [], onChange }) {
 
       <div className="vehicle-parts-list">
         {parts.map((part, index) => (
-          <div className="vehicle-part-row" key={`${index}-${part.name}`}>
+          <div className="vehicle-part-row" key={part.id || `vehicle-part-${index}`}>
             <label className="part-name">
               <span>Peça</span>
               <input value={part.name} onChange={(e) => update(index, "name", e.target.value)} placeholder="Ex.: Capô" />
