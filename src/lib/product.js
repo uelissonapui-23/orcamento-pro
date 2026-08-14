@@ -18,6 +18,12 @@ export const CALCULATION_MODES = Object.freeze([
     description: "Quantidade × preço unitário.",
   },
   {
+    value: "fluid_curve",
+    label: "Curva fluida",
+    shortLabel: "curva",
+    description: "Preço contínuo por medida, custo-base e multiplicadores configuráveis.",
+  },
+  {
     value: "quantity_tier",
     label: "Faixa de quantidade",
     shortLabel: "faixas",
@@ -55,6 +61,7 @@ export const EMPTY_PRODUCT = Object.freeze({
   active: true,
   configuration_json: {
     fixed_multiplies_quantity: false,
+    fluid_curve: { measure_type: "square_meter", base_cost: "", points: [{ measure: "0.01", multiplier: "1" }, { measure: "1", multiplier: "1" }] },
   },
 });
 
@@ -133,6 +140,17 @@ export function validateProduct(record, tiers = []) {
   if (minimum != null && minimum < 0) errors.minimum_price = "O valor mínimo não pode ser negativo.";
   if (!Number.isFinite(waste) || waste < 0 || waste > 500) errors.waste_percent = "Use desperdício entre 0% e 500%.";
 
+  if (product.calculation_mode === "fluid_curve") {
+    const curve = product.configuration_json?.fluid_curve || {};
+    const baseCost = asMoneyNumber(curve.base_cost);
+    const points = Array.isArray(curve.points) ? curve.points : [];
+    if (baseCost == null || baseCost < 0) errors.fluid_curve_base = "Informe um custo-base válido.";
+    const normalizedPoints = points.map((point) => ({ measure: Number(String(point.measure ?? "").replace(",", ".")), multiplier: Number(String(point.multiplier ?? "").replace(",", ".")) }));
+    if (normalizedPoints.length < 2 || normalizedPoints.some((p) => !Number.isFinite(p.measure) || p.measure <= 0 || !Number.isFinite(p.multiplier) || p.multiplier <= 0)) errors.fluid_curve = "Cadastre pelo menos 2 pontos com medida e multiplicador maiores que zero.";
+    const measures = normalizedPoints.map((p) => p.measure);
+    if (new Set(measures).size !== measures.length) errors.fluid_curve = "Não repita a mesma medida em dois pontos da curva.";
+  }
+
   if (product.calculation_mode === "quantity_tier") {
     if (!tiers.length) {
       errors.tiers = "Cadastre pelo menos uma faixa.";
@@ -174,6 +192,7 @@ export function formatProductPrice(product) {
   if (mode === "manual") return "Preço informado no orçamento";
   if (mode === "wrapping") return "Calculado pelo wizard";
   if (mode === "quantity_tier") return "Preço por faixas";
+  if (mode === "fluid_curve") return "Preço por curva fluida";
   if (!Number.isFinite(price)) return "Sem preço";
 
   return new Intl.NumberFormat("pt-BR", {

@@ -182,6 +182,100 @@ function calculateQuantityTier(product, input, tiers) {
   };
 }
 
+
+function fluidMeasure(curve, input) {
+  const type = curve.measure_type || "square_meter";
+  const quantity = integerQuantity(input.quantity ?? 1);
+  if (type === "square_meter") return { value: positive(input.width, "width", "Largura") * positive(input.height, "height", "Altura"), quantity, label: "m²" };
+  if (type === "linear_meter") return { value: positive(input.length, "length", "Comprimento"), quantity, label: "m" };
+  if (type === "width") return { value: positive(input.width, "width", "Largura"), quantity, label: "m" };
+  if (type === "height") return { value: positive(input.height, "height", "Altura"), quantity, label: "m" };
+  if (type === "kg") return { value: positive(input.weight, "weight", "Peso"), quantity, label: "kg" };
+  if (type === "liter") return { value: positive(input.volume, "volume", "Volume"), quantity, label: "L" };
+  if (type === "hour") return { value: positive(input.hours, "hours", "Horas"), quantity, label: "h" };
+  return { value: quantity, quantity: 1, label: type === "unit" ? "un" : "qtd" };
+}
+function normalizeCurvePoints(points, baseCost) {
+  return [...(points || [])]
+    .map((point) => {
+      const measure = toNumber(point.measure, NaN);
+      const multiplier = toNumber(point.multiplier, NaN);
+      return {
+        measure,
+        multiplier,
+        target_price: measure * baseCost * multiplier,
+      };
+    })
+    .filter(
+      (point) =>
+        Number.isFinite(point.measure) &&
+        point.measure > 0 &&
+        Number.isFinite(point.multiplier) &&
+        point.multiplier > 0,
+    )
+    .sort((a, b) => a.measure - b.measure);
+}
+
+function interpolateFluidCurve(points, measure, baseCost) {
+  const ordered = normalizeCurvePoints(points, baseCost);
+  if (ordered.length < 2) {
+    throw new PricingError(
+      "INVALID_CURVE",
+      "Cadastre pelo menos dois pontos válidos na curva fluida.",
+    );
+  }
+
+  if (measure <= ordered[0].measure) {
+    const point = ordered[0];
+    const price = measure * baseCost * point.multiplier;
+    return { price, multiplier: point.multiplier, from: point, to: point };
+  }
+
+  if (measure >= ordered[ordered.length - 1].measure) {
+    const point = ordered[ordered.length - 1];
+    const price = measure * baseCost * point.multiplier;
+    return { price, multiplier: point.multiplier, from: point, to: point };
+  }
+
+  const to = ordered.find((point) => point.measure >= measure);
+  const from = ordered[ordered.indexOf(to) - 1];
+  const ratio = (measure - from.measure) / (to.measure - from.measure);
+
+  // Os multiplicadores definem o preço desejado em cada ponto. Entre dois
+  // pontos, interpolamos o PREÇO FINAL, e só então derivamos o multiplicador
+  // equivalente. Isso garante uma curva contínua e sem picos acima dos pontos.
+  const price = from.target_price + (to.target_price - from.target_price) * ratio;
+  const multiplier = price / (measure * baseCost);
+
+  return { price, multiplier, from, to };
+}
+
+function calculateFluidCurve(product, input) {
+  const curve = product.configuration_json?.fluid_curve || {};
+  const baseCost = positive(curve.base_cost, "base_cost", "Custo-base");
+  const measured = fluidMeasure(curve, input);
+  const interpolation = interpolateFluidCurve(curve.points || [], measured.value, baseCost);
+  const unitTotal = interpolation.price;
+  const rawTotal = unitTotal * measured.quantity;
+  const minimum = applyMinimum(rawTotal, product.minimum_price);
+
+  return {
+    input: { ...input, quantity: measured.quantity },
+    result: {
+      quantity: measured.quantity,
+      curve_measure: roundMoney(measured.value),
+      curve_measure_label: measured.label,
+      curve_multiplier: Math.round(interpolation.multiplier * 10000) / 10000,
+      curve_base_cost: roundMoney(baseCost),
+      curve_from: interpolation.from,
+      curve_to: interpolation.to,
+      curve_unit_total: roundMoney(unitTotal),
+      unit_price: roundMoney(minimum.final_total / measured.quantity),
+      ...minimum,
+    },
+  };
+}
+
 function calculateFixed(product, input) {
   const quantity = integerQuantity(input.quantity ?? 1);
   const basePrice = nonNegative(product.base_price, "base_price", "Valor fixo");
@@ -236,6 +330,9 @@ export function calculateProductPrice({ product, input = {}, tiers = [] }) {
       break;
     case "quantity_tier":
       calculated = calculateQuantityTier(product, input, tiers);
+      break;
+    case "fluid_curve":
+      calculated = calculateFluidCurve(product, input);
       break;
     case "fixed":
       calculated = calculateFixed(product, input);

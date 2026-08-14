@@ -50,6 +50,7 @@ export default function ProductDialog({
 
       if (field === "calculation_mode") {
         if (value === "square_meter") next.unit_label = "m²";
+        if (value === "fluid_curve") next.unit_label = "curva";
         if (value === "linear_meter") next.unit_label = "m";
         if (value === "unit") next.unit_label = "un";
         if (value === "fixed") next.unit_label = "serviço";

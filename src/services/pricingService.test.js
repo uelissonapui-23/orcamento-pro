@@ -173,3 +173,18 @@ describe("pricing engine", () => {
     ).toThrow(PricingError);
   });
 });
+
+describe("fluid curve pricing", () => {
+  it("interpolates multiplier continuously between configured points", () => {
+    const product = { calculation_mode: "fluid_curve", minimum_price: 0, configuration_json: { fluid_curve: { measure_type: "square_meter", base_cost: 50, points: [{ measure: 0.01, multiplier: 16 }, { measure: 1, multiplier: 3 }] } } };
+    const start = calculateProductPrice({ product, input: { width: .1, height: .1, quantity: 1 } });
+    const middle = calculateProductPrice({ product, input: { width: .5, height: 1, quantity: 1 } });
+    const end = calculateProductPrice({ product, input: { width: 1, height: 1, quantity: 1 } });
+    expect(start.final_total).toBe(8);
+    expect(middle.final_total).toBeGreaterThan(start.final_total);
+    expect(middle.final_total).toBeLessThan(end.final_total);
+    expect(middle.final_total).toBeCloseTo(78.28, 2);
+    expect(middle.metrics.curve_multiplier).toBeCloseTo(3.1313, 4);
+    expect(end.final_total).toBe(150);
+  });
+});

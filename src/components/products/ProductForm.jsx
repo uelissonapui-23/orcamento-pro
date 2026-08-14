@@ -1,6 +1,7 @@
 import { CALCULATION_MODES, calculationModeMeta } from "../../lib/product";
 import PriceTiersEditor from "./PriceTiersEditor";
 import PricingPreview from "./PricingPreview";
+import FluidCurveEditor from "./FluidCurveEditor";
 
 export default function ProductForm({
   value,
@@ -147,6 +148,8 @@ export default function ProductForm({
             ) : null}
           </div>
         ) : null}
+
+        {mode === "fluid_curve" ? <FluidCurveEditor value={value} onChange={onChange} errors={errors} /> : null}
 
         {mode === "quantity_tier" ? (
           <PriceTiersEditor
