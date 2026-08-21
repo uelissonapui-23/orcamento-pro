@@ -150,14 +150,32 @@ export function quoteCanDuplicate(status) {
 }
 
 export function quoteSearchText(quote = {}) {
+  const client = quote.client || quote.client_snapshot_json || {};
+  const dateText = (value) => {
+    if (!value) return "";
+    const date = new Date(String(value).includes("T") ? value : `${value}T12:00:00`);
+    return Number.isNaN(date.getTime()) ? String(value) : `${value} ${date.toLocaleDateString("pt-BR")}`;
+  };
+  const number = Number(quote.quote_number);
   return [
     quote.quote_number,
-    quote.client_snapshot_json?.name,
-    quote.client_snapshot_json?.trade_name,
-    quote.client_snapshot_json?.document,
+    Number.isFinite(number) ? String(number).padStart(4, "0") : "",
+    Number.isFinite(number) ? `#${String(number).padStart(4, "0")}` : "",
+    client.name,
+    client.trade_name,
+    client.document,
+    client.phone,
+    client.whatsapp,
+    client.email,
+    dateText(quote.issue_date),
+    dateText(quote.valid_until),
+    dateText(quote.created_at),
+    dateText(quote.updated_at),
     quote.status,
   ]
     .filter(Boolean)
     .join(" ")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase();
 }

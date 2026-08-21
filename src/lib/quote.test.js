@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { applyQuoteItemDiscount, createEmptyQuote, normalizeQuoteItem, quoteNumberLabel, validateQuote } from "./quote";
+import { applyQuoteItemDiscount, createEmptyQuote, normalizeQuoteItem, quoteNumberLabel, quoteSearchText, validateQuote } from "./quote";
 import { addDaysToIsoDate, quoteDeliveryDays } from "./quoteDefaults";
 
 describe("quote domain", () => {
@@ -40,5 +40,18 @@ describe("quote domain", () => {
 
   it("formats quote number", () => {
     expect(quoteNumberLabel(12)).toBe("#0012");
+  });
+
+  it("indexes every client name, phone, quote number and dates", () => {
+    const text = quoteSearchText({
+      quote_number: 23,
+      issue_date: "2026-08-21",
+      created_at: "2026-08-21T10:30:00Z",
+      client: { name: "José da Silva Pereira", phone: "(92) 99999-1234" },
+    });
+    expect(text).toContain("jose da silva pereira");
+    expect(text).toContain("99999-1234");
+    expect(text).toContain("#0023");
+    expect(text).toContain("21/08/2026");
   });
 });

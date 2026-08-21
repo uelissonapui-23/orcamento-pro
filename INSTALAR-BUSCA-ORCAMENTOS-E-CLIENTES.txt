@@ -1,0 +1,28 @@
+MELHORIA: LISTA E BUSCA DE ORÇAMENTOS
+
+- Exibe o nome real do cliente cadastrado.
+- Busca por nome completo ou qualquer sobrenome.
+- Busca por telefone ou WhatsApp.
+- Busca por CPF/CNPJ ou e-mail.
+- Busca pelo número do orçamento, com ou sem zeros.
+- Busca pelas datas de emissão, validade, criação ou atualização.
+- Aceita várias palavras na mesma pesquisa.
+
+Exemplos:
+
+- Silva
+- Maria Souza
+- 99999-1234
+- #0023
+- 21/08/2026
+- Silva 21/08/2026
+
+Este pacote é cumulativo e contém também as melhorias anteriores de materiais e descontos.
+
+1. Copie a pasta src para a raiz do projeto e confirme a substituição.
+2. Execute: npm run check
+3. Execute: git add .
+4. Execute: git commit -m "Melhora nomes e busca da lista de orcamentos"
+5. Execute: git push origin main
+
+Não existe nova migração do Supabase.

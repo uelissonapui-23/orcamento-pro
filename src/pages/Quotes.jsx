@@ -153,7 +153,7 @@ export default function Quotes() {
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Buscar por cliente, documento ou número..."
+            placeholder="Nome, sobrenome, telefone, nº ou data..."
           />
         </div>
 
