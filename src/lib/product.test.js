@@ -56,7 +56,6 @@ describe("product domain", () => {
       calculation_mode: "material_resale",
       configuration_json: { material_resale: { price_source: "cost", profit_mode: "margin", profit_percent: "100" } },
     });
-    expect(invalid.errors.default_material_id).toBeTruthy();
     expect(invalid.errors.material_resale_profit).toBeTruthy();
   });
 });

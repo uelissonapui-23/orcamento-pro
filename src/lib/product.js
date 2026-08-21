@@ -174,7 +174,6 @@ export function validateProduct(record, tiers = []) {
   if (product.calculation_mode === "material_resale") {
     const resale = product.configuration_json?.material_resale || {};
     const profit = asMoneyNumber(resale.profit_percent);
-    if (!product.default_material_id) errors.default_material_id = "Escolha o material que será vendido.";
     if (!["cost", "reference"].includes(resale.price_source)) errors.material_resale_source = "Escolha a base do preço.";
     if (!["markup", "margin"].includes(resale.profit_mode)) errors.material_resale_mode = "Escolha como calcular o lucro.";
     if (profit == null || profit < 0) errors.material_resale_profit = "Informe um percentual igual ou maior que zero.";

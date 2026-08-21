@@ -67,8 +67,8 @@ export default function ProductForm({
           />
         </label>
 
-        <label className="product-form-full">
-          <span>{mode === "material_resale" ? "Material para revenda *" : "Material padrão"}</span>
+        {mode !== "material_resale" ? <label className="product-form-full">
+          <span>Material padrão</span>
           <select value={value.default_material_id || ""} onChange={update("default_material_id")}>
             <option value="">Nenhum material padrão</option>
             {materials.map((material) => (
@@ -77,9 +77,8 @@ export default function ProductForm({
               </option>
             ))}
           </select>
-          <small>{mode === "material_resale" ? "Este material será vendido diretamente, sem mão de obra." : "Opcional. Ao adicionar este produto no orçamento, esse material poderá vir pré-selecionado."}</small>
-          {errors.default_material_id ? <small className="field-error">{errors.default_material_id}</small> : null}
-        </label>
+          <small>Opcional. Ao adicionar este produto no orçamento, esse material poderá vir pré-selecionado.</small>
+        </label> : null}
       </div>
 
       <div className="product-price-panel">
@@ -158,12 +157,11 @@ export default function ProductForm({
             ...value.configuration_json,
             material_resale: { ...resale, [field]: nextValue },
           });
-          const material = materials.find((item) => item.id === value.default_material_id);
           return (
             <div className="wrapping-product-config">
               <div className="mode-info-box accent">
-                <strong>Venda direta, sem mão de obra</strong>
-                <p>O app usa o valor do material escolhido, aplica o lucro e multiplica pela quantidade no orçamento.</p>
+                <strong>Um único item para vender qualquer material</strong>
+                <p>Salve apenas a regra de lucro aqui. O material será escolhido somente ao adicionar este item ao orçamento.</p>
               </div>
               <div className="product-form-grid">
                 <label>
@@ -191,7 +189,6 @@ export default function ProductForm({
                   {errors.material_resale_profit ? <small className="field-error">{errors.material_resale_profit}</small> : null}
                 </label>
               </div>
-              {material ? <div className="mode-info-box"><strong>{material.name}</strong><p>Custo: R$ {Number(material.cost_value || 0).toFixed(2).replace(".", ",")} · Referência: R$ {Number(material.sale_value || 0).toFixed(2).replace(".", ",")} por {material.unit || "un"}.</p></div> : null}
             </div>
           );
         })() : null}
@@ -256,13 +253,13 @@ export default function ProductForm({
         })() : null}
       </div>
 
-      <PricingPreview
+      {mode !== "material_resale" ? <PricingPreview
         product={{
           ...value,
           default_material: materials.find((item) => item.id === value.default_material_id) || value.default_material,
         }}
         tiers={tiers}
-      />
+      /> : <div className="pricing-preview-box muted"><strong>Teste no orçamento</strong><p>Ao escolher este item no orçamento, você selecionará o material e verá o preço calculado.</p></div>}
     </div>
   );
 }

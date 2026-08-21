@@ -1,0 +1,18 @@
+MELHORIA: ESCOLHER O MATERIAL DIRETAMENTE NO ORÇAMENTO
+
+Esta atualização transforma "Revenda de material" em um item universal.
+
+- No produto/serviço, configure somente a base e a regra de lucro.
+- Não é mais obrigatório escolher um material no cadastro.
+- No orçamento, selecione o item universal, escolha qualquer material e informe a quantidade.
+- O nome e os valores do material escolhido ficam preservados no orçamento.
+
+INSTALAÇÃO
+
+1. Copie a pasta src deste pacote para a raiz do projeto e confirme a substituição.
+2. Execute: npm run check
+3. Execute: git add .
+4. Execute: git commit -m "Escolhe material de revenda diretamente no orçamento"
+5. Execute: git push origin main
+
+Não existe nova migração de banco nesta atualização.

@@ -19,6 +19,7 @@ import { calculateQuoteTotals } from "../services/pricingService";
 import { loadBusinessSettings } from "../services/businessSettingsService";
 import { listClients } from "../services/clientService";
 import { listProducts } from "../services/productService";
+import { listMaterials } from "../services/materialService";
 import { getQuote, saveQuote } from "../services/quoteService";
 
 export default function QuoteEditor() {
@@ -28,6 +29,7 @@ export default function QuoteEditor() {
   const [quote, setQuote] = useState(null);
   const [clients, setClients] = useState([]);
   const [products, setProducts] = useState([]);
+  const [materials, setMaterials] = useState([]);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -42,14 +44,16 @@ export default function QuoteEditor() {
     setError("");
 
     try {
-      const [nextClients, nextProducts, settings] = await Promise.all([
+      const [nextClients, nextProducts, nextMaterials, settings] = await Promise.all([
         listClients(workspace.id, { status: "active", limit: 250 }),
         listProducts(workspace.id, { status: "active" }),
+        listMaterials(workspace.id, { status: "active" }),
         loadBusinessSettings(workspace.id),
       ]);
 
       setClients(nextClients);
       setProducts(nextProducts);
+      setMaterials(nextMaterials);
 
       if (quoteId) {
         setQuote(await getQuote(workspace.id, quoteId));
@@ -256,6 +260,7 @@ export default function QuoteEditor() {
         open={itemDialog}
         workspaceId={workspace.id}
         products={products}
+        materials={materials}
         onClose={() => setItemDialog(false)}
         onAdd={(item) => update("items", [...quote.items, normalizeQuoteItem(item, quote.items.length)])}
       />

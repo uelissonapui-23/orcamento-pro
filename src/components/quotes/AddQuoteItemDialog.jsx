@@ -12,7 +12,7 @@ function initialInputs(mode) {
   return { quantity: "1" };
 }
 
-export default function AddQuoteItemDialog({ open, workspaceId, products, onClose, onAdd }) {
+export default function AddQuoteItemDialog({ open, workspaceId, products, materials = [], onClose, onAdd }) {
   const [search, setSearch] = useState("");
   const [selectedId, setSelectedId] = useState("");
   const [inputs, setInputs] = useState({ quantity: "1" });
@@ -40,8 +40,15 @@ export default function AddQuoteItemDialog({ open, workspaceId, products, onClos
     if (!selected) return;
 
     try {
+      const selectedMaterial = selected.calculation_mode === "material_resale"
+        ? materials.find((item) => item.id === inputs.material_id)
+        : null;
+      if (selected.calculation_mode === "material_resale" && !selectedMaterial) {
+        setError("Escolha o material que será vendido.");
+        return;
+      }
       const result = priceProductForQuote({
-        product: selected,
+        product: selectedMaterial ? { ...selected, default_material: selectedMaterial } : selected,
         formValues: inputs,
         tiers: selected.tiers || [],
       });
@@ -125,7 +132,7 @@ export default function AddQuoteItemDialog({ open, workspaceId, products, onClos
                   </div>
                 ) : null}
 
-                {["unit", "quantity_tier", "fixed", "material_resale"].includes(selected.calculation_mode) ? (
+                {["unit", "quantity_tier", "fixed"].includes(selected.calculation_mode) ? (
                   <div className="quote-item-fields one">
                     <label><span>Quantidade</span><input type="number" min="1" value={inputs.quantity || "1"} onChange={(e) => setInputs({ ...inputs, quantity: e.target.value })} /></label>
                   </div>
@@ -138,10 +145,18 @@ export default function AddQuoteItemDialog({ open, workspaceId, products, onClos
                   </div>
                 ) : null}
 
-                {selected.calculation_mode === "material_resale" && selected.default_material ? (
-                  <div className="mode-info-box accent">
-                    <strong>{selected.default_material.name}</strong>
-                    <p>O preço unitário será calculado automaticamente pela regra de lucro cadastrada.</p>
+                {selected.calculation_mode === "material_resale" ? (
+                  <div className="quote-item-fields">
+                    <label>
+                      <span>Material *</span>
+                      <select value={inputs.material_id || ""} onChange={(e) => { setInputs({ ...inputs, material_id: e.target.value }); setError(""); }}>
+                        <option value="">Escolha o material...</option>
+                        {materials.map((material) => (
+                          <option key={material.id} value={material.id}>{material.name} · {material.unit}</option>
+                        ))}
+                      </select>
+                    </label>
+                    <label><span>Quantidade</span><input type="number" min="1" value={inputs.quantity || "1"} onChange={(e) => setInputs({ ...inputs, quantity: e.target.value })} /></label>
                   </div>
                 ) : null}
 
