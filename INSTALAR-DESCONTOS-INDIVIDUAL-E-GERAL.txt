@@ -1,0 +1,33 @@
+MELHORIA: DESCONTOS INDIVIDUAIS E GERAIS
+
+DESCONTO POR ITEM
+
+- Cada item possui desconto em porcentagem e em reais.
+- Ao alterar um campo, o outro é atualizado automaticamente.
+- O valor original, o desconto e o valor final permanecem preservados.
+
+DESCONTO GERAL
+
+- O orçamento mostra ao mesmo tempo desconto geral em porcentagem e em reais.
+- Ao alterar um campo, o outro é atualizado automaticamente.
+- O desconto geral é aplicado depois dos descontos dos itens.
+
+RESUMO E PDF
+
+- Subtotal bruto.
+- Descontos concedidos nos itens.
+- Desconto geral.
+- Economia total do cliente.
+- Total final.
+
+Este pacote é cumulativo e também contém as melhorias recentes da venda direta de materiais.
+
+INSTALAÇÃO
+
+1. Copie a pasta src para a raiz do projeto e confirme a substituição.
+2. Execute: npm run check
+3. Execute: git add .
+4. Execute: git commit -m "Adiciona descontos individuais e geral sincronizados"
+5. Execute: git push origin main
+
+Não existe nova migração do Supabase.

@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
 import { formatBRL } from "../../lib/money";
+import { applyQuoteItemDiscount } from "../../lib/quote";
 
 export default function QuoteItemsEditor({ items, onAdd, onChange, error }) {
   const move = (index, direction) => {
@@ -13,6 +14,10 @@ export default function QuoteItemsEditor({ items, onAdd, onChange, error }) {
   const remove = (index) => {
     if (!window.confirm("Remover este item do orçamento?")) return;
     onChange(items.filter((_, current) => current !== index));
+  };
+
+  const discount = (index, type, value) => {
+    onChange(items.map((item, current) => current === index ? applyQuoteItemDiscount(item, type, value) : item));
   };
 
   return (
@@ -50,7 +55,13 @@ export default function QuoteItemsEditor({ items, onAdd, onChange, error }) {
               </div>
               <div className="quote-line-total">
                 <small>Total</small>
+                {item.item_discount_value > 0 ? <span className="quote-line-gross">{formatBRL(item.gross_total_price)}</span> : null}
                 <strong>{formatBRL(item.total_price)}</strong>
+              </div>
+              <div className="quote-line-discount">
+                <label><span>Desconto (%)</span><input type="number" min="0" max="100" step="0.01" inputMode="decimal" value={item.item_discount_percent || 0} onChange={(e) => discount(index, "percent", e.target.value)} /></label>
+                <label><span>Desconto (R$)</span><input inputMode="decimal" value={item.item_discount_value || 0} onChange={(e) => discount(index, "fixed", e.target.value)} /></label>
+                {item.item_discount_value > 0 ? <small>Cliente economiza {formatBRL(item.item_discount_value)}</small> : null}
               </div>
               <div className="quote-line-actions">
                 <button type="button" disabled={index === 0} onClick={() => move(index, -1)} title="Subir"><ArrowUp size={15} /></button>

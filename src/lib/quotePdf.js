@@ -97,6 +97,9 @@ export function buildPdfFilename(quote, business = {}) {
 }
 
 export function quotePdfViewModel(quote, business = {}) {
+  const grossSubtotal = (quote.items || []).reduce((sum, item) => sum + Number(item.gross_total_price ?? item.total_price ?? 0), 0);
+  const itemDiscount = Math.max(0, grossSubtotal - Number(quote.subtotal || 0));
+  const generalDiscount = Number(quote.discount_total || 0);
   return {
     quoteNumber: quoteNumberLabel(quote.quote_number),
     companyName: businessDisplayName(business),
@@ -121,7 +124,12 @@ export function quotePdfViewModel(quote, business = {}) {
       return `${days} ${days === 1 ? "dia" : "dias"} após aprovação`;
     })(),
     subtotal: formatBRL(quote.subtotal),
-    discount: formatBRL(quote.discount_total),
+    grossSubtotal: formatBRL(grossSubtotal),
+    itemDiscount: formatBRL(itemDiscount),
+    itemDiscountValue: itemDiscount,
+    generalDiscount: formatBRL(generalDiscount),
+    totalDiscount: formatBRL(itemDiscount + generalDiscount),
+    discount: formatBRL(generalDiscount),
     surcharge: formatBRL(quote.surcharge_total),
     total: formatBRL(quote.total),
     primaryColor: business.primary_color || "#111827",

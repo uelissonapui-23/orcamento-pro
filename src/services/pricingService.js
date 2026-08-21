@@ -480,6 +480,9 @@ export function calculateQuoteTotals({
   discountValue = 0,
   surchargeValue = 0,
 }) {
+  const grossSubtotal = roundMoney(
+    items.reduce((sum, item) => sum + nonNegative(item.gross_total_price ?? item.total_price ?? item.final_total, "item", "Valor bruto do item"), 0),
+  );
   const subtotal = roundMoney(
     items.reduce((sum, item) => sum + nonNegative(item.total_price ?? item.final_total, "item", "Valor do item"), 0),
   );
@@ -500,12 +503,16 @@ export function calculateQuoteTotals({
 
   discount = roundMoney(Math.min(discount, subtotal + surcharge));
   const total = roundMoney(Math.max(0, subtotal + surcharge - discount));
+  const itemDiscountTotal = roundMoney(Math.max(0, grossSubtotal - subtotal));
 
   return {
     subtotal,
+    gross_subtotal: grossSubtotal,
+    item_discount_total: itemDiscountTotal,
     discount_type: discountType,
     discount_input: roundMoney(discountInput),
     discount_total: discount,
+    total_discount: roundMoney(itemDiscountTotal + discount),
     surcharge_total: roundMoney(surcharge),
     total,
   };

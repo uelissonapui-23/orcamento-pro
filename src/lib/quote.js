@@ -43,6 +43,9 @@ export function buildQuoteClientSnapshot(client) {
 }
 
 export function normalizeQuoteItem(item = {}, index = 0) {
+  const savedDiscount = item.calculation_snapshot_json?.item_discount || {};
+  const totalPrice = roundMoney(item.total_price || 0);
+  const grossTotalPrice = roundMoney(item.gross_total_price ?? savedDiscount.gross_total_price ?? totalPrice);
   return {
     id: item.id || null,
     local_id: item.local_id || item.id || crypto.randomUUID(),
@@ -55,12 +58,38 @@ export function normalizeQuoteItem(item = {}, index = 0) {
     area: item.area == null ? null : Number(item.area),
     linear_meters: item.linear_meters == null ? null : Number(item.linear_meters),
     unit_price: roundMoney(item.unit_price || 0),
-    total_price: roundMoney(item.total_price || 0),
+    total_price: totalPrice,
+    gross_total_price: Math.max(grossTotalPrice, totalPrice),
+    item_discount_percent: Number(item.item_discount_percent ?? savedDiscount.discount_percent ?? 0),
+    item_discount_value: roundMoney(item.item_discount_value ?? savedDiscount.discount_value ?? Math.max(0, grossTotalPrice - totalPrice)),
     calculation_mode: item.calculation_mode || "manual",
     calculation_input_json: item.calculation_input_json || {},
     calculation_snapshot_json: item.calculation_snapshot_json || {},
     notes: String(item.notes || "").trim(),
     sort_order: Number.isFinite(Number(item.sort_order)) ? Number(item.sort_order) : index,
+  };
+}
+
+export function applyQuoteItemDiscount(item, type, rawValue) {
+  const normalized = normalizeQuoteItem(item);
+  const gross = Math.max(0, Number(normalized.gross_total_price || normalized.total_price || 0));
+  const value = Math.max(0, Number(String(rawValue ?? 0).replace(",", ".")) || 0);
+  const discountValue = roundMoney(Math.min(gross, type === "percent" ? gross * Math.min(value, 100) / 100 : value));
+  const discountPercent = gross > 0 ? Math.round((discountValue / gross) * 10000) / 100 : 0;
+  return {
+    ...normalized,
+    gross_total_price: roundMoney(gross),
+    item_discount_percent: discountPercent,
+    item_discount_value: discountValue,
+    total_price: roundMoney(gross - discountValue),
+    calculation_snapshot_json: {
+      ...normalized.calculation_snapshot_json,
+      item_discount: {
+        gross_total_price: roundMoney(gross),
+        discount_percent: discountPercent,
+        discount_value: discountValue,
+      },
+    },
   };
 }
 

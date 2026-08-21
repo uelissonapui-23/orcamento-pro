@@ -205,6 +205,22 @@ describe("pricing engine", () => {
     expect(result.total).toBe(335.5);
   });
 
+  it("reports item, general and total discounts separately", () => {
+    const result = calculateQuoteTotals({
+      items: [
+        { gross_total_price: 200, total_price: 170 },
+        { gross_total_price: 100, total_price: 90 },
+      ],
+      discountType: "percent",
+      discountValue: 10,
+    });
+    expect(result.gross_subtotal).toBe(300);
+    expect(result.item_discount_total).toBe(40);
+    expect(result.discount_total).toBe(26);
+    expect(result.total_discount).toBe(66);
+    expect(result.total).toBe(234);
+  });
+
   it("calculates percentage discount safely", () => {
     const result = calculateQuoteTotals({
       items: [{ total_price: 1000 }],

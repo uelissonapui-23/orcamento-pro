@@ -58,6 +58,7 @@ export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
                 {item.calculation_mode === "square_meter" && item.area ? `${item.area} m²` : null}
                 {item.calculation_mode === "linear_meter" && item.linear_meters ? `${item.linear_meters} m` : null}
                 {item.notes ? `${item.area || item.linear_meters ? " · " : ""}${item.notes}` : null}
+                {Number(item.item_discount_value) > 0 ? ` · Desconto: ${formatBRL(item.item_discount_value)}` : null}
               </span>
             </div>
             <span>{item.quantity}</span>
@@ -73,9 +74,11 @@ export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
           {formatContact(business) ? <p>{formatContact(business)}</p> : null}
         </div>
         <div className="pdf-total-box">
-          <div><span>Subtotal dos itens</span><strong>{vm.subtotal}</strong></div>
+          <div><span>Subtotal bruto</span><strong>{vm.grossSubtotal}</strong></div>
+          {vm.itemDiscountValue > 0 ? <div><span>Descontos nos itens</span><strong>- {vm.itemDiscount}</strong></div> : null}
           {Number(quote.surcharge_total) > 0 ? <div><span>Acréscimos</span><strong>+ {vm.surcharge}</strong></div> : null}
-          {Number(quote.discount_total) > 0 ? <div><span>Descontos</span><strong>- {vm.discount}</strong></div> : null}
+          {Number(quote.discount_total) > 0 ? <div><span>Desconto geral</span><strong>- {vm.generalDiscount}</strong></div> : null}
+          {(Number(quote.discount_total) > 0 || Number(quote.subtotal) < (quote.items || []).reduce((sum, item) => sum + Number(item.gross_total_price ?? item.total_price ?? 0), 0)) ? <div><span>Economia total</span><strong>{vm.totalDiscount}</strong></div> : null}
           <div className="grand"><span>Total geral</span><strong>{vm.total}</strong></div>
         </div>
       </section>
