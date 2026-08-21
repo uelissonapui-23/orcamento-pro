@@ -10,6 +10,7 @@ function initialInputs(mode) {
   if (mode === "square_meter") return { width: "", height: "", quantity: "1" };
   if (mode === "linear_meter") return { length: "", quantity: "1" };
   if (mode === "manual") return { manual_price: "", quantity: "1" };
+  if (mode === "material_resale") return { quantity: "1", material_id: "", measurements: [{ width: "", height: "", quantity: "1" }], use_overlap: false };
   return { quantity: "1" };
 }
 
@@ -59,6 +60,16 @@ export default function AddQuoteItemDialog({ open, workspaceId, products, materi
     const term = materialSearch.trim().toLowerCase();
     return materials.filter((item) => item.active !== false && (!term || item.name.toLowerCase().includes(term)));
   }, [materials, materialSearch]);
+  const resalePreview = useMemo(() => {
+    if (selected?.calculation_mode !== "material_resale" || !inputs.material_id) return null;
+    const material = materials.find((item) => item.id === inputs.material_id);
+    if (!material) return null;
+    try {
+      return priceProductForQuote({ product: { ...selected, default_material: material }, formValues: inputs, tiers: selected.tiers || [] });
+    } catch {
+      return null;
+    }
+  }, [selected, inputs, materials]);
 
   if (!open) return null;
 
@@ -197,9 +208,32 @@ export default function AddQuoteItemDialog({ open, workspaceId, products, materi
                       })}
                     </div>
                     {!filteredMaterials.length ? <div className="quote-product-empty">Nenhum material encontrado.</div> : null}
-                    <div className="quote-item-fields one">
+                    {selected.configuration_json?.material_resale?.measurement_mode === "area" ? (
+                      <div className="quote-measurements-editor">
+                        <div className="quote-measurements-heading"><strong>Medidas das peças</strong><span>Informe cada tamanho separadamente.</span></div>
+                        {(inputs.measurements || []).map((measurement, index) => (
+                          <div className="quote-measurement-row" key={index}>
+                            <label><span>Largura (m)</span><input inputMode="decimal" value={measurement.width} onChange={(e) => setInputs({ ...inputs, measurements: inputs.measurements.map((item, itemIndex) => itemIndex === index ? { ...item, width: e.target.value } : item) })} /></label>
+                            <label><span>Altura (m)</span><input inputMode="decimal" value={measurement.height} onChange={(e) => setInputs({ ...inputs, measurements: inputs.measurements.map((item, itemIndex) => itemIndex === index ? { ...item, height: e.target.value } : item) })} /></label>
+                            <label><span>Quantidade</span><input type="number" min="1" value={measurement.quantity} onChange={(e) => setInputs({ ...inputs, measurements: inputs.measurements.map((item, itemIndex) => itemIndex === index ? { ...item, quantity: e.target.value } : item) })} /></label>
+                            {inputs.measurements.length > 1 ? <button className="dialog-close" type="button" onClick={() => setInputs({ ...inputs, measurements: inputs.measurements.filter((_, itemIndex) => itemIndex !== index) })} aria-label={`Remover medida ${index + 1}`}><X size={17} /></button> : null}
+                          </div>
+                        ))}
+                        <button className="secondary-button quote-add-measurement" type="button" onClick={() => setInputs({ ...inputs, measurements: [...inputs.measurements, { width: "", height: "", quantity: "1" }] })}><Plus size={16} /> Adicionar outra medida</button>
+                        <label className="checkbox-label quote-overlap-toggle">
+                          <input type="checkbox" checked={Boolean(inputs.use_overlap)} onChange={(e) => setInputs({ ...inputs, use_overlap: e.target.checked })} />
+                          <span>Esta aplicação precisa de sobreposição entre folhas</span>
+                        </label>
+                        {resalePreview?.status === "calculated" ? <div className="quote-material-summary">
+                          <span>Área das peças <strong>{resalePreview.metrics.total_area_m2} m²</strong></span>
+                          {inputs.use_overlap ? <span>Sobreposição <strong>+ {resalePreview.metrics.overlap_area_m2} m²</strong></span> : null}
+                          <span>Com desperdício <strong>{resalePreview.metrics.charged_area_m2} m²</strong></span>
+                          <span>Valor final <strong>{formatBRL(resalePreview.final_total)}</strong></span>
+                        </div> : null}
+                      </div>
+                    ) : <div className="quote-item-fields one">
                       <label><span>Quantidade</span><input type="number" min="1" value={inputs.quantity || "1"} onChange={(e) => setInputs({ ...inputs, quantity: e.target.value })} /></label>
-                    </div>
+                    </div>}
                   </div>
                 ) : null}
 

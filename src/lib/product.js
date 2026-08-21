@@ -67,7 +67,13 @@ export const EMPTY_PRODUCT = Object.freeze({
   active: true,
   configuration_json: {
     fixed_multiplies_quantity: false,
-    material_resale: { price_source: "cost", profit_mode: "markup", profit_percent: "0" },
+    material_resale: {
+      price_source: "cost",
+      profit_mode: "markup",
+      profit_percent: "0",
+      measurement_mode: "quantity",
+      overlap_cm: "2",
+    },
     fluid_curve: { measure_type: "square_meter", base_cost: "", points: [{ measure: "0.01", multiplier: "1" }, { measure: "1", multiplier: "1" }] },
     wrapping: {
       extra_percent: "0",
@@ -178,6 +184,9 @@ export function validateProduct(record, tiers = []) {
     if (!["markup", "margin"].includes(resale.profit_mode)) errors.material_resale_mode = "Escolha como calcular o lucro.";
     if (profit == null || profit < 0) errors.material_resale_profit = "Informe um percentual igual ou maior que zero.";
     if (resale.profit_mode === "margin" && profit >= 100) errors.material_resale_profit = "A margem deve ser menor que 100%.";
+    if (!["quantity", "area"].includes(resale.measurement_mode)) errors.material_resale_measurement = "Escolha como informar a quantidade de material.";
+    const overlap = asMoneyNumber(resale.overlap_cm);
+    if (resale.measurement_mode === "area" && (overlap == null || overlap < 0 || overlap > 100)) errors.material_resale_overlap = "Use uma sobreposição entre 0 e 100 cm.";
   }
 
   if (product.calculation_mode === "fluid_curve") {

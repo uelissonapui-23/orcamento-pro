@@ -1,0 +1,28 @@
+MELHORIA: MEDIDAS, DESPERDÍCIO E SOBREPOSIÇÃO NA VENDA DIRETA
+
+NO CADASTRO DO PRODUTO/SERVIÇO
+
+- Escolha Quantidade simples ou Largura e altura (m²).
+- Configure o desperdício padrão.
+- Configure a sobreposição padrão em centímetros.
+- Mantenha a base de preço e a regra de lucro já existentes.
+
+NO ORÇAMENTO
+
+- Escolha o material.
+- Informe largura, altura e quantidade de cada peça.
+- Use "Adicionar outra medida" para peças de tamanhos diferentes.
+- Marque a sobreposição somente quando a aplicação precisar de várias folhas.
+- O resumo mostra área das peças, área de sobreposição, total com desperdício e valor final.
+
+O cálculo usa a largura do rolo cadastrada no material para determinar quantos painéis são necessários.
+
+INSTALAÇÃO
+
+1. Copie a pasta src para a raiz do projeto e confirme a substituição.
+2. Execute: npm run check
+3. Execute: git add .
+4. Execute: git commit -m "Adiciona medidas desperdicio e sobreposicao na venda direta"
+5. Execute: git push origin main
+
+Não existe nova migração do Supabase.

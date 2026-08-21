@@ -1684,6 +1684,19 @@ a:focus-visible, button:focus-visible {
 .quote-material-picker > button { min-width:0; }
 .quote-material-picker > button span { min-width:0; }
 .quote-material-picker > button strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.quote-measurements-editor { display:grid; gap:11px; padding:13px; border:1px solid #e2e8f0; border-radius:13px; background:#f8fafc; }
+.quote-measurements-heading { display:flex; justify-content:space-between; gap:10px; align-items:baseline; }
+.quote-measurements-heading span { color:#64748b; font-size:11px; }
+.quote-measurement-row { display:grid; grid-template-columns:1fr 1fr minmax(100px,.65fr) 36px; gap:8px; align-items:end; }
+.quote-measurement-row label { min-width:0; display:grid; gap:5px; }
+.quote-measurement-row label span { font-size:11px; font-weight:750; color:#344054; }
+.quote-measurement-row input { width:100%; min-width:0; height:41px; border:1px solid #d0d5dd; border-radius:10px; padding:0 10px; }
+.quote-add-measurement { width:max-content; }
+.quote-overlap-toggle { padding:9px 0 2px; }
+.quote-material-summary { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+.quote-material-summary span { display:grid; gap:4px; padding:9px; border-radius:10px; background:#fff; color:#64748b; font-size:10px; }
+.quote-material-summary strong { color:#111827; font-size:13px; }
+@media(max-width:720px){.quote-measurement-row{grid-template-columns:1fr 1fr 80px 34px}.quote-material-summary{grid-template-columns:1fr 1fr}.quote-measurements-heading{align-items:flex-start;flex-direction:column}}
 .wizard-material-copy { min-width:0; }
 .wizard-material-copy strong { overflow-wrap:anywhere; }
 .wizard-material-service-price { display:flex; justify-content:space-between; gap:8px; align-items:center; margin-top:9px; padding-top:8px; border-top:1px solid #e5e7eb; color:#475569; font-size:11px; }

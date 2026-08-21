@@ -123,7 +123,6 @@ function calculateUnit(product, input) {
 }
 
 function calculateMaterialResale(product, input) {
-  const quantity = integerQuantity(input.quantity ?? 1);
   const material = product.default_material;
   if (!material?.id) throw new PricingError("MATERIAL_REQUIRED", "Este produto não possui um material de revenda válido.", "default_material_id");
 
@@ -140,6 +139,67 @@ function calculateMaterialResale(product, input) {
   const unitPrice = profitMode === "margin"
     ? baseValue / (1 - profitPercent / 100)
     : baseValue * (1 + profitPercent / 100);
+  const measurementMode = config.measurement_mode === "area" ? "area" : "quantity";
+
+  if (measurementMode === "area") {
+    const measurements = Array.isArray(input.measurements) ? input.measurements : [];
+    if (!measurements.length) throw new PricingError("MEASUREMENTS_REQUIRED", "Adicione pelo menos uma medida.", "measurements");
+    const useOverlap = Boolean(input.use_overlap);
+    const overlapM = useOverlap ? nonNegative(config.overlap_cm, "overlap_cm", "Sobreposição") / 100 : 0;
+    const rollWidth = useOverlap ? positive(material.roll_width, "roll_width", "Largura do rolo") : 0;
+    if (useOverlap && overlapM >= rollWidth) throw new PricingError("INVALID_OVERLAP", "A sobreposição deve ser menor que a largura do rolo.", "overlap_cm");
+
+    let rawArea = 0;
+    let overlapArea = 0;
+    let totalPieces = 0;
+    let totalPanels = 0;
+    const normalizedMeasurements = measurements.map((measurement, index) => {
+      const width = positive(measurement.width, `measurements.${index}.width`, `Largura da medida ${index + 1}`);
+      const height = positive(measurement.height, `measurements.${index}.height`, `Altura da medida ${index + 1}`);
+      const quantity = integerQuantity(measurement.quantity ?? 1);
+      const panels = useOverlap && width > rollWidth
+        ? Math.max(1, Math.ceil((width - overlapM) / (rollWidth - overlapM)))
+        : 1;
+      const pieceRawArea = width * height;
+      const pieceOverlapArea = (panels - 1) * overlapM * height;
+      rawArea += pieceRawArea * quantity;
+      overlapArea += pieceOverlapArea * quantity;
+      totalPieces += quantity;
+      totalPanels += panels * quantity;
+      return { width, height, quantity, panels, area_m2: roundMoney(pieceRawArea), overlap_area_m2: roundMoney(pieceOverlapArea) };
+    });
+
+    const wastePercent = nonNegative(product.waste_percent, "waste_percent", "Desperdício");
+    const areaWithOverlap = rawArea + overlapArea;
+    const chargedArea = areaWithOverlap * (1 + wastePercent / 100);
+    const finalTotal = roundMoney(unitPrice * chargedArea);
+    return {
+      input: { measurements: normalizedMeasurements, use_overlap: useOverlap },
+      result: {
+        quantity: roundMoney(chargedArea),
+        material: { id: material.id, name: material.name || "", unit: material.unit || "m²", roll_width: material.roll_width || null },
+        measurement_mode: "area",
+        measurements: normalizedMeasurements,
+        total_pieces: totalPieces,
+        total_panels: totalPanels,
+        total_area_m2: roundMoney(rawArea),
+        overlap_area_m2: roundMoney(overlapArea),
+        area_before_waste_m2: roundMoney(areaWithOverlap),
+        waste_percent: wastePercent,
+        charged_area_m2: roundMoney(chargedArea),
+        price_source: priceSource,
+        profit_mode: profitMode,
+        profit_percent: profitPercent,
+        base_value: roundMoney(baseValue),
+        raw_total: finalTotal,
+        minimum_applied: false,
+        unit_price: roundMoney(unitPrice),
+        final_total: finalTotal,
+      },
+    };
+  }
+
+  const quantity = integerQuantity(input.quantity ?? 1);
   const finalTotal = roundMoney(unitPrice * quantity);
 
   return {
@@ -151,6 +211,7 @@ function calculateMaterialResale(product, input) {
       profit_mode: profitMode,
       profit_percent: profitPercent,
       base_value: roundMoney(baseValue),
+      measurement_mode: "quantity",
       raw_total: finalTotal,
       minimum_applied: false,
       unit_price: roundMoney(unitPrice),

@@ -92,6 +92,29 @@ describe("pricing engine", () => {
     expect(result.final_total).toBe(300);
   });
 
+  it("sums different measurements with overlap and waste for material resale", () => {
+    const result = calculateProductPrice({
+      product: {
+        calculation_mode: "material_resale",
+        waste_percent: 10,
+        default_material: { id: "mat", name: "Vinil", unit: "m²", roll_width: 1, cost_value: 10, sale_value: 15 },
+        configuration_json: { material_resale: { price_source: "cost", profit_mode: "markup", profit_percent: 20, measurement_mode: "area", overlap_cm: 2 } },
+      },
+      input: {
+        use_overlap: true,
+        measurements: [
+          { width: 2.5, height: 2, quantity: 1 },
+          { width: 1, height: 1, quantity: 2 },
+        ],
+      },
+    });
+    expect(result.metrics.total_area_m2).toBe(7);
+    expect(result.metrics.overlap_area_m2).toBe(0.08);
+    expect(result.metrics.charged_area_m2).toBe(7.79);
+    expect(result.metrics.total_panels).toBe(5);
+    expect(result.final_total).toBe(93.46);
+  });
+
   it("calculates total-price quantity tier", () => {
     const result = calculateProductPrice({
       product: { calculation_mode: "quantity_tier" },

@@ -165,6 +165,15 @@ export default function ProductForm({
               </div>
               <div className="product-form-grid">
                 <label>
+                  <span>Como informar o material</span>
+                  <select value={resale.measurement_mode || "quantity"} onChange={(e) => updateResale("measurement_mode", e.target.value)}>
+                    <option value="quantity">Quantidade simples</option>
+                    <option value="area">Largura e altura (m²)</option>
+                  </select>
+                  <small>Por medidas permite somar peças de tamanhos diferentes.</small>
+                  {errors.material_resale_measurement ? <small className="field-error">{errors.material_resale_measurement}</small> : null}
+                </label>
+                <label>
                   <span>Usar como base</span>
                   <select value={resale.price_source || "cost"} onChange={(e) => updateResale("price_source", e.target.value)}>
                     <option value="cost">Valor de custo</option>
@@ -188,6 +197,25 @@ export default function ProductForm({
                   </div>
                   {errors.material_resale_profit ? <small className="field-error">{errors.material_resale_profit}</small> : null}
                 </label>
+                {resale.measurement_mode === "area" ? <>
+                  <label>
+                    <span>Desperdício padrão</span>
+                    <div className="suffix-input">
+                      <input type="number" min="0" max="500" step="0.01" inputMode="decimal" value={value.waste_percent ?? "0"} onChange={(e) => onChange("waste_percent", e.target.value)} />
+                      <span>%</span>
+                    </div>
+                    {errors.waste_percent ? <small className="field-error">{errors.waste_percent}</small> : null}
+                  </label>
+                  <label>
+                    <span>Sobreposição padrão</span>
+                    <div className="suffix-input">
+                      <input type="number" min="0" max="100" step="0.1" inputMode="decimal" value={resale.overlap_cm ?? "2"} onChange={(e) => updateResale("overlap_cm", e.target.value)} />
+                      <span>cm</span>
+                    </div>
+                    <small>Será aplicada entre painéis somente quando marcada no orçamento.</small>
+                    {errors.material_resale_overlap ? <small className="field-error">{errors.material_resale_overlap}</small> : null}
+                  </label>
+                </> : null}
               </div>
             </div>
           );
