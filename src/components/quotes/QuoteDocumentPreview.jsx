@@ -1,7 +1,5 @@
 import { formatBRL } from "../../lib/money";
 import {
-  formatAddress,
-  formatContact,
   formatQuoteDate,
   quotePdfViewModel,
 } from "../../lib/quotePdf";
@@ -22,27 +20,30 @@ export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
             {vm.companyAddress ? <span className="pre-line">{vm.companyAddress}</span> : null}
           </div>
         </div>
-        <div className="pdf-number">
-          <span>ORÇAMENTO</span>
-          <strong>{vm.quoteNumber}</strong>
+        <div className="pdf-document-card">
+          <div className="pdf-number">
+            <span>ORÇAMENTO</span>
+            <strong>{vm.quoteNumber}</strong>
+          </div>
+          <div className="pdf-document-dates">
+            <div><span>Emissão</span><strong>{vm.issueDate}</strong></div>
+            <div><span>Validade</span><strong>{vm.validUntil}</strong></div>
+          </div>
         </div>
       </header>
 
       <div className="pdf-accent-line" />
 
-      <section className="pdf-client">
-        <span>CLIENTE</span>
-        <h3>{vm.clientName}</h3>
-        {vm.clientTradeName ? <p>{vm.clientTradeName}</p> : null}
-        {vm.clientDocument ? <p>{vm.clientDocument}</p> : null}
-        {vm.clientContact ? <p>{vm.clientContact}</p> : null}
-        {vm.clientAddress ? <p className="pre-line">{vm.clientAddress}</p> : null}
-      </section>
-
-      <section className="pdf-info-grid">
-        <div><span>Emissão</span><strong>{vm.issueDate}</strong></div>
-        <div><span>Validade</span><strong>{vm.validUntil}</strong></div>
-        <div><span>Prazo de entrega</span><strong>{vm.deliveryTerm}</strong></div>
+      <section className="pdf-client-panel">
+        <div className="pdf-client">
+          <span>CLIENTE</span>
+          <h3>{vm.clientName}</h3>
+          {vm.clientTradeName ? <p>{vm.clientTradeName}</p> : null}
+          {vm.clientDocument ? <p>{vm.clientDocument}</p> : null}
+          {vm.clientContact ? <p>{vm.clientContact}</p> : null}
+          {vm.clientAddress ? <p className="pre-line">{vm.clientAddress}</p> : null}
+        </div>
+        <div className="pdf-delivery-card"><span>Prazo de entrega</span><strong>{vm.deliveryTerm}</strong></div>
       </section>
 
       <section className="pdf-items">
@@ -68,10 +69,6 @@ export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
       </section>
 
       <section className="pdf-total-section">
-        <div className="pdf-company-address">
-          {formatAddress(business) ? <p className="pre-line">{formatAddress(business)}</p> : null}
-          {formatContact(business) ? <p>{formatContact(business)}</p> : null}
-        </div>
         <div className="pdf-total-box">
           <div><span>Subtotal sem desconto</span><strong>{vm.grossSubtotal}</strong></div>
           {Number(quote.surcharge_total) > 0 ? <div><span>Acréscimos</span><strong>+ {vm.surcharge}</strong></div> : null}

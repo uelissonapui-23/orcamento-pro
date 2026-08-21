@@ -1,0 +1,17 @@
+MELHORIA: CABEÇALHO PROFISSIONAL DO PDF
+
+- Empresa e contatos organizados à esquerda.
+- Número do orçamento, emissão e validade agrupados à direita.
+- Cliente apresentado em uma faixa compacta e bem distribuída.
+- Prazo de entrega posicionado ao lado dos dados do cliente.
+- Menos espaço vazio no topo.
+- Endereço da empresa não é repetido perto dos totais.
+- Totais alinhados de maneira mais limpa à direita.
+
+1. Copie a pasta src para a raiz do projeto e confirme a substituição.
+2. Execute: npm run check
+3. Execute: git add .
+4. Execute: git commit -m "Melhora distribuicao do cabecalho do PDF"
+5. Execute: git push origin main
+
+Não existe nova migração do Supabase.
