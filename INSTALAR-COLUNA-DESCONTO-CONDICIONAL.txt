@@ -1,0 +1,15 @@
+MELHORIA: VALOR UNITÁRIO E DESCONTO CONDICIONAL NO PDF
+
+- Valor unitário sempre aparece.
+- Total normal do item sempre aparece.
+- A coluna "Com desconto" só aparece quando existir desconto em pelo menos um item.
+- Para um item sem desconto, nenhum valor de desconto é exibido.
+- Desconto geral continua aparecendo somente no resumo.
+
+1. Copie a pasta src para a raiz do projeto e confirme a substituição.
+2. Execute: npm run check
+3. Execute: git add .
+4. Execute: git commit -m "Ajusta colunas de valor e desconto no PDF"
+5. Execute: git push origin main
+
+Não existe nova migração do Supabase.

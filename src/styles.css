@@ -931,12 +931,15 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .pdf-items { margin-top:20px; }
 .pdf-items h3 { margin: 0 0 8px; font-size: 12px; }
 .pdf-items-head { display: grid; grid-template-columns: minmax(0,1fr) 56px 90px 100px; gap: 8px; padding: 9px 10px; border-radius: 7px; background: #111827; color: #fff; font-size: 7px; font-weight: 850; text-transform: uppercase; }
+.pdf-items-head.with-discount { grid-template-columns:minmax(0,1fr) 48px 82px 92px 100px; }
 .pdf-items-head span:last-child { text-align: right; }
 .pdf-item-row { display: grid; grid-template-columns: minmax(0,1fr) 56px 90px 100px; gap: 8px; align-items: start; padding: 10px; border-bottom: 1px solid #e5e7eb; font-size: 9px; }
+.pdf-item-row.with-discount { grid-template-columns:minmax(0,1fr) 48px 82px 92px 100px; }
 .pdf-item-row > div strong, .pdf-item-row > div span { display: block; }
 .pdf-item-row > div strong { font-size: 9px; }
 .pdf-item-row > div span { margin-top: 3px; color: #6b7280; font-size: 7px; }
 .pdf-item-row > strong { text-align: right; }
+.pdf-discounted-item-total { color:#047857; }
 .pdf-total-section { display:flex; justify-content:flex-end; margin-top:22px; }
 .pdf-company-address { color: #9ca3af; font-size: 8px; line-height: 1.45; }
 .pdf-company-address p { margin: 3px 0; }

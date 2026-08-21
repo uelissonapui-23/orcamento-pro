@@ -6,6 +6,12 @@ import {
 
 export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
   const vm = quotePdfViewModel(quote, business);
+  const hasItemDiscount = (quote.items || []).some((item) => Number(item.item_discount_value || 0) > 0);
+  const normalUnitPrice = (item) => {
+    const quantity = Number(item.quantity || 1);
+    const gross = Number(item.gross_total_price ?? item.total_price ?? 0);
+    return quantity > 0 ? gross / quantity : gross;
+  };
 
   return (
     <div className="pdf-sheet" style={{ "--pdf-accent": vm.primaryColor }}>
@@ -48,11 +54,12 @@ export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
 
       <section className="pdf-items">
         <h3>Itens do orçamento</h3>
-        <div className="pdf-items-head">
-          <span>Descrição</span><span>Qtd.</span><span>Valor normal</span><span>Valor a pagar</span>
+        <div className={`pdf-items-head ${hasItemDiscount ? "with-discount" : ""}`}>
+          <span>Descrição</span><span>Qtd.</span><span>Valor unitário</span><span>Total do item</span>
+          {hasItemDiscount ? <span>Com desconto</span> : null}
         </div>
         {(quote.items || []).map((item, index) => (
-          <div className="pdf-item-row" key={item.id || item.local_id || index}>
+          <div className={`pdf-item-row ${hasItemDiscount ? "with-discount" : ""}`} key={item.id || item.local_id || index}>
             <div>
               <strong>{item.description}</strong>
               <span>
@@ -62,8 +69,9 @@ export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
               </span>
             </div>
             <span>{item.quantity}</span>
-            <span>{formatBRL(item.gross_total_price ?? item.total_price)}</span>
-            <strong>{formatBRL(item.total_price)}</strong>
+            <span>{formatBRL(normalUnitPrice(item))}</span>
+            <strong>{formatBRL(item.gross_total_price ?? item.total_price)}</strong>
+            {hasItemDiscount ? <strong className="pdf-discounted-item-total">{Number(item.item_discount_value || 0) > 0 ? formatBRL(item.total_price) : ""}</strong> : null}
           </div>
         ))}
       </section>
