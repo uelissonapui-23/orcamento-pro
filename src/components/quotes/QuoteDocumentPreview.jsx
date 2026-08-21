@@ -20,6 +20,7 @@ export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
             {vm.companyLegalName ? <span>{vm.companyLegalName}</span> : null}
             {vm.companyDocument ? <span>{vm.companyDocument}</span> : null}
             {vm.companyContact ? <span>{vm.companyContact}</span> : null}
+            {vm.companyAddress ? <span className="pre-line">{vm.companyAddress}</span> : null}
           </div>
         </div>
         <div className="pdf-number">

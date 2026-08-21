@@ -4,6 +4,7 @@ import {
   buildPdfFilename,
   businessDisplayName,
   formatAddress,
+  formatContact,
   quoteItemUnitPrice,
   quotePdfViewModel,
 } from "./quotePdf";
@@ -28,6 +29,14 @@ describe("quote PDF helpers", () => {
   it("formats address", () => {
     expect(formatAddress({ street: "Rua A", address_number: "10", city: "Goiânia", state: "GO" }))
       .toContain("Rua A, 10");
+  });
+
+  it("omits empty address and contact labels", () => {
+    expect(formatAddress({ street: "Av. Acre", address_number: "1065", district: "Vila Nova", city: "Apuí", postal_code: "69265-000" }))
+      .toBe("Av. Acre, 1065\nBairro: Vila Nova · Apuí · CEP: 69265-000");
+    expect(formatContact({ phone: "", whatsapp: "97991978597", email: "" }))
+      .toBe("WhatsApp: 97991978597");
+    expect(formatContact({})).toBe("");
   });
 
   it("keeps the lightweight PDF logo in the historical snapshot", () => {

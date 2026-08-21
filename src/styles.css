@@ -200,6 +200,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .pdf-preview-brand span { display: block; max-width: 145px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pdf-preview-brand strong { font-size: 11px; }
 .pdf-preview-brand span { margin-top: 2px; color: #9ca3af; font-size: 8px; }
+.pdf-preview-brand span.pre-line { max-width:220px; white-space:pre-line; overflow:visible; text-overflow:clip; line-height:1.35; }
 .pdf-preview-number { flex: none; text-align: right; }
 .pdf-preview-number small { display: block; color: #9ca3af; font-size: 7px; letter-spacing: .08em; }
 .pdf-preview-number strong { display: block; margin-top: 2px; color: var(--preview-accent); font-size: 12px; }

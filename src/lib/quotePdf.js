@@ -52,18 +52,21 @@ export function formatAddress(record = {}) {
   ].filter(Boolean).join(", ");
 
   const cityLine = [
-    record.district,
+    record.district ? `Bairro: ${record.district}` : "",
     [record.city, record.state].filter(Boolean).join(" - "),
-    record.postal_code,
+    record.postal_code ? `CEP: ${record.postal_code}` : "",
   ].filter(Boolean).join(" · ");
 
   return [streetLine, cityLine].filter(Boolean).join("\n");
 }
 
 export function formatContact(record = {}) {
+  const phone = String(record.phone || "").trim();
+  const whatsapp = String(record.whatsapp || "").trim();
   return [
-    record.phone || record.whatsapp,
-    record.email,
+    phone ? `Telefone: ${phone}` : "",
+    whatsapp && whatsapp !== phone ? `WhatsApp: ${whatsapp}` : "",
+    record.email ? `E-mail: ${record.email}` : "",
   ].filter(Boolean).join(" · ");
 }
 

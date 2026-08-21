@@ -1,5 +1,11 @@
+import { formatAddress, formatContact, formatDocumentLine } from "../../lib/quotePdf";
+
 export default function PdfBrandPreview({ settings, logoUrl }) {
   const businessName = settings.trade_name || settings.legal_name || "Sua empresa";
+  const legalName = settings.legal_name && settings.legal_name !== businessName ? settings.legal_name : "";
+  const document = formatDocumentLine(settings);
+  const contact = formatContact(settings);
+  const address = formatAddress(settings);
 
   return (
     <div className="pdf-preview" style={{ "--preview-accent": settings.primary_color }}>
@@ -12,7 +18,10 @@ export default function PdfBrandPreview({ settings, logoUrl }) {
           )}
           <div>
             <strong>{businessName}</strong>
-            <span>{settings.document || "CPF/CNPJ"}</span>
+            {legalName ? <span>{legalName}</span> : null}
+            {document ? <span>{document}</span> : null}
+            {contact ? <span>{contact}</span> : null}
+            {address ? <span className="pre-line">{address}</span> : null}
           </div>
         </div>
         <div className="pdf-preview-number">

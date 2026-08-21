@@ -1,0 +1,28 @@
+MELHORIA: DADOS COMPLETOS E CONDICIONAIS NO ORÇAMENTO/PDF
+
+DADOS DA EMPRESA E DO CLIENTE
+
+- Nome do negócio e razão social.
+- CPF/CNPJ.
+- Telefone e WhatsApp.
+- E-mail.
+- Rua, número e complemento.
+- Bairro, cidade e UF.
+- CEP.
+
+REGRA DE EXIBIÇÃO
+
+- Uma informação só aparece quando estiver preenchida.
+- Campos vazios não mostram rótulos como "E-mail:" ou "CPF/CNPJ:".
+- Campos vazios não reservam linhas nem espaços no documento.
+- A prévia das configurações segue a mesma regra do PDF definitivo.
+
+Este pacote é cumulativo e inclui as melhorias anteriores.
+
+1. Copie a pasta src para a raiz do projeto e confirme a substituição.
+2. Execute: npm run check
+3. Execute: git add .
+4. Execute: git commit -m "Exibe dados completos e oculta campos vazios no PDF"
+5. Execute: git push origin main
+
+Não existe nova migração do Supabase.
