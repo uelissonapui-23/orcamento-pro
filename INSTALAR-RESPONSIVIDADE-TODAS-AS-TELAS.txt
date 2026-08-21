@@ -1,0 +1,25 @@
+OTIMIZAÇÃO GLOBAL E EDIÇÃO DE ITENS
+
+- Cards respeitam a largura disponível.
+- Textos longos quebram sem invadir outras informações.
+- Itens do orçamento reorganizam valores, ações e descontos conforme a largura real do card.
+- Em notebooks, o resumo financeiro deixa de esmagar a área dos itens.
+- Em tablets, o resumo passa para uma área inferior organizada.
+- Em celulares, formulários e cards usam uma coluna.
+- Botões de ação reorganizam sem sair da tela.
+- Diálogos usam a altura disponível com rodapé acessível.
+- Medidas, materiais, imagens e resumos não ultrapassam a tela.
+- Espaços seguros do celular e barra inferior são respeitados.
+- A otimização alcança Início, Orçamentos, A Fazer, Entregues, Cadastros,
+  Automações, Configurações, modais, formulários e prévia do PDF.
+- Cada item do orçamento ganha um botão de lápis para editar sem excluir.
+- A edição recupera produto, material, medidas, quantidade, sobreposição e observação.
+- O desconto individual já concedido é preservado após o recálculo.
+
+1. Copie a pasta src para a raiz do projeto e confirme a substituição.
+2. Execute: npm run check
+3. Execute: git add .
+4. Execute: git commit -m "Otimiza todo o app e permite editar itens"
+5. Execute: git push origin main
+
+Não existe nova migração do Supabase.

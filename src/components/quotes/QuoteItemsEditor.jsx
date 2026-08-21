@@ -1,8 +1,8 @@
-import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, Pencil, Plus, Trash2 } from "lucide-react";
 import { formatBRL } from "../../lib/money";
 import { applyQuoteItemDiscount } from "../../lib/quote";
 
-export default function QuoteItemsEditor({ items, onAdd, onChange, error }) {
+export default function QuoteItemsEditor({ items, onAdd, onEdit, onChange, error }) {
   const move = (index, direction) => {
     const target = index + direction;
     if (target < 0 || target >= items.length) return;
@@ -64,6 +64,7 @@ export default function QuoteItemsEditor({ items, onAdd, onChange, error }) {
                 {item.item_discount_value > 0 ? <small>Cliente economiza {formatBRL(item.item_discount_value)}</small> : null}
               </div>
               <div className="quote-line-actions">
+                <button type="button" onClick={() => onEdit(index)} title="Editar item"><Pencil size={15} /></button>
                 <button type="button" disabled={index === 0} onClick={() => move(index, -1)} title="Subir"><ArrowUp size={15} /></button>
                 <button type="button" disabled={index === items.length - 1} onClick={() => move(index, 1)} title="Descer"><ArrowDown size={15} /></button>
                 <button className="danger" type="button" onClick={() => remove(index)} title="Remover"><Trash2 size={16} /></button>

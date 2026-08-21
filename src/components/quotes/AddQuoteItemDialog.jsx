@@ -43,7 +43,7 @@ function MaterialThumbnail({ material }) {
   return <div className="wizard-material-thumb">{url ? <img src={url} alt={material.name} /> : <span>Sem imagem</span>}</div>;
 }
 
-export default function AddQuoteItemDialog({ open, workspaceId, products, materials = [], onClose, onAdd }) {
+export default function AddQuoteItemDialog({ open, workspaceId, products, materials = [], editingItem = null, onClose, onAdd }) {
   const [search, setSearch] = useState("");
   const [selectedId, setSelectedId] = useState("");
   const [inputs, setInputs] = useState({ quantity: "1" });
@@ -55,13 +55,24 @@ export default function AddQuoteItemDialog({ open, workspaceId, products, materi
   useEffect(() => {
     if (!open) return;
     setSearch("");
-    setSelectedId("");
-    setInputs({ quantity: "1" });
-    setNotes("");
+    if (editingItem) {
+      const product = products.find((item) => item.id === editingItem.product_id);
+      const mode = product?.calculation_mode || editingItem.calculation_mode;
+      const savedInputs = editingItem.calculation_input_json || editingItem.calculation_snapshot_json?.inputs || {};
+      const materialId = editingItem.calculation_snapshot_json?.result?.material?.id || "";
+      setSelectedId(product?.id || "");
+      setInputs({ ...initialInputs(mode), ...savedInputs, ...(materialId ? { material_id: materialId } : {}) });
+      setNotes(editingItem.notes || "");
+      setWrappingOpen(mode === "wrapping");
+    } else {
+      setSelectedId("");
+      setInputs({ quantity: "1" });
+      setNotes("");
+      setWrappingOpen(false);
+    }
     setError("");
-    setWrappingOpen(false);
     setMaterialSearch("");
-  }, [open]);
+  }, [open, editingItem, products]);
 
   const selected = products.find((item) => item.id === selectedId) || null;
   const filtered = useMemo(() => {
@@ -133,8 +144,8 @@ export default function AddQuoteItemDialog({ open, workspaceId, products, materi
         <section className="quote-item-dialog" role="dialog" aria-modal="true">
           <header className="dialog-header">
             <div>
-              <h2>Adicionar item</h2>
-              <p>Escolha o produto. O app mostra somente os campos necessários.</p>
+              <h2>{editingItem ? "Editar item" : "Adicionar item"}</h2>
+              <p>{editingItem ? "Ajuste somente o necessário e salve novamente." : "Escolha o produto. O app mostra somente os campos necessários."}</p>
             </div>
             <button className="dialog-close" type="button" onClick={onClose}><X size={20} /></button>
           </header>
@@ -272,7 +283,7 @@ export default function AddQuoteItemDialog({ open, workspaceId, products, materi
             <footer className="dialog-footer">
               <button className="secondary-button" type="button" onClick={onClose}>Cancelar</button>
               <button className="primary-button dialog-save" type="button" onClick={calculate}>
-                <Calculator size={16} /> Calcular e adicionar
+                <Calculator size={16} /> {editingItem ? "Recalcular e salvar" : "Calcular e adicionar"}
               </button>
             </footer>
           ) : null}

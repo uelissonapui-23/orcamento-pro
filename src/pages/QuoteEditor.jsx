@@ -9,6 +9,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { addDaysToIsoDate, buildQuoteDefaults, quoteDeliveryDays } from "../lib/quoteDefaults";
 import { buildBusinessSnapshot } from "../lib/quotePdf";
 import {
+  applyQuoteItemDiscount,
   buildQuoteClientSnapshot,
   createEmptyQuote,
   normalizeQuoteItem,
@@ -35,6 +36,7 @@ export default function QuoteEditor() {
   const [error, setError] = useState("");
   const [errors, setErrors] = useState({});
   const [itemDialog, setItemDialog] = useState(false);
+  const [editingItemIndex, setEditingItemIndex] = useState(null);
   const [quickClient, setQuickClient] = useState(false);
 
   const loadDependencies = useCallback(async () => {
@@ -229,7 +231,8 @@ export default function QuoteEditor() {
 
           <QuoteItemsEditor
             items={quote.items}
-            onAdd={() => setItemDialog(true)}
+            onAdd={() => { setEditingItemIndex(null); setItemDialog(true); }}
+            onEdit={(index) => { setEditingItemIndex(index); setItemDialog(true); }}
             onChange={(items) => update("items", items.map(normalizeQuoteItem))}
             error={errors.items}
           />
@@ -261,8 +264,21 @@ export default function QuoteEditor() {
         workspaceId={workspace.id}
         products={products}
         materials={materials}
-        onClose={() => setItemDialog(false)}
-        onAdd={(item) => update("items", [...quote.items, normalizeQuoteItem(item, quote.items.length)])}
+        editingItem={editingItemIndex == null ? null : quote.items[editingItemIndex]}
+        onClose={() => { setItemDialog(false); setEditingItemIndex(null); }}
+        onAdd={(item) => {
+          if (editingItemIndex == null) {
+            update("items", [...quote.items, normalizeQuoteItem(item, quote.items.length)]);
+          } else {
+            update("items", quote.items.map((current, index) => index === editingItemIndex
+              ? applyQuoteItemDiscount(
+                normalizeQuoteItem({ ...item, id: current.id, local_id: current.local_id, sort_order: current.sort_order }, index),
+                "percent",
+                current.item_discount_percent || 0,
+              )
+              : current));
+          }
+        }}
       />
 
       <QuickClientDialog
