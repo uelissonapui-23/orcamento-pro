@@ -1,8 +1,9 @@
 import { Calculator, Plus, Search, X } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { calculationModeMeta } from "../../lib/product";
 import { formatBRL } from "../../lib/money";
 import { priceProductForQuote } from "../../services/quoteItemPricingService";
+import { createMaterialImageUrl } from "../../services/materialService";
 import WrappingWizardDialog from "../wrapping/WrappingWizardDialog";
 
 function initialInputs(mode) {
@@ -12,6 +13,23 @@ function initialInputs(mode) {
   return { quantity: "1" };
 }
 
+function MaterialThumbnail({ material }) {
+  const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    let active = true;
+    setUrl("");
+    if (material.image_path) {
+      createMaterialImageUrl(material.image_path)
+        .then((nextUrl) => active && setUrl(nextUrl))
+        .catch(() => active && setUrl(""));
+    }
+    return () => { active = false; };
+  }, [material.image_path]);
+
+  return <div className="wizard-material-thumb">{url ? <img src={url} alt={material.name} /> : <span>Sem imagem</span>}</div>;
+}
+
 export default function AddQuoteItemDialog({ open, workspaceId, products, materials = [], onClose, onAdd }) {
   const [search, setSearch] = useState("");
   const [selectedId, setSelectedId] = useState("");
@@ -19,12 +37,28 @@ export default function AddQuoteItemDialog({ open, workspaceId, products, materi
   const [notes, setNotes] = useState("");
   const [error, setError] = useState("");
   const [wrappingOpen, setWrappingOpen] = useState(false);
+  const [materialSearch, setMaterialSearch] = useState("");
+
+  useEffect(() => {
+    if (!open) return;
+    setSearch("");
+    setSelectedId("");
+    setInputs({ quantity: "1" });
+    setNotes("");
+    setError("");
+    setWrappingOpen(false);
+    setMaterialSearch("");
+  }, [open]);
 
   const selected = products.find((item) => item.id === selectedId) || null;
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase();
     return products.filter((item) => item.active !== false && (!term || item.name.toLowerCase().includes(term)));
   }, [products, search]);
+  const filteredMaterials = useMemo(() => {
+    const term = materialSearch.trim().toLowerCase();
+    return materials.filter((item) => item.active !== false && (!term || item.name.toLowerCase().includes(term)));
+  }, [materials, materialSearch]);
 
   if (!open) return null;
 
@@ -146,17 +180,26 @@ export default function AddQuoteItemDialog({ open, workspaceId, products, materi
                 ) : null}
 
                 {selected.calculation_mode === "material_resale" ? (
-                  <div className="quote-item-fields">
-                    <label>
-                      <span>Material *</span>
-                      <select value={inputs.material_id || ""} onChange={(e) => { setInputs({ ...inputs, material_id: e.target.value }); setError(""); }}>
-                        <option value="">Escolha o material...</option>
-                        {materials.map((material) => (
-                          <option key={material.id} value={material.id}>{material.name} · {material.unit}</option>
-                        ))}
-                      </select>
-                    </label>
-                    <label><span>Quantidade</span><input type="number" min="1" value={inputs.quantity || "1"} onChange={(e) => setInputs({ ...inputs, quantity: e.target.value })} /></label>
+                  <div className="quote-material-selection">
+                    <div className="quote-product-search">
+                      <Search size={17} />
+                      <input value={materialSearch} onChange={(e) => setMaterialSearch(e.target.value)} placeholder="Buscar material..." />
+                    </div>
+                    <div className="wizard-materials material-price-choices quote-material-picker">
+                      {filteredMaterials.map((material) => {
+                        const source = selected.configuration_json?.material_resale?.price_source === "reference" ? material.sale_value : material.cost_value;
+                        return (
+                          <button className={inputs.material_id === material.id ? "selected" : ""} type="button" key={material.id} onClick={() => { setInputs({ ...inputs, material_id: material.id }); setError(""); }}>
+                            <MaterialThumbnail material={material} />
+                            <span><strong>{material.name}</strong><small>{material.unit} · base {formatBRL(source || 0)}</small></span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {!filteredMaterials.length ? <div className="quote-product-empty">Nenhum material encontrado.</div> : null}
+                    <div className="quote-item-fields one">
+                      <label><span>Quantidade</span><input type="number" min="1" value={inputs.quantity || "1"} onChange={(e) => setInputs({ ...inputs, quantity: e.target.value })} /></label>
+                    </div>
                   </div>
                 ) : null}
 

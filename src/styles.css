@@ -1679,6 +1679,11 @@ a:focus-visible, button:focus-visible {
 .material-price-choices > button { min-height:132px; display:grid; grid-template-columns:92px minmax(0,1fr); gap:12px; align-items:center; padding:10px; }
 .wizard-material-thumb { width:92px; height:92px; overflow:hidden; border-radius:11px; background:#eef2f7; border:1px solid #e2e8f0; display:grid; place-items:center; color:#94a3b8; font-size:10px; }
 .wizard-material-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.quote-material-selection { display:grid; gap:12px; }
+.quote-material-picker { max-height:330px; overflow:auto; padding:2px; }
+.quote-material-picker > button { min-width:0; }
+.quote-material-picker > button span { min-width:0; }
+.quote-material-picker > button strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .wizard-material-copy { min-width:0; }
 .wizard-material-copy strong { overflow-wrap:anywhere; }
 .wizard-material-service-price { display:flex; justify-content:space-between; gap:8px; align-items:center; margin-top:9px; padding-top:8px; border-top:1px solid #e5e7eb; color:#475569; font-size:11px; }
