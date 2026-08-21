@@ -53,6 +53,25 @@ function cleanSearch(value) {
   return String(value || "").trim().replace(/[%_,()]/g, " ");
 }
 
+export function buildMaterialPayload(values, { workspaceId } = {}) {
+  const material = normalizeMaterial(values);
+  return {
+    ...(workspaceId ? { workspace_id: workspaceId } : {}),
+    category_id: material.category_id || null,
+    name: material.name,
+    unit: material.unit,
+    roll_width: material.roll_width === "" ? null : material.roll_width,
+    cost_value: material.cost_value === "" ? null : material.cost_value,
+    sale_value: material.sale_value === "" ? null : material.sale_value,
+    wrapping_multiplier: material.wrapping_multiplier === "" ? 1 : material.wrapping_multiplier,
+    wrapping_discount_percent: material.wrapping_discount_percent === "" ? 0 : material.wrapping_discount_percent,
+    image_path: material.image_path || null,
+    use_in_wrapping: material.use_in_wrapping,
+    notes: material.notes || null,
+    active: material.active,
+  };
+}
+
 export async function listMaterialCategories(workspaceId, { includeInactive = false } = {}) {
   const client = requireClient();
   let query = client
@@ -133,19 +152,11 @@ export async function listMaterials(
 
 export async function createMaterial(workspaceId, values) {
   const client = requireClient();
-  const material = normalizeMaterial(values);
 
   const { data, error } = await client
     .schema("orcamento_app")
     .from("materials")
-    .insert({
-      workspace_id: workspaceId,
-      ...material,
-      category_id: material.category_id || null,
-      roll_width: material.roll_width === "" ? null : material.roll_width,
-      cost_value: material.cost_value === "" ? null : material.cost_value,
-      sale_value: material.sale_value === "" ? null : material.sale_value,
-    })
+    .insert(buildMaterialPayload(values, { workspaceId }))
     .select("*")
     .single();
 
@@ -155,18 +166,11 @@ export async function createMaterial(workspaceId, values) {
 
 export async function updateMaterial(materialId, values) {
   const client = requireClient();
-  const material = normalizeMaterial(values);
 
   const { data, error } = await client
     .schema("orcamento_app")
     .from("materials")
-    .update({
-      ...material,
-      category_id: material.category_id || null,
-      roll_width: material.roll_width === "" ? null : material.roll_width,
-      cost_value: material.cost_value === "" ? null : material.cost_value,
-      sale_value: material.sale_value === "" ? null : material.sale_value,
-    })
+    .update(buildMaterialPayload(values))
     .eq("id", materialId)
     .select("*")
     .single();

@@ -1,0 +1,13 @@
+CORREÇÃO: SALVAR ALTERAÇÕES DO MATERIAL
+
+Corrige a edição de custo, preço de referência e demais dados do material.
+O aplicativo passa a enviar ao Supabase somente as colunas válidas da tabela.
+Também passa a mostrar a mensagem real do banco caso ocorra outro problema.
+
+1. Copie a pasta src para a raiz do projeto, substituindo os dois arquivos.
+2. Execute: npm run check
+3. Execute: git add .
+4. Execute: git commit -m "Corrige salvamento do preço de referência do material"
+5. Execute: git push origin main
+
+Não há nova migração do Supabase.

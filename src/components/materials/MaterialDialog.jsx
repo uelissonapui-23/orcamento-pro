@@ -12,9 +12,11 @@ import {
 import MaterialForm from "./MaterialForm";
 
 function errorMessage(error) {
-  if (!(error instanceof Error)) return "Ocorreu um erro inesperado.";
-  if (/material_categories_workspace_name_unique/i.test(error.message)) return "Já existe uma categoria com esse nome.";
-  return error.message;
+  const message = error instanceof Error
+    ? error.message
+    : String(error?.message || error?.details || error?.hint || "").trim();
+  if (/material_categories_workspace_name_unique/i.test(message)) return "Já existe uma categoria com esse nome.";
+  return message || "Não foi possível salvar o material. Tente novamente.";
 }
 
 export default function MaterialDialog({
