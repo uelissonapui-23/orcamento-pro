@@ -53,6 +53,7 @@ export default function ProductDialog({
         if (value === "fluid_curve") next.unit_label = "curva";
         if (value === "linear_meter") next.unit_label = "m";
         if (value === "unit") next.unit_label = "un";
+        if (value === "material_resale") next.unit_label = "un";
         if (value === "fixed") next.unit_label = "serviço";
         if (value === "manual") next.unit_label = "item";
         if (value === "wrapping") next.unit_label = "veículo";

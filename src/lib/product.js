@@ -18,6 +18,12 @@ export const CALCULATION_MODES = Object.freeze([
     description: "Quantidade × preço unitário.",
   },
   {
+    value: "material_resale",
+    label: "Revenda de material",
+    shortLabel: "revenda",
+    description: "Venda direta de um material, sem mão de obra, com lucro automático.",
+  },
+  {
     value: "fluid_curve",
     label: "Curva fluida",
     shortLabel: "curva",
@@ -61,6 +67,7 @@ export const EMPTY_PRODUCT = Object.freeze({
   active: true,
   configuration_json: {
     fixed_multiplies_quantity: false,
+    material_resale: { price_source: "cost", profit_mode: "markup", profit_percent: "0" },
     fluid_curve: { measure_type: "square_meter", base_cost: "", points: [{ measure: "0.01", multiplier: "1" }, { measure: "1", multiplier: "1" }] },
     wrapping: {
       extra_percent: "0",
@@ -111,6 +118,10 @@ export function normalizeProduct(record = {}) {
         ...EMPTY_PRODUCT.configuration_json.fluid_curve,
         ...(record.configuration_json?.fluid_curve || {}),
       },
+      material_resale: {
+        ...EMPTY_PRODUCT.configuration_json.material_resale,
+        ...(record.configuration_json?.material_resale || {}),
+      },
       wrapping: {
         ...EMPTY_PRODUCT.configuration_json.wrapping,
         ...(record.configuration_json?.wrapping || {}),
@@ -158,6 +169,16 @@ export function validateProduct(record, tiers = []) {
     const extraFixed = asMoneyNumber(wrapping.extra_fixed);
     if (extraPercent != null && extraPercent < 0) errors.wrapping_extra_percent = "O adicional não pode ser negativo.";
     if (extraFixed != null && extraFixed < 0) errors.wrapping_extra_fixed = "O adicional não pode ser negativo.";
+  }
+
+  if (product.calculation_mode === "material_resale") {
+    const resale = product.configuration_json?.material_resale || {};
+    const profit = asMoneyNumber(resale.profit_percent);
+    if (!product.default_material_id) errors.default_material_id = "Escolha o material que será vendido.";
+    if (!["cost", "reference"].includes(resale.price_source)) errors.material_resale_source = "Escolha a base do preço.";
+    if (!["markup", "margin"].includes(resale.profit_mode)) errors.material_resale_mode = "Escolha como calcular o lucro.";
+    if (profit == null || profit < 0) errors.material_resale_profit = "Informe um percentual igual ou maior que zero.";
+    if (resale.profit_mode === "margin" && profit >= 100) errors.material_resale_profit = "A margem deve ser menor que 100%.";
   }
 
   if (product.calculation_mode === "fluid_curve") {
@@ -213,6 +234,7 @@ export function formatProductPrice(product) {
   if (mode === "wrapping") return "Calculado pelo wizard";
   if (mode === "quantity_tier") return "Preço por faixas";
   if (mode === "fluid_curve") return "Preço por curva fluida";
+  if (mode === "material_resale") return "Preço pelo material + lucro";
   if (!Number.isFinite(price)) return "Sem preço";
 
   return new Intl.NumberFormat("pt-BR", {

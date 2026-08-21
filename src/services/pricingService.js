@@ -122,6 +122,43 @@ function calculateUnit(product, input) {
   };
 }
 
+function calculateMaterialResale(product, input) {
+  const quantity = integerQuantity(input.quantity ?? 1);
+  const material = product.default_material;
+  if (!material?.id) throw new PricingError("MATERIAL_REQUIRED", "Este produto não possui um material de revenda válido.", "default_material_id");
+
+  const config = product.configuration_json?.material_resale || {};
+  const priceSource = config.price_source === "reference" ? "reference" : "cost";
+  const profitMode = config.profit_mode === "margin" ? "margin" : "markup";
+  const profitPercent = nonNegative(config.profit_percent, "profit_percent", "Percentual de lucro");
+  if (profitMode === "margin" && profitPercent >= 100) {
+    throw new PricingError("INVALID_MARGIN", "A margem deve ser menor que 100%.", "profit_percent");
+  }
+
+  const sourceField = priceSource === "reference" ? "sale_value" : "cost_value";
+  const baseValue = positive(material[sourceField], sourceField, priceSource === "reference" ? "Preço de referência" : "Valor de custo");
+  const unitPrice = profitMode === "margin"
+    ? baseValue / (1 - profitPercent / 100)
+    : baseValue * (1 + profitPercent / 100);
+  const finalTotal = roundMoney(unitPrice * quantity);
+
+  return {
+    input: { quantity },
+    result: {
+      quantity,
+      material: { id: material.id, name: material.name || "", unit: material.unit || "un" },
+      price_source: priceSource,
+      profit_mode: profitMode,
+      profit_percent: profitPercent,
+      base_value: roundMoney(baseValue),
+      raw_total: finalTotal,
+      minimum_applied: false,
+      unit_price: roundMoney(unitPrice),
+      final_total: finalTotal,
+    },
+  };
+}
+
 function findTier(tiers, quantity) {
   const ordered = [...(tiers || [])]
     .map((tier) => ({
@@ -327,6 +364,9 @@ export function calculateProductPrice({ product, input = {}, tiers = [] }) {
       break;
     case "unit":
       calculated = calculateUnit(product, input);
+      break;
+    case "material_resale":
+      calculated = calculateMaterialResale(product, input);
       break;
     case "quantity_tier":
       calculated = calculateQuantityTier(product, input, tiers);

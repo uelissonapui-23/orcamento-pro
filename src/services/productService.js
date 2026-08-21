@@ -66,7 +66,7 @@ export async function listProducts(
   let query = client
     .schema("orcamento_app")
     .from("products")
-    .select("*, product_categories(id,name), product_price_tiers(*)")
+    .select("*, product_categories(id,name), product_price_tiers(*), default_material:materials!products_default_material_id_fkey(id,name,unit,cost_value,sale_value,active)")
     .eq("workspace_id", workspaceId)
     .order("name", { ascending: true });
 

@@ -68,7 +68,7 @@ export default function ProductForm({
         </label>
 
         <label className="product-form-full">
-          <span>Material padrão</span>
+          <span>{mode === "material_resale" ? "Material para revenda *" : "Material padrão"}</span>
           <select value={value.default_material_id || ""} onChange={update("default_material_id")}>
             <option value="">Nenhum material padrão</option>
             {materials.map((material) => (
@@ -77,7 +77,8 @@ export default function ProductForm({
               </option>
             ))}
           </select>
-          <small>Opcional. Ao adicionar este produto no orçamento, esse material poderá vir pré-selecionado.</small>
+          <small>{mode === "material_resale" ? "Este material será vendido diretamente, sem mão de obra." : "Opcional. Ao adicionar este produto no orçamento, esse material poderá vir pré-selecionado."}</small>
+          {errors.default_material_id ? <small className="field-error">{errors.default_material_id}</small> : null}
         </label>
       </div>
 
@@ -151,6 +152,50 @@ export default function ProductForm({
 
         {mode === "fluid_curve" ? <FluidCurveEditor value={value} onChange={onChange} errors={errors} /> : null}
 
+        {mode === "material_resale" ? (() => {
+          const resale = value.configuration_json?.material_resale || {};
+          const updateResale = (field, nextValue) => onChange("configuration_json", {
+            ...value.configuration_json,
+            material_resale: { ...resale, [field]: nextValue },
+          });
+          const material = materials.find((item) => item.id === value.default_material_id);
+          return (
+            <div className="wrapping-product-config">
+              <div className="mode-info-box accent">
+                <strong>Venda direta, sem mão de obra</strong>
+                <p>O app usa o valor do material escolhido, aplica o lucro e multiplica pela quantidade no orçamento.</p>
+              </div>
+              <div className="product-form-grid">
+                <label>
+                  <span>Usar como base</span>
+                  <select value={resale.price_source || "cost"} onChange={(e) => updateResale("price_source", e.target.value)}>
+                    <option value="cost">Valor de custo</option>
+                    <option value="reference">Preço de referência</option>
+                  </select>
+                  {errors.material_resale_source ? <small className="field-error">{errors.material_resale_source}</small> : null}
+                </label>
+                <label>
+                  <span>Forma de lucro</span>
+                  <select value={resale.profit_mode || "markup"} onChange={(e) => updateResale("profit_mode", e.target.value)}>
+                    <option value="markup">Acréscimo sobre a base</option>
+                    <option value="margin">Margem no preço final</option>
+                  </select>
+                  <small>{resale.profit_mode === "margin" ? "Custo R$ 80 e margem 20% = venda R$ 100." : "Custo R$ 100 e acréscimo 20% = venda R$ 120."}</small>
+                </label>
+                <label>
+                  <span>Percentual de lucro</span>
+                  <div className="suffix-input">
+                    <input type="number" min="0" max={resale.profit_mode === "margin" ? "99.99" : undefined} step="0.01" inputMode="decimal" value={resale.profit_percent ?? "0"} onChange={(e) => updateResale("profit_percent", e.target.value)} />
+                    <span>%</span>
+                  </div>
+                  {errors.material_resale_profit ? <small className="field-error">{errors.material_resale_profit}</small> : null}
+                </label>
+              </div>
+              {material ? <div className="mode-info-box"><strong>{material.name}</strong><p>Custo: R$ {Number(material.cost_value || 0).toFixed(2).replace(".", ",")} · Referência: R$ {Number(material.sale_value || 0).toFixed(2).replace(".", ",")} por {material.unit || "un"}.</p></div> : null}
+            </div>
+          );
+        })() : null}
+
         {mode === "quantity_tier" ? (
           <PriceTiersEditor
             tiers={tiers}
@@ -211,7 +256,13 @@ export default function ProductForm({
         })() : null}
       </div>
 
-      <PricingPreview product={value} tiers={tiers} />
+      <PricingPreview
+        product={{
+          ...value,
+          default_material: materials.find((item) => item.id === value.default_material_id) || value.default_material,
+        }}
+        tiers={tiers}
+      />
     </div>
   );
 }

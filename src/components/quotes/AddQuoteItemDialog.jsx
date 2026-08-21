@@ -125,7 +125,7 @@ export default function AddQuoteItemDialog({ open, workspaceId, products, onClos
                   </div>
                 ) : null}
 
-                {["unit", "quantity_tier", "fixed"].includes(selected.calculation_mode) ? (
+                {["unit", "quantity_tier", "fixed", "material_resale"].includes(selected.calculation_mode) ? (
                   <div className="quote-item-fields one">
                     <label><span>Quantidade</span><input type="number" min="1" value={inputs.quantity || "1"} onChange={(e) => setInputs({ ...inputs, quantity: e.target.value })} /></label>
                   </div>
@@ -135,6 +135,13 @@ export default function AddQuoteItemDialog({ open, workspaceId, products, onClos
                   <div className="quote-item-fields">
                     <label><span>Valor total</span><input inputMode="decimal" value={inputs.manual_price || ""} onChange={(e) => setInputs({ ...inputs, manual_price: e.target.value })} /></label>
                     <label><span>Quantidade</span><input type="number" min="1" value={inputs.quantity || "1"} onChange={(e) => setInputs({ ...inputs, quantity: e.target.value })} /></label>
+                  </div>
+                ) : null}
+
+                {selected.calculation_mode === "material_resale" && selected.default_material ? (
+                  <div className="mode-info-box accent">
+                    <strong>{selected.default_material.name}</strong>
+                    <p>O preço unitário será calculado automaticamente pela regra de lucro cadastrada.</p>
                   </div>
                 ) : null}
 

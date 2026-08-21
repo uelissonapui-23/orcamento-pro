@@ -39,4 +39,24 @@ describe("product domain", () => {
   it("labels manual price correctly", () => {
     expect(formatProductPrice({ calculation_mode: "manual" })).toBe("Preço informado no orçamento");
   });
+
+  it("validates material resale configuration", () => {
+    const valid = validateProduct({
+      name: "Lona sem instalação",
+      category_id: "cat",
+      calculation_mode: "material_resale",
+      default_material_id: "mat",
+      configuration_json: { material_resale: { price_source: "cost", profit_mode: "markup", profit_percent: "30" } },
+    });
+    expect(valid.valid).toBe(true);
+
+    const invalid = validateProduct({
+      name: "Lona",
+      category_id: "cat",
+      calculation_mode: "material_resale",
+      configuration_json: { material_resale: { price_source: "cost", profit_mode: "margin", profit_percent: "100" } },
+    });
+    expect(invalid.errors.default_material_id).toBeTruthy();
+    expect(invalid.errors.material_resale_profit).toBeTruthy();
+  });
 });

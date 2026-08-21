@@ -14,7 +14,7 @@ export function priceProductForQuote({ product, formValues, tiers = [] }) {
     quoteItemDraft: {
       product_id: product.id || null,
       item_type: "product",
-      description: product.name || "",
+      description: product.name || product.default_material?.name || "",
       quantity: Number(formValues.quantity || 1),
       width: formValues.width ? Number(formValues.width) : null,
       height: formValues.height ? Number(formValues.height) : null,

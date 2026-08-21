@@ -63,6 +63,35 @@ describe("pricing engine", () => {
     expect(result.unit_price).toBe(12.5);
   });
 
+  it("calculates direct material resale using markup over cost", () => {
+    const result = calculateProductPrice({
+      product: {
+        id: "resale",
+        name: "Chapa vendida",
+        calculation_mode: "material_resale",
+        default_material: { id: "mat", name: "Chapa PVC", unit: "un", cost_value: 100, sale_value: 150 },
+        configuration_json: { material_resale: { price_source: "cost", profit_mode: "markup", profit_percent: 30 } },
+      },
+      input: { quantity: 2 },
+    });
+    expect(result.unit_price).toBe(130);
+    expect(result.final_total).toBe(260);
+    expect(result.snapshot.result.material.name).toBe("Chapa PVC");
+  });
+
+  it("calculates a true margin over the reference price", () => {
+    const result = calculateProductPrice({
+      product: {
+        calculation_mode: "material_resale",
+        default_material: { id: "mat", name: "Lona", unit: "m", cost_value: 50, sale_value: 80 },
+        configuration_json: { material_resale: { price_source: "reference", profit_mode: "margin", profit_percent: 20 } },
+      },
+      input: { quantity: 3 },
+    });
+    expect(result.unit_price).toBe(100);
+    expect(result.final_total).toBe(300);
+  });
+
   it("calculates total-price quantity tier", () => {
     const result = calculateProductPrice({
       product: { calculation_mode: "quantity_tier" },

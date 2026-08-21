@@ -1,0 +1,27 @@
+MELHORIA: REVENDA DIRETA DE MATERIAL
+
+1. Copie as pastas src e supabase deste pacote para a raiz do projeto ORÇAMENTOS, substituindo os arquivos quando solicitado.
+2. No VS Code, dentro da pasta do projeto, execute:
+
+   npm run check
+
+3. Aplique no Supabase a nova migração:
+
+   supabase/migrations/20260821090000_material_direct_resale.sql
+
+   Ela altera somente o schema orcamento_app do projeto compartilhado.
+
+4. Depois publique normalmente no GitHub/Vercel.
+
+COMO USAR
+
+- Abra Produtos e Serviços.
+- Cadastre ou edite um item.
+- Em "Como você cobra este item?", escolha "Revenda de material".
+- Selecione o material.
+- Escolha Valor de custo ou Preço de referência.
+- Escolha Acréscimo sobre a base ou Margem no preço final.
+- Informe o percentual e salve.
+- Ao adicionar ao orçamento, informe apenas a quantidade.
+
+O orçamento salva uma fotografia do material, base, percentual e resultado usados no momento do cálculo.

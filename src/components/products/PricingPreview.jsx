@@ -87,6 +87,9 @@ export default function PricingPreview({ product, tiers }) {
           {result.data.metrics.minimum_applied ? <span>Valor mínimo aplicado</span> : null}
           {result.data.metrics.curve_multiplier != null ? <span>Multiplicador: {result.data.metrics.curve_multiplier}×</span> : null}
           {result.data.metrics.curve_measure != null ? <span>Medida-base: {result.data.metrics.curve_measure} {result.data.metrics.curve_measure_label}</span> : null}
+          {result.data.metrics.material ? <span>Material: {result.data.metrics.material.name}</span> : null}
+          {result.data.metrics.base_value != null ? <span>Base: {formatBRL(result.data.metrics.base_value)}</span> : null}
+          {result.data.metrics.profit_percent != null ? <span>Lucro: {result.data.metrics.profit_percent}%</span> : null}
           {result.data.metrics.tier ? (
             <span>
               Faixa: {result.data.metrics.tier.min_quantity}
