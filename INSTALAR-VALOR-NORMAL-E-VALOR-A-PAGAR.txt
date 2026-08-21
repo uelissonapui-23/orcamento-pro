@@ -1,0 +1,22 @@
+MELHORIA NO PDF: VALOR NORMAL E VALOR A PAGAR
+
+Na linha de cada item:
+
+- Valor normal, sem desconto.
+- Valor a pagar, já com o desconto individual.
+- A porcentagem do desconto não aparece para o cliente.
+
+No resumo:
+
+- Subtotal sem desconto.
+- Acréscimos, somente quando existirem.
+- Desconto total.
+- Valor a pagar.
+
+1. Copie a pasta src para a raiz do projeto e confirme a substituição.
+2. Execute: npm run check
+3. Execute: git add .
+4. Execute: git commit -m "Simplifica exibicao dos descontos no PDF"
+5. Execute: git push origin main
+
+Não existe nova migração do Supabase.

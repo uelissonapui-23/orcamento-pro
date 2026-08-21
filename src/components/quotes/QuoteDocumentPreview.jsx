@@ -4,7 +4,6 @@ import {
   formatContact,
   formatQuoteDate,
   quotePdfViewModel,
-  quoteItemUnitPrice,
 } from "../../lib/quotePdf";
 
 export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
@@ -49,7 +48,7 @@ export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
       <section className="pdf-items">
         <h3>Itens do orçamento</h3>
         <div className="pdf-items-head">
-          <span>Descrição</span><span>Qtd.</span><span>Valor unitário</span><span>Total do item</span>
+          <span>Descrição</span><span>Qtd.</span><span>Valor normal</span><span>Valor a pagar</span>
         </div>
         {(quote.items || []).map((item, index) => (
           <div className="pdf-item-row" key={item.id || item.local_id || index}>
@@ -59,11 +58,10 @@ export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
                 {item.calculation_mode === "square_meter" && item.area ? `${item.area} m²` : null}
                 {item.calculation_mode === "linear_meter" && item.linear_meters ? `${item.linear_meters} m` : null}
                 {item.notes ? `${item.area || item.linear_meters ? " · " : ""}${item.notes}` : null}
-                {Number(item.item_discount_value) > 0 ? ` · Desconto: ${formatBRL(item.item_discount_value)}` : null}
               </span>
             </div>
             <span>{item.quantity}</span>
-            <span>{formatBRL(quoteItemUnitPrice(item))}</span>
+            <span>{formatBRL(item.gross_total_price ?? item.total_price)}</span>
             <strong>{formatBRL(item.total_price)}</strong>
           </div>
         ))}
@@ -75,12 +73,10 @@ export default function QuoteDocumentPreview({ quote, business, logoUrl }) {
           {formatContact(business) ? <p>{formatContact(business)}</p> : null}
         </div>
         <div className="pdf-total-box">
-          <div><span>Subtotal bruto</span><strong>{vm.grossSubtotal}</strong></div>
-          {vm.itemDiscountValue > 0 ? <div><span>Descontos nos itens</span><strong>- {vm.itemDiscount}</strong></div> : null}
+          <div><span>Subtotal sem desconto</span><strong>{vm.grossSubtotal}</strong></div>
           {Number(quote.surcharge_total) > 0 ? <div><span>Acréscimos</span><strong>+ {vm.surcharge}</strong></div> : null}
-          {Number(quote.discount_total) > 0 ? <div><span>Desconto geral</span><strong>- {vm.generalDiscount}</strong></div> : null}
-          {(Number(quote.discount_total) > 0 || Number(quote.subtotal) < (quote.items || []).reduce((sum, item) => sum + Number(item.gross_total_price ?? item.total_price ?? 0), 0)) ? <div><span>Economia total</span><strong>{vm.totalDiscount}</strong></div> : null}
-          <div className="grand"><span>Total geral</span><strong>{vm.total}</strong></div>
+          {(vm.itemDiscountValue > 0 || Number(quote.discount_total) > 0) ? <div><span>Desconto total</span><strong>- {vm.totalDiscount}</strong></div> : null}
+          <div className="grand"><span>Valor a pagar</span><strong>{vm.total}</strong></div>
         </div>
       </section>
 
