@@ -1,0 +1,21 @@
+PRIVACIDADE DO PREÇO NO ORÇAMENTO
+
+Na escolha do material, o aplicativo não mostra mais:
+
+- valor de custo;
+- preço de referência;
+- percentual de lucro;
+- margem aplicada.
+
+O material mostra somente o preço final de venda por unidade, já com a regra de lucro calculada.
+O preço-base antigo também foi removido do cabeçalho do serviço de venda direta.
+
+Este pacote também contém as melhorias de várias medidas, desperdício e sobreposição.
+
+1. Copie a pasta src para a raiz do projeto e confirme a substituição.
+2. Execute: npm run check
+3. Execute: git add .
+4. Execute: git commit -m "Protege custo e lucro na venda direta de materiais"
+5. Execute: git push origin main
+
+Não existe nova migração do Supabase.

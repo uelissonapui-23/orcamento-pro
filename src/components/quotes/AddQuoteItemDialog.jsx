@@ -14,6 +14,18 @@ function initialInputs(mode) {
   return { quantity: "1" };
 }
 
+function materialSalePrice(material, product) {
+  const config = product.configuration_json?.material_resale || {};
+  const base = Number(config.price_source === "reference" ? material.sale_value : material.cost_value);
+  const percent = Number(config.profit_percent || 0);
+  if (!Number.isFinite(base) || base <= 0 || !Number.isFinite(percent) || percent < 0) return null;
+  if (config.profit_mode === "margin") {
+    if (percent >= 100) return null;
+    return base / (1 - percent / 100);
+  }
+  return base * (1 + percent / 100);
+}
+
 function MaterialThumbnail({ material }) {
   const [url, setUrl] = useState("");
 
@@ -157,7 +169,7 @@ export default function AddQuoteItemDialog({ open, workspaceId, products, materi
                     <strong>{selected.name}</strong>
                     <span>{calculationModeMeta(selected.calculation_mode).label}</span>
                   </div>
-                  {selected.calculation_mode !== "manual" && selected.calculation_mode !== "wrapping" && selected.base_price !== "" ? (
+                  {!["manual", "wrapping", "material_resale"].includes(selected.calculation_mode) && selected.base_price !== "" ? (
                     <b>{formatBRL(selected.base_price)}</b>
                   ) : null}
                 </div>
@@ -198,11 +210,11 @@ export default function AddQuoteItemDialog({ open, workspaceId, products, materi
                     </div>
                     <div className="wizard-materials material-price-choices quote-material-picker">
                       {filteredMaterials.map((material) => {
-                        const source = selected.configuration_json?.material_resale?.price_source === "reference" ? material.sale_value : material.cost_value;
+                        const salePrice = materialSalePrice(material, selected);
                         return (
                           <button className={inputs.material_id === material.id ? "selected" : ""} type="button" key={material.id} onClick={() => { setInputs({ ...inputs, material_id: material.id }); setError(""); }}>
                             <MaterialThumbnail material={material} />
-                            <span><strong>{material.name}</strong><small>{material.unit} · base {formatBRL(source || 0)}</small></span>
+                            <span><strong>{material.name}</strong><small>{salePrice == null ? `${material.unit} · preço indisponível` : `${formatBRL(salePrice)} por ${material.unit}`}</small></span>
                           </button>
                         );
                       })}
