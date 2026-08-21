@@ -777,13 +777,14 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .quote-card-heading h2 { margin: 0; font-size: 14px; }
 .quote-card-heading p { margin: 3px 0 0; color: #6b7280; font-size: 10px; }
 .quote-card-heading .primary-button { border: 0; cursor: pointer; }
-.quote-basic-fields { display: grid; grid-template-columns: minmax(240px,1.8fr) repeat(3,minmax(120px,1fr)); gap: 12px; padding: 16px; }
+.quote-basic-fields { display: grid; grid-template-columns: minmax(240px,1.8fr) repeat(3,minmax(120px,1fr)); gap: 12px; padding: 16px; align-items:start; }
 .quote-basic-fields label, .quote-text-fields label, .quote-totals-adjustments label, .quote-item-fields label, .quote-item-notes { min-width: 0; display: grid; gap: 5px; }
 .quote-basic-fields label > span, .quote-text-fields label > span, .quote-totals-adjustments label > span, .quote-item-fields label > span, .quote-item-notes > span { color: #374151; font-size: 10px; font-weight: 750; }
 .quote-basic-fields input, .quote-basic-fields select, .quote-text-fields textarea, .quote-totals-adjustments input, .quote-totals-adjustments select, .quote-item-fields input, .quote-item-notes textarea { width: 100%; min-width: 0; border: 1px solid #d1d5db; border-radius: 9px; background: #fff; padding: 8px 9px; font: inherit; outline: 0; }
 .quote-basic-fields input, .quote-basic-fields select, .quote-totals-adjustments input, .quote-totals-adjustments select, .quote-item-fields input { height: 40px; }
-.quote-client-select { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 6px; }
-.quote-client-select .secondary-button { min-height: 40px; padding-left: 10px; padding-right: 10px; }
+.quote-basic-fields > label { align-content:start; align-self:start; }
+.quote-client-select { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 6px; height:40px; align-items:stretch; }
+.quote-client-select .secondary-button { width:auto; height:40px; min-height:40px; padding:0 10px; align-self:start; }
 .quote-text-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px; }
 .quote-text-fields textarea { resize: vertical; line-height: 1.45; }
 .quote-items-error { margin: 12px 15px 0; }
