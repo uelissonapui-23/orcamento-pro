@@ -8,7 +8,6 @@ import re
 import shutil
 import subprocess
 import unittest
-import uuid
 from test_migration_runner import runner
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -61,6 +60,7 @@ class QuoteApprovalTests(unittest.TestCase):
 
     def save(self, status='draft', quote=None, items=None, ok=True, user=U, workspace=W):
         items = items if items is not None else [dict(description='Synthetic item', quantity=1, unit_price=10, total_price=10)]
+        items = [dict(calculation_mode='manual', **item) for item in items]
         return self.sql(f"SELECT orcamento_app.save_quote_with_items('{workspace}',{repr(quote) if quote else 'NULL'},{literal(self.payload(status))},{literal(items)});", ok=ok, user=user)
 
     def approve(self, quote, ok=True, user=U, workspace=W):
