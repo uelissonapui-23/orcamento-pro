@@ -50,15 +50,23 @@ não lê secrets Supabase. Sua execução depende de publicação autorizada da 
 
 ## Gatilhos e liberação
 
-Os gatilhos de produção foram preservados: push na main nos caminhos de SQL,
-workflow e agora executor; também workflow_dispatch. Concurrency não cancela
-execução em andamento. Push nesta branch não aciona esse workflow de SQL.
-Um futuro merge com estes arquivos poderá acioná-lo e exige autorização expressa.
+Migrations de produção são executadas somente por `workflow_dispatch`, após
+autorização expressa do proprietário. Push e merge na main não acionam SQL remoto.
+Migrations futuras exigirão esse acionamento manual autorizado. Concurrency não
+cancela execução em andamento; o advisory lock e o executor atômico permanecem.
 
-O projeto também possui integração Git da Vercel. Não presumir que branch de QA
-evita preview automático. Sem comprovação de ausência de deployment, não fazer
-push nem abrir PR nesta ordem. Não mudar silenciosamente a política de publicação.
+O projeto também possui integração Git da Vercel: push na branch da PR pode criar
+Preview; merge na main pode publicar a aplicação em produção, independentemente
+das migrations. A alteração para SQL manual não altera essa integração.
+
+Os 15 testes da Ordem 03.1 passaram em PostgreSQL 17.6 descartável. Isso não
+comprova compatibilidade com o valor real de `SUPABASE_DB_URL`. O GitHub não
+disponibiliza esse valor para leitura pelo conector usado nesta revisão; a
+compatibilidade permanece NÃO VERIFICÁVEL nesse contexto. Não criar workflow
+com secret em PR nem acionar o workflow de produção para contornar esse limite.
+Uma validação futura deverá ocorrer em contexto autorizado com acesso ao secret,
+usar somente `connection_env` (sem executar `main`/psql) e emitir apenas resultado
+sanitizado. Não mudar o validador por hipótese nem solicitar credenciais no chat.
 
 Este trabalho não implementa OP-01, não altera migrations históricas nem aplica
-SQL remoto. Não está pronto para liberação enquanto os testes PostgreSQL reais
-não forem executados e revisados. Nenhum teste simulado comprova atomicidade real.
+SQL remoto. Merge, publicação e execução manual exigem autorizações próprias.

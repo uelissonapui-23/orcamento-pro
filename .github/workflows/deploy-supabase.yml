@@ -1,12 +1,7 @@
 name: Atualizar Supabase em produção
 
 on:
-  push:
-    branches: ["main"]
-    paths:
-      - "supabase/migrations/**"
-      - "scripts/apply_migrations.py"
-      - ".github/workflows/deploy-supabase.yml"
+  # Execução remota somente após autorização expressa do proprietário.
   workflow_dispatch:
 
 concurrency:
