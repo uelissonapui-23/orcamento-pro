@@ -1,106 +1,28 @@
 name: Atualizar Supabase em produção
 
 on:
-  push:
-    branches: ["main"]
-    paths:
-      - "supabase/migrations/**"
-      - ".github/workflows/deploy-supabase.yml"
+  # Execução remota somente após autorização expressa do proprietário.
   workflow_dispatch:
+
+concurrency:
+  group: orcamento-pro-migrations
+  cancel-in-progress: false
 
 jobs:
   migrate:
     name: Aplicar migrations isoladas do Orçamento Pro
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
     steps:
-      - name: Baixar projeto
-        uses: actions/checkout@v4
-
-      - name: Validar secret de conexão
-        shell: bash
-        env:
-          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
-        run: |
-          set -euo pipefail
-          if [ -z "${SUPABASE_DB_URL:-}" ]; then
-            echo "Erro: crie o secret SUPABASE_DB_URL em Settings > Secrets and variables > Actions."
-            exit 1
-          fi
-
+      - uses: actions/checkout@v4
       - name: Instalar cliente PostgreSQL
-        shell: bash
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y postgresql-client
-
-      - name: Testar conexão com o banco
-        shell: bash
+        run: sudo apt-get update -qq && sudo apt-get install -y postgresql-client
+      - name: Validar SQL sem conexão
+        run: python3 scripts/apply_migrations.py --plan
+      - name: Aplicar lote atômico no projeto aprovado
         env:
+          SUPABASE_PROJECT_ID: aiblckekbiudkyrkywnz
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
-        run: |
-          set -euo pipefail
-          psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -c "select current_database(), current_user;"
-
-      - name: Aplicar migrations isoladas do Orçamento Pro
-        shell: bash
-        env:
-          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
-        run: |
-          set -euo pipefail
-
-          psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 <<'SQL'
-          create schema if not exists orcamento_app;
-
-          create table if not exists orcamento_app._app_migration_history (
-            version text primary key,
-            filename text not null,
-            applied_at timestamptz not null default now()
-          );
-          SQL
-
-          shopt -s nullglob
-          files=(supabase/migrations/*.sql)
-
-          if [ ${#files[@]} -eq 0 ]; then
-            echo "Nenhuma migration encontrada."
-            exit 0
-          fi
-
-          IFS=$'\n' files=($(printf '%s\n' "${files[@]}" | sort))
-          unset IFS
-
-          for file in "${files[@]}"; do
-            filename="$(basename "$file")"
-            version="${filename%%_*}"
-
-            applied="$(
-              psql "$SUPABASE_DB_URL" -At -v ON_ERROR_STOP=1 \
-                -c "select 1 from orcamento_app._app_migration_history where version = '$version' limit 1;"
-            )"
-
-            if [ "$applied" = "1" ]; then
-              echo "✓ Já aplicada: $filename"
-              continue
-            fi
-
-            echo "→ Aplicando: $filename"
-            psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f "$file"
-
-            psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 \
-              -c "insert into orcamento_app._app_migration_history(version, filename) values ('$version', '$filename');"
-
-            echo "✓ Aplicada: $filename"
-          done
-
-      - name: Resumo
-        if: always()
-        shell: bash
-        env:
-          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
-        run: |
-          if [ -n "${SUPABASE_DB_URL:-}" ]; then
-            psql "$SUPABASE_DB_URL" -At \
-              -c "select version || ' | ' || filename from orcamento_app._app_migration_history order by version;" \
-              || true
-          fi
+        run: python3 scripts/apply_migrations.py
