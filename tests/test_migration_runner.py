@@ -18,8 +18,8 @@ spec.loader.exec_module(runner)
 class PreflightTests(unittest.TestCase):
     def test_historical_files(self):
         files = runner.inventory(ROOT / 'supabase/migrations')
-        self.assertEqual(len(files), 21)
-        self.assertEqual(sum(f[3] for f in files), 19)
+        self.assertEqual(len(files), 22)
+        self.assertEqual(sum(f[3] for f in files), 20)
 
     def test_wrapped_and_plain_preserve_bodies(self):
         body = "\nCREATE FUNCTION f() RETURNS text LANGUAGE sql AS $$SELECT 'BEGIN; COMMIT;';$$;\n"
